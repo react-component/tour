@@ -1,8 +1,6 @@
-import Portal from './Portal';
-import type { PortalProps } from './Portal';
-import { inlineMock } from './mock';
+import Tour from './Tour';
+import Popup from './Popup';
 
-export type { PortalProps };
-export { inlineMock };
+export { Popup };
 
-export default Portal;
+export default Tour;
