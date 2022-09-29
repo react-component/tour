@@ -128,8 +128,27 @@ const Tour = (props: any, ref: any) => {
       mouseEnterDelay={mouseEnterDelay}
       {...extraProps}
     >
-      {/*{children}*/}
-      <></>
+      <div>
+      <svg
+        style={{position: 'absolute', top: 0, left: 0, width: 500, height: 500,}}
+      >
+        <defs>
+          <mask id="mask-main">
+            <rect x="0" y="0" width="500" height="500" fill="white" />
+            <rect x="0" y="0" width="200" height="200" fill="black" />
+          </mask>
+        </defs>
+        <rect
+          x="0"
+          y="0"
+          width="500"
+          height="500"
+          fill="rgba(0,0,0,0.5)"
+          mask="url(#mask-main)"
+        />
+      </svg>
+      </div>
+     
     </Trigger>
   );
 };

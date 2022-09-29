@@ -24,9 +24,6 @@ class Test extends Component {
       ],
       placement: 'right',
       transitionName: 'rc-tooltip-zoom',
-      trigger: {
-        hover: 1,
-      },
       offsetX: placements.right.offset[0],
       offsetY: placements.right.offset[1],
       overlayInnerStyle: undefined,
@@ -51,17 +48,6 @@ class Test extends Component {
     });
   };
 
-  onTriggerChange = e => {
-    const { trigger } = this.state;
-    if (e.target.checked) {
-      trigger[e.target.value] = 1;
-    } else {
-      delete trigger[e.target.value];
-    }
-    this.setState({
-      trigger,
-    });
-  };
 
   onOffsetXChange = e => {
     const targetValue = e.target.value;
@@ -94,13 +80,18 @@ class Test extends Component {
     }));
   };
 
+  maskChange = ()=>{
+    this.setState(prevState => ({
+      mask:!prevState.mask
+    }));
+  }
+
   preventDefault = e => {
     e.preventDefault();
   };
 
   render() {
     const { state } = this;
-    const { trigger } = state;
     console.log('this.state.placement',this.state)
     return (
       <div>
@@ -136,34 +127,6 @@ class Test extends Component {
               ))}
             </select>
           </label>
-          &nbsp;&nbsp;&nbsp;&nbsp; trigger:
-          <label>
-            <input
-              value="hover"
-              checked={trigger.hover}
-              type="checkbox"
-              onChange={this.onTriggerChange}
-            />
-            hover
-          </label>
-          <label>
-            <input
-              value="focus"
-              checked={trigger.focus}
-              type="checkbox"
-              onChange={this.onTriggerChange}
-            />
-            focus
-          </label>
-          <label>
-            <input
-              value="click"
-              checked={trigger.click}
-              type="checkbox"
-              onChange={this.onTriggerChange}
-            />
-            click
-          </label>
           <br />
           <label>
             offsetX:
@@ -193,6 +156,15 @@ class Test extends Component {
             />
             overlayInnerStyle(red background)
           </label>
+          <label>
+            <input
+              value="overlayInnerStyle"
+              checked={!!state.mask}
+              type="checkbox"
+              onChange={this.maskChange}
+            />
+            overlayInnerStyle(red background)
+          </label>
         </div>
         <div  style={{ position: 'relative',width:50 }}>
           <p ref={this.BtnRef}>步骤一</p>
@@ -205,7 +177,6 @@ class Test extends Component {
               mouseEnterDelay={0}
               mouseLeaveDelay={0.1}
               destroyTooltipOnHide={this.state.destroyTooltipOnHide}
-              trigger={Object.keys(this.state.trigger)}
               onVisibleChange={this.onVisibleChange}
               overlay={<div style={{ height: 50, width: 50 }}>i am a tooltip</div>}
               align={{
