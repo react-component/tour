@@ -1,6 +1,6 @@
 import Tour from './Tour';
-import Popup from './Popup';
+import TourStep from './TourStep';
 
-export { Popup };
+export { TourStep };
 
 export default Tour;

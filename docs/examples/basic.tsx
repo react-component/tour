@@ -1,4 +1,4 @@
-import React, { Component,createRef} from 'react';
+import React, { Component, createRef } from 'react';
 import Tour from '../../src/index';
 import './basic.less';
 import { placements } from '../../src/placements';
@@ -8,29 +8,14 @@ class Test extends Component {
     super(props);
     this.state = {
       destroyTooltipOnHide: false,
-      destroyTooltipOptions: [
-        {
-          name: "don't destroy",
-          value: 0,
-        },
-        {
-          name: 'destroy parent',
-          value: 1,
-        },
-        {
-          name: 'keep parent',
-          value: 2,
-        },
-      ],
       placement: 'right',
       transitionName: 'rc-tooltip-zoom',
       offsetX: placements.right.offset[0],
       offsetY: placements.right.offset[1],
       overlayInnerStyle: undefined,
     };
-    this.BtnRef = createRef()
+    this.BtnRef = createRef();
   }
-
 
   onPlacementChange = e => {
     const placement = e.target.value;
@@ -41,13 +26,6 @@ class Test extends Component {
       offsetY: offset[1],
     });
   };
-
-  onTransitionChange = e => {
-    this.setState({
-      transitionName: e.target.checked ? e.target.value : '',
-    });
-  };
-
 
   onOffsetXChange = e => {
     const targetValue = e.target.value;
@@ -67,62 +45,40 @@ class Test extends Component {
     console.log('tooltip', visible); // eslint-disable-line no-console
   };
 
-  onDestroyChange = e => {
-    const { value } = e.target;
-    this.setState({
-      destroyTooltipOnHide: [false, { keepParent: false }, { keepParent: true }][value],
-    });
-  };
-
   onOverlayInnerStyleChange = () => {
     this.setState(prevState => ({
-      overlayInnerStyle: prevState.overlayInnerStyle ? undefined : { background: 'red' },
+      overlayInnerStyle: prevState.overlayInnerStyle
+        ? undefined
+        : { background: 'red' },
     }));
   };
 
-  maskChange = ()=>{
+  maskChange = () => {
     this.setState(prevState => ({
-      mask:!prevState.mask
+      mask: !prevState.mask,
     }));
-  }
+  };
 
   preventDefault = e => {
     e.preventDefault();
   };
 
+  componentDidMount() {
+    // console.log(' this.BtnRef.current2', this.BtnRef.current.offsetWidth);
+  }
+
   render() {
     const { state } = this;
-    console.log('this.state.placement',this.state)
+    const { placement, offsetX, offsetY } = state;
     return (
       <div>
         <div style={{ margin: '10px 20px' }}>
           <label>
             placement:
-            <select value={this.state.placement} onChange={this.onPlacementChange}>
+            <select value={placement} onChange={this.onPlacementChange}>
               {Object.keys(placements).map(p => (
                 <option key={p} value={p}>
                   {p}
-                </option>
-              ))}
-            </select>
-          </label>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <label>
-            <input
-              value="rc-tooltip-zoom"
-              type="checkbox"
-              onChange={this.onTransitionChange}
-              checked={this.state.transitionName === 'rc-tooltip-zoom'}
-            />
-            transitionName
-          </label>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <label>
-            destroyTooltipOnHide:
-            <select onChange={this.onDestroyChange}>
-              {this.state.destroyTooltipOptions.map(({ name, value }) => (
-                <option key={value} value={value}>
-                  {name}
                 </option>
               ))}
             </select>
@@ -132,7 +88,7 @@ class Test extends Component {
             offsetX:
             <input
               type="text"
-              value={state.offsetX}
+              value={offsetX}
               onChange={this.onOffsetXChange}
               style={{ width: 50 }}
             />
@@ -142,7 +98,7 @@ class Test extends Component {
             offsetY:
             <input
               type="text"
-              value={state.offsetY}
+              value={offsetY}
               onChange={this.onOffsetYChange}
               style={{ width: 50 }}
             />
@@ -166,26 +122,29 @@ class Test extends Component {
             overlayInnerStyle(red background)
           </label>
         </div>
-        <div  style={{ position: 'relative',width:50 }}>
-          <p ref={this.BtnRef}>步骤一</p>
+        <div style={{ position: 'relative', width: 50 }}>
+          <p ref={this.BtnRef} style={{ borderRadius: 10 }}>
+            步骤一
+          </p>
         </div>
 
         <div style={{ margin: 100 }}>
           <Tour
-              getTooltipContainer={()=>this.BtnRef.current}
-              placement={this.state.placement}
-              mouseEnterDelay={0}
-              mouseLeaveDelay={0.1}
-              destroyTooltipOnHide={this.state.destroyTooltipOnHide}
-              onVisibleChange={this.onVisibleChange}
-              overlay={<div style={{ height: 50, width: 50 }}>i am a tooltip</div>}
-              align={{
-                offset: [this.state.offsetX, this.state.offsetY],
-              }}
-              transitionName={this.state.transitionName}
-              overlayInnerStyle={state.overlayInnerStyle}
-              popupVisible
-            />
+            getTooltipContainer={() => this.BtnRef.current}
+            placement={placement}
+            mouseEnterDelay={0}
+            mouseLeaveDelay={0.1}
+            destroyTooltipOnHide={this.state.destroyTooltipOnHide}
+            onVisibleChange={this.onVisibleChange}
+            overlay={
+              <div style={{ height: 30, width: 100 }}>i am a tooltip</div>
+            }
+            align={{
+              offset: [this.state.offsetX, this.state.offsetY],
+            }}
+            overlayInnerStyle={state.overlayInnerStyle}
+            popupVisible
+          />
         </div>
       </div>
     );
