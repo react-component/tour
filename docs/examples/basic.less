@@ -34,7 +34,7 @@
   font-size: @font-size-base;
   line-height: @line-height-base;
   opacity: @tooltip-opacity;
-
+  width: 520px;
   &-hidden {
     display: none;
   }
@@ -55,14 +55,13 @@
 
 // Wrapper for the tooltip content
 .@{tooltip-prefix-cls}-inner {
-  padding: 8px 10px;
-  color: @tooltip-color;
+  //padding: 8px 10px;
+  //color: @tooltip-color;
   text-align: left;
   text-decoration: none;
   background-color: @tooltip-bg;
   border-radius: @border-radius-base;
   box-shadow: @overlay-shadow;
-  min-height: 34px;
 }
 
 // Arrows
@@ -159,6 +158,127 @@
 
   &-placement-bottomRight &-arrow {
     right: 15%;
+  }
+
+
+  &-wrap {
+    position: fixed;
+    overflow: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+  }
+
+  &-title {
+    margin: 0;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: bold;
+  }
+
+  &-popContent {
+    position: relative;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 6px 6px;
+    background-clip: padding-box;
+    min-height: 200px;
+  }
+
+  &-close {
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+    font-size: 21px;
+    position: absolute;
+    right: 20px;
+    top: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+    text-decoration: none;
+
+    &-x:after {
+      content: '×'
+    }
+
+    &:hover {
+      opacity: 1;
+      filter: alpha(opacity=100);
+      text-decoration: none;
+    }
+  }
+
+  &-header {
+    padding: 13px 20px 14px 20px;
+    border-radius: 5px 5px 0 0;
+    background: #fff;
+    color: #666;
+    border-bottom: 1px solid #e9e9e9;
+  }
+
+  &-description {
+    padding: 24px;
+    font-size: 14px;
+    line-height: 1.5715;
+    word-wrap: break-word;
+  }
+
+  &-footer {
+    padding: 10px 16px;
+    text-align: right;
+    background: 0 0;
+    border-top: 1px solid rgba(0,0,0,.06);
+    border-radius: 0 0 2px 2px;
+  }
+
+  .ant-btn{
+    list-style: none;
+    font-feature-settings: "tnum";
+    pointer-events: auto;
+    box-sizing: border-box;
+    font-family: inherit;
+    overflow: visible;
+    text-transform: none;
+    margin: 0;
+    line-height: 1.5715;
+    position: relative;
+    display: inline-block;
+    font-weight: 400;
+    white-space: nowrap;
+    text-align: center;
+    border: 1px solid #d9d9d9;
+    box-shadow: 0 2px #00000004;
+    cursor: pointer;
+    transition: all .3s cubic-bezier(.645,.045,.355,1);
+    user-select: none;
+    touch-action: manipulation;
+    height: 32px;
+    padding: 4px 15px;
+    font-size: 14px;
+    border-radius: 2px;
+    color: #000000d9;
+    background: #fff;
+    outline: 0;
+    -webkit-appearance: button;
+  }
+  .ant-btn-primary {
+    color: #fff;
+    border-color: #1890ff;
+    background: #1890ff;
+    text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+    box-shadow: 0 2px #0000000b;
+  }
+  &-prevButton,&-nextButton{
+    display: inline-block;
+    margin-left: 8px;
   }
 }
 

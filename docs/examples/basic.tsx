@@ -15,6 +15,9 @@ class Test extends Component {
       overlayInnerStyle: undefined,
     };
     this.BtnRef = createRef();
+    this.createBtnRef = createRef();
+    this.updateBtnRef = createRef();
+    this.deleteBtnRef = createRef();
   }
 
   onPlacementChange = e => {
@@ -123,27 +126,70 @@ class Test extends Component {
           </label>
         </div>
         <div style={{ position: 'relative', width: 50 }}>
-          <p ref={this.BtnRef} style={{ borderRadius: 10 }}>
-            步骤一
-          </p>
+          {/*<p ref={this.BtnRef} style={{ borderRadius: 10 }}>*/}
+          {/*  步骤一*/}
+          {/*</p>*/}
+          <button ref={this.createBtnRef}>Create</button>
+          <button ref={this.updateBtnRef}>Update</button>
+          <button ref={this.deleteBtnRef}>Delete</button>
         </div>
 
         <div style={{ margin: 100 }}>
           <Tour
             getTooltipContainer={() => this.BtnRef.current}
             placement={placement}
-            mouseEnterDelay={0}
-            mouseLeaveDelay={0.1}
-            destroyTooltipOnHide={this.state.destroyTooltipOnHide}
-            onVisibleChange={this.onVisibleChange}
-            overlay={
-              <div style={{ height: 30, width: 100 }}>i am a tooltip</div>
-            }
-            align={{
-              offset: [this.state.offsetX, this.state.offsetY],
-            }}
+            // mouseEnterDelay={0}
+            // mouseLeaveDelay={0.1}
+            // destroyTooltipOnHide={this.state.destroyTooltipOnHide}
+            // onVisibleChange={this.onVisibleChange}
+            // overlay={
+            //   <div style={{ height: 30, width: 100 }}>i am a tooltip</div>
+            // }
+            // align={{
+            //   offset: [this.state.offsetX, this.state.offsetY],
+            // }}
             overlayInnerStyle={state.overlayInnerStyle}
-            popupVisible
+            current={0}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => this.createBtnRef.current,
+                nextButtonProps: (
+                  <button className="ant-btn ant-btn-primary">下一步</button>
+                ),
+                prevButtonProps: (
+                  <button className="ant-btn ant-btn-primary">上一步</button>
+                ),
+              },
+              {
+                title: '更新',
+                cover: <img src="example.com" />,
+                description: (
+                  <div>
+                    <span>更新一条数据</span>
+                    <button>帮助文档</button>
+                  </div>
+                ),
+                target: () => this.updateBtnRef.current,
+                nextButtonProps: <button>下一步</button>,
+                prevButtonProps: <button>上一步</button>,
+              },
+              {
+                title: '删除',
+                cover: <video src="example.com" />,
+                description: (
+                  <div>
+                    <span>危险操作：删除一条数据</span>
+                    <button type="link">帮助文档</button>
+                  </div>
+                ),
+                target: () => this.deleteBtnRef.current,
+                nextButtonProps: <button>下一步</button>,
+                prevButtonProps: <button>上一步</button>,
+                finishButtonProps: <button>结束引导</button>,
+              },
+            ]}
           />
         </div>
       </div>

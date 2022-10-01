@@ -10,6 +10,7 @@ import Trigger from 'rc-trigger';
 import type { TriggerProps } from 'rc-trigger';
 import CSSMotion from 'rc-motion';
 import classNames from 'classnames';
+import TourContext, { TourProvider } from './context';
 import type {
   AlignType,
   AnimationType,
@@ -18,6 +19,11 @@ import type {
 import { placements as builtinPlacements } from './placements';
 import TourStep from './TourStep';
 import type { TourStepProps } from './TourStep';
+
+// TODO
+// 1. context useContext 修改 current
+// 2. prefixCls 改为 rc-tour
+// 3. 非块级元素获取不到 width,height, 测试场景,  弹窗居中的场景
 
 export interface TourProps extends TriggerProps {
   steps: TourStepProps[]; // 引导步骤
@@ -48,7 +54,7 @@ const Tour = (props: TourProps, ref: any) => {
     // align = {},
     // destroyTourOnHide = false,
     // defaultVisible,
-    getTooltipContainer,
+    // getMergePopupContainer,
     overlayInnerStyle,
     arrowContent,
     overlay,
@@ -71,7 +77,7 @@ const Tour = (props: TourProps, ref: any) => {
 
   const domRef = useRef(null);
   useImperativeHandle(ref, () => domRef.current);
-
+  const [currentStep, setCurrentStep] = useState(current);
   const getPopupElement = () => {
     const { showArrow = true, arrowContent = null, overlay } = props;
     return [
@@ -84,6 +90,9 @@ const Tour = (props: TourProps, ref: any) => {
         key="content"
         prefixCls={prefixCls}
         overlay={overlay}
+        steps={steps}
+        current={currentStep}
+        {...steps[currentStep]}
         // overlayInnerStyle={overlayInnerStyle}
       />,
     ];
@@ -100,15 +109,18 @@ const Tour = (props: TourProps, ref: any) => {
   const [maskLeft, setLeft] = useState(0);
   const [maskTop, setTop] = useState(0);
   const [round, setRound] = useState(0);
+  const [currentDOM, setCurrentDom] = useState(null);
+  const getMergePopupContainer = steps[currentStep]?.target;
 
   useLayoutEffect(() => {
-    const currentDOM = getTooltipContainer();
+    setCurrentDom(
+      typeof getMergePopupContainer === 'function'
+        ? getMergePopupContainer()
+        : getMergePopupContainer,
+    );
+    if (!currentDOM) return;
     const { left, top } = currentDOM.getBoundingClientRect();
-    const {
-      offsetWidth,
-      offsetHeight,
-      style = {},
-    } = getTooltipContainer() || {};
+    const { offsetWidth, offsetHeight, style = {} } = currentDOM || {};
     const { borderRadius = 0 } = style;
     setWidth(offsetWidth);
     setHeight(offsetHeight);
@@ -116,9 +128,9 @@ const Tour = (props: TourProps, ref: any) => {
     setTop(top);
 
     if (borderRadius) {
-      setRound(borderRadius);
+      setRound(parseInt(borderRadius));
     }
-  }, [getTooltipContainer]);
+  }, [getMergePopupContainer]);
 
   const maskNode: React.ReactNode = (
     <CSSMotion key="mask" visible={mask}>
@@ -178,8 +190,17 @@ const Tour = (props: TourProps, ref: any) => {
       }}
     </CSSMotion>
   );
+
+  console.log('1', currentStep);
+  console.log('2', steps.length);
+  console.log('3', -1 < currentStep && currentStep < steps.length);
   return (
-    <>
+    <TourProvider
+      value={{
+        currentStep,
+        setCurrentStep,
+      }}
+    >
       <Trigger
         popupClassName={popupClassName}
         prefixCls={prefixCls}
@@ -187,25 +208,19 @@ const Tour = (props: TourProps, ref: any) => {
         builtinPlacements={builtinPlacements}
         popupPlacement={placement}
         ref={domRef}
-        getPopupContainer={getTooltipContainer}
+        getPopupContainer={getMergePopupContainer}
         popupAnimation={animation}
         popupMotion={motion}
-        // popupAlign={align}
-        // onPopupVisibleChange={onVisibleChange}
-        // afterPopupVisibleChange={afterVisibleChange}
-        // popupTransitionName={transitionName}
-        // defaultPopupVisible={defaultVisible}
-        // destroyPopupOnHide={destroyTour}
-        // autoDestroy={autoDestroy}
         mouseLeaveDelay={mouseLeaveDelay}
         popupStyle={popupStyle}
         mouseEnterDelay={mouseEnterDelay}
+        popupVisible={0 <= currentStep && currentStep < steps.length}
         {...restProps}
       >
         <></>
       </Trigger>
       {maskNode}
-    </>
+    </TourProvider>
   );
 };
 
