@@ -1,29 +1,13 @@
 @import "./boostrap/anim.less";
 
-@tooltip-prefix-cls: rc-tooltip;
+@tour-prefix-cls: rc-tour;
 
 //
-// Tooltips
+// Tours
 // --------------------------------------------------
-@font-size-base         : 12px;
-@line-height-base       : 1.5;
-@border-radius-base     : 6px;
-@overlay-shadow              : 0 0 4px rgba(0, 0, 0, 0.17);
-//** Tooltip text color
-@tooltip-color: #fff;
-//** Tooltip background color
-@tooltip-bg: #373737;
-@tooltip-opacity: 0.9;
-
-//** Tooltip arrow width
-@tooltip-arrow-width: 5px;
-//** Tooltip distance with trigger
-@tooltip-distance: @tooltip-arrow-width + 4;
-//** Tooltip arrow color
-@tooltip-arrow-color: @tooltip-bg;
 
 // Base class
-.@{tooltip-prefix-cls} {
+.@{tour-prefix-cls} {
   position: absolute;
   z-index: 1070;
   display: block;
@@ -31,41 +15,41 @@
   // remove left/top by yiminghe
   // left: -9999px;
   // top: -9999px;
-  font-size: @font-size-base;
-  line-height: @line-height-base;
-  opacity: @tooltip-opacity;
+  font-size: 12px;
+  line-height:1.5;
+  opacity: 0.9;
   width: 520px;
   &-hidden {
     display: none;
   }
 
   &-placement-top, &-placement-topLeft, &-placement-topRight {
-    padding: @tooltip-arrow-width 0 @tooltip-distance 0;
+    padding: 5px 0 9px 0;
   }
   &-placement-right, &-placement-rightTop, &-placement-rightBottom {
-    padding: 0 @tooltip-arrow-width 0 @tooltip-distance;
+    padding: 0 5px 0 9px;
   }
   &-placement-bottom, &-placement-bottomLeft, &-placement-bottomRight {
-    padding: @tooltip-distance 0 @tooltip-arrow-width 0;
+    padding: 9px 0 5px 0;
   }
   &-placement-left, &-placement-leftTop, &-placement-leftBottom {
-    padding: 0 @tooltip-distance 0 @tooltip-arrow-width;
+    padding: 0 9px 0 5px;
   }
 }
 
-// Wrapper for the tooltip content
-.@{tooltip-prefix-cls}-inner {
+// Wrapper for the tour content
+.@{tour-prefix-cls}-inner {
   //padding: 8px 10px;
-  //color: @tooltip-color;
+  color: #fff;
   text-align: left;
   text-decoration: none;
-  background-color: @tooltip-bg;
-  border-radius: @border-radius-base;
-  box-shadow: @overlay-shadow;
+  background-color: #373737;
+  border-radius: 6px;;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.17);
 }
 
 // Arrows
-.@{tooltip-prefix-cls}-arrow {
+.@{tour-prefix-cls}-arrow {
   position: absolute;
   width: 0;
   height: 0;
@@ -73,14 +57,14 @@
   border-style: solid;
 }
 
-.@{tooltip-prefix-cls} {
+.@{tour-prefix-cls} {
   &-placement-top &-arrow,
   &-placement-topLeft &-arrow,
   &-placement-topRight &-arrow {
-    bottom: @tooltip-distance - @tooltip-arrow-width;
-    margin-left: -@tooltip-arrow-width;
-    border-width: @tooltip-arrow-width @tooltip-arrow-width 0;
-    border-top-color: @tooltip-arrow-color;
+    bottom: 9px - 5px;
+    margin-left: -5px;
+    border-width: 5px 5px 0;
+    border-top-color: #373737;
   }
 
   &-placement-top &-arrow {
@@ -98,10 +82,10 @@
   &-placement-right &-arrow,
   &-placement-rightTop &-arrow,
   &-placement-rightBottom &-arrow {
-    left: @tooltip-distance - @tooltip-arrow-width;
-    margin-top: -@tooltip-arrow-width;
-    border-width: @tooltip-arrow-width @tooltip-arrow-width @tooltip-arrow-width 0;
-    border-right-color: @tooltip-arrow-color;
+    left: 4px;
+    margin-top: -5px;
+    border-width: 5px 5px 5px 0;
+    border-right-color: #373737;
   }
 
   &-placement-right &-arrow {
@@ -120,10 +104,10 @@
   &-placement-left &-arrow,
   &-placement-leftTop &-arrow,
   &-placement-leftBottom &-arrow {
-    right: @tooltip-distance - @tooltip-arrow-width;
-    margin-top: -@tooltip-arrow-width;
-    border-width: @tooltip-arrow-width 0 @tooltip-arrow-width @tooltip-arrow-width;
-    border-left-color: @tooltip-arrow-color;
+    right:4px;
+    margin-top: -5px;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #373737;
   }
 
   &-placement-left &-arrow {
@@ -142,10 +126,10 @@
   &-placement-bottom &-arrow,
   &-placement-bottomLeft &-arrow,
   &-placement-bottomRight &-arrow {
-    top: @tooltip-distance - @tooltip-arrow-width;
-    margin-left: -@tooltip-arrow-width;
-    border-width: 0 @tooltip-arrow-width @tooltip-arrow-width;
-    border-bottom-color: @tooltip-arrow-color;
+    top: 4px;
+    margin-left: -5px;
+    border-width: 0 5px 5px;
+    border-bottom-color: #373737;
   }
 
   &-placement-bottom &-arrow {
@@ -282,3 +266,6 @@
   }
 }
 
+.ant-target{
+  position: relative;
+}

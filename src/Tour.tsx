@@ -5,6 +5,7 @@ import {
   forwardRef,
   useLayoutEffect,
   useState,
+  useEffect,
 } from 'react';
 import Trigger from 'rc-trigger';
 import type { TriggerProps } from 'rc-trigger';
@@ -18,12 +19,14 @@ import type {
 } from 'rc-trigger/lib/interface';
 import { placements as builtinPlacements } from './placements';
 import TourStep from './TourStep';
+import Mask from './Mask';
 import type { TourStepProps } from './TourStep';
 
 // TODO
-// 1. context useContext 修改 current
 // 2. prefixCls 改为 rc-tour
 // 3. 非块级元素获取不到 width,height, 测试场景,  弹窗居中的场景
+// 4. 参考https://ant.design/components/popover-cn/ demo
+// 5. 找不到target如何居中
 
 export interface TourProps extends TriggerProps {
   steps: TourStepProps[]; // 引导步骤
@@ -42,8 +45,7 @@ const Tour = (props: TourProps, ref: any) => {
     popupClassName,
     mouseEnterDelay = 0,
     mouseLeaveDelay = 0.1,
-    popupStyle,
-    prefixCls = 'rc-tooltip',
+    prefixCls = 'rc-tour',
     children,
     // onVisibleChange,
     afterVisibleChange,
@@ -65,15 +67,18 @@ const Tour = (props: TourProps, ref: any) => {
     },
     steps,
     open,
-    current,
+    current = 0,
     onChange,
     onClose,
     onFinish,
     mask = true, //	整体是否启用蒙层
     arrow,
     type,
+    rootClassName,
     ...restProps
   } = props;
+
+  const { popupAlign } = props;
 
   const domRef = useRef(null);
   useImperativeHandle(ref, () => domRef.current);
@@ -90,6 +95,7 @@ const Tour = (props: TourProps, ref: any) => {
         key="content"
         prefixCls={prefixCls}
         overlay={overlay}
+        rootClassName={rootClassName}
         steps={steps}
         current={currentStep}
         {...steps[currentStep]}
@@ -98,12 +104,12 @@ const Tour = (props: TourProps, ref: any) => {
     ];
   };
 
+  // ============================ Mask ============================
   const documentWidth =
     document.documentElement.clientWidth || document.body.clientWidth;
   const documentHeight =
     document.documentElement.clientHeight || document.body.clientHeight;
 
-  // ============================ Mask ============================
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const [maskLeft, setLeft] = useState(0);
@@ -111,26 +117,42 @@ const Tour = (props: TourProps, ref: any) => {
   const [round, setRound] = useState(0);
   const [currentDOM, setCurrentDom] = useState(null);
   const getMergePopupContainer = steps[currentStep]?.target;
+  const popupVisible = 0 <= currentStep && currentStep < steps.length;
 
-  useLayoutEffect(() => {
+  const setPostion = () => {
     setCurrentDom(
       typeof getMergePopupContainer === 'function'
         ? getMergePopupContainer()
         : getMergePopupContainer,
     );
-    if (!currentDOM) return;
-    const { left, top } = currentDOM.getBoundingClientRect();
-    const { offsetWidth, offsetHeight, style = {} } = currentDOM || {};
-    const { borderRadius = 0 } = style;
-    setWidth(offsetWidth);
-    setHeight(offsetHeight);
-    setLeft(left);
-    setTop(top);
+    if (!currentDOM) {
+      // popupAlign = {
+      //   // points: ['c', 'c'], // align top left point of sourceNode with top right point of targetNode
+      //   // overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed,
+      //   // ...popupAlign,
+      //   points: [`cc`, `cc`],
+      //   overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed,,
+      //   useCssTransform: true,
+      // };
+    } else {
+      const { left, top } = currentDOM.getBoundingClientRect();
+      const { offsetWidth, offsetHeight, style = {} } = currentDOM || {};
+      const { borderRadius = 0 } = style;
+      setWidth(offsetWidth);
+      setHeight(offsetHeight);
+      setLeft(left);
+      setTop(top);
+      // console.log('left', left);
+      // console.log('top', top);
 
-    if (borderRadius) {
-      setRound(parseInt(borderRadius));
+      if (borderRadius) {
+        setRound(parseInt(borderRadius));
+      }
     }
-  }, [getMergePopupContainer]);
+  };
+  useEffect(() => {
+    setPostion();
+  });
 
   const maskNode: React.ReactNode = (
     <CSSMotion key="mask" visible={mask}>
@@ -190,10 +212,6 @@ const Tour = (props: TourProps, ref: any) => {
       }}
     </CSSMotion>
   );
-
-  console.log('1', currentStep);
-  console.log('2', steps.length);
-  console.log('3', -1 < currentStep && currentStep < steps.length);
   return (
     <TourProvider
       value={{
@@ -202,24 +220,29 @@ const Tour = (props: TourProps, ref: any) => {
       }}
     >
       <Trigger
-        popupClassName={popupClassName}
+        key={currentStep}
+        popupClassName={rootClassName}
         prefixCls={prefixCls}
         popup={getPopupElement}
         builtinPlacements={builtinPlacements}
         popupPlacement={placement}
         ref={domRef}
+        // getPopupContainer={getMergePopupContainer}
         getPopupContainer={getMergePopupContainer}
-        popupAnimation={animation}
         popupMotion={motion}
-        mouseLeaveDelay={mouseLeaveDelay}
-        popupStyle={popupStyle}
-        mouseEnterDelay={mouseEnterDelay}
-        popupVisible={0 <= currentStep && currentStep < steps.length}
+        popupVisible={popupVisible}
+        popupAlign={popupAlign}
         {...restProps}
       >
         <></>
       </Trigger>
-      {maskNode}
+      <Mask
+        prefixCls={prefixCls}
+        visible={popupVisible}
+        steps={steps}
+        rootClassName={rootClassName}
+      />
+      {/* {popupVisible ? maskNode : null} */}
     </TourProvider>
   );
 };

@@ -8,7 +8,7 @@ import {
   useContext,
 } from 'react';
 import TourContext, { TourConsumer } from './context';
-
+import classNames from 'classnames';
 export interface TourStepProps {
   prefixCls?: string;
   target: (() => HTMLElement) | HTMLElement; //	获取引导卡片指向的元素
@@ -52,15 +52,16 @@ const TourStep = (props: TourStepProps) => {
     onFinish,
     mask,
     type,
-    nextButtonProps,
-    prevButtonProps,
-    finishButtonProps,
+    nextButtonProps = <button>下一步</button>,
+    prevButtonProps = <button>上一步</button>,
+    finishButtonProps = <button>跳过</button>,
     className,
     style,
     prefixCls,
     closeIcon,
+    rootClassName,
   } = props;
-
+  console.log('title', title);
   const stepsLength = steps.length;
   const { currentStep, setCurrentStep } = useContext(TourContext);
 
@@ -74,41 +75,32 @@ const TourStep = (props: TourStepProps) => {
     }
   };
 
-  let prevButtonNode: React.ReactNode;
-  if (prevButtonProps) {
-    prevButtonNode = (
-      <div
-        className={`${prefixCls}-prevButton`}
-        onClick={() => setCurrentStep(currentStep - 1)}
-      >
-        {prevButtonProps}
-      </div>
-    );
-  }
+  const prevButtonNode: React.ReactNode = (
+    <div
+      className={`${prefixCls}-prevButton`}
+      onClick={() => setCurrentStep(currentStep - 1)}
+    >
+      {prevButtonProps}
+    </div>
+  );
 
-  let nextButtonNode: React.ReactNode;
-  if (nextButtonProps) {
-    nextButtonNode = (
-      <div
-        className={`${prefixCls}-nextButton`}
-        onClick={() => setCurrentStep(currentStep + 1)}
-      >
-        {nextButtonProps}
-      </div>
-    );
-  }
+  const nextButtonNode: React.ReactNode = (
+    <div
+      className={`${prefixCls}-nextButton`}
+      onClick={() => setCurrentStep(currentStep + 1)}
+    >
+      {nextButtonProps}
+    </div>
+  );
 
-  let finishButtonNode: React.ReactNode;
-  if (nextButtonProps) {
-    finishButtonNode = (
-      <div
-        className={`${prefixCls}-prevButton`}
-        onClick={() => closeContent('finish')}
-      >
-        {finishButtonProps}
-      </div>
-    );
-  }
+  const finishButtonNode: React.ReactNode = (
+    <div
+      className={`${prefixCls}-prevButton`}
+      onClick={() => closeContent('finish')}
+    >
+      {finishButtonProps}
+    </div>
+  );
 
   let headerNode: React.ReactNode;
   if (title) {
@@ -132,7 +124,7 @@ const TourStep = (props: TourStepProps) => {
 
   let coverNode: React.ReactNode;
   if (cover) {
-    descriptionNode = (
+    coverNode = (
       <div className={`${prefixCls}-cover`} id={ariaId}>
         {cover}
       </div>
@@ -142,7 +134,7 @@ const TourStep = (props: TourStepProps) => {
   const closer: React.ReactNode = (
     <button
       type="button"
-      onClick={closeContent}
+      onClick={onClose}
       aria-label="Close"
       className={`${prefixCls}-close`}
     >
@@ -150,26 +142,29 @@ const TourStep = (props: TourStepProps) => {
     </button>
   );
 
-  const slickNode: React.ReactNode = steps.map((item, index) => {
-    const backgroundColor = index === currentStep ? 'blue' : '#8c8c8c';
-    return (
-      <div
-        key={index}
-        style={{
-          display: 'inline-block',
-          width: 2,
-          height: 2,
-          border: `1px solid ${backgroundColor}`,
-          borderRadius: 2,
-          backgroundColor: backgroundColor,
-        }}
-      ></div>
-    );
-  });
+  const slickNode: React.ReactNode =
+    stepsLength > 1
+      ? steps.map((item, index) => {
+          const backgroundColor = index === currentStep ? 'blue' : '#8c8c8c';
+          return (
+            <div
+              key={index}
+              style={{
+                display: 'inline-block',
+                width: 2,
+                height: 2,
+                border: `1px solid ${backgroundColor}`,
+                borderRadius: 2,
+                backgroundColor: backgroundColor,
+              }}
+            />
+          );
+        })
+      : null;
 
   return (
     <div
-      className={`${prefixCls}-inner`}
+      className={classNames(`${prefixCls}-inner`, rootClassName)}
       role={prefixCls}
       style={{ minWidth: 200, ...style }}
     >

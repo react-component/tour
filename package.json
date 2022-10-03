@@ -1,19 +1,19 @@
 {
-  "name": "@rc-component/portal",
-  "version": "1.0.0-8",
-  "description": "React Portal Component",
+  "name": "@rc-component/tour",
+  "version": "1.0.0-0",
+  "description": "React tour Component",
   "keywords": [
     "react",
     "react-component",
-    "react-portal"
+    "react-tour"
   ],
-  "homepage": "https://github.com/react-component/portal",
+  "homepage": "https://github.com/react-component/tour",
   "bugs": {
-    "url": "https://github.com/react-component/portal/issues"
+    "url": "https://github.com/react-component/tour/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/react-component/portal.git"
+    "url": "https://github.com/react-component/tour.git"
   },
   "license": "MIT",
   "author": "smith3816@gmail.com",
@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
+    "@rc-component/portal": "^1.0.0-9",
     "classnames": "^2.3.2",
     "rc-motion": "^2.6.2",
     "rc-util": "^5.8.0"
