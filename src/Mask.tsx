@@ -1,15 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import CSSMotion from 'rc-motion';
+import React, { useState, useContext, useEffect,forwardRef } from 'react';
 import classNames from 'classnames';
-import TourContext, { TourConsumer } from './context';
+import TourContext from './context';
 import Portal from '@rc-component/portal';
-const Mask = (props: any) => {
-  const [content, setContent] = useState(new Date().toString());
-  const [dialogVisible, setDialogVisible] = useState(false);
-  const { steps, prefixCls, visible, scrollLocker, rootClassName } = props;
-  console.log('render');
-  const { currentStep, setCurrentStep } = useContext(TourContext);
+import {offset} from './util'
+const Mask = forwardRef((props: any,ref) => {
+  const { steps, prefixCls, scrollLocker, rootClassName } = props;
+  const { currentStep ,mergeMask} = useContext(TourContext);
   // ============================ Mask ============================
   const documentWidth =
     document.documentElement.clientWidth || document.body.clientWidth;
@@ -23,19 +19,16 @@ const Mask = (props: any) => {
   const [round, setRound] = useState(0);
   const [currentDOM, setCurrentDom] = useState(null);
 
-  const getMergePopupContainer = steps[currentStep]?.target;
-  console.log(666, steps);
-  const [div, setDiv] = useState(document.createElement('div'));
-  const setPostion = () => {
-    console.log('00000', getMergePopupContainer);
+  const mergedTarget = steps[currentStep]?.target;
+
+  const setPosition = () => {
     setCurrentDom(
-      typeof getMergePopupContainer === 'function'
-        ? getMergePopupContainer()
-        : getMergePopupContainer,
+      typeof mergedTarget === 'function'
+        ? mergedTarget()
+        : mergedTarget,
     );
 
     if (!currentDOM) {
-      console.log('555555');
       // popupAlign = {
       //   // points: ['c', 'c'], // align top left point of sourceNode with top right point of targetNode
       //   // overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed,
@@ -45,16 +38,12 @@ const Mask = (props: any) => {
       //   useCssTransform: true,
       // };
     } else {
-      console.log('3333');
-      const { left, top } = currentDOM.getBoundingClientRect();
-      const { offsetWidth, offsetHeight, style = {} } = currentDOM || {};
+      const { left, top,offsetWidth, offsetHeight, style = {borderRadius:0} } = offset(currentDOM);
       const { borderRadius = 0 } = style;
       setWidth(offsetWidth);
       setHeight(offsetHeight);
       setLeft(left);
       setTop(top);
-      console.log('left', left);
-      console.log('top', top);
 
       if (borderRadius) {
         setRound(parseInt(borderRadius));
@@ -62,28 +51,17 @@ const Mask = (props: any) => {
     }
   };
   useEffect(() => {
-    setPostion();
+    setPosition();
   });
 
-  // const div = document.createElement('div');
-
-  useEffect(() => {
-    // console.log('----------------------------->>111111');
-    // document.body.appendChild(div);
-    return () => {
-      // console.log('----------------------------->>2222222');
-      // document.body.removeChild(div);
-    };
-  }, []);
 
   useEffect(() => {
     scrollLocker?.lock();
     return scrollLocker?.unLock;
   }, [scrollLocker]);
 
-  console.log('rootClassName', rootClassName);
   return (
-    <Portal open={visible} autoLock>
+    <Portal open={mergeMask} autoLock>
       <div className={classNames(`${prefixCls}-root`, rootClassName)}>
         <svg
           className={classNames(`${prefixCls}-mask`, rootClassName)}
@@ -95,6 +73,7 @@ const Mask = (props: any) => {
             height: documentHeight,
             zIndex: 1060,
           }}
+          ref={ref}
         >
           <defs>
             <mask id="mask-main">
@@ -128,6 +107,6 @@ const Mask = (props: any) => {
       </div>
     </Portal>
   );
-};
+});
 
 export default Mask;

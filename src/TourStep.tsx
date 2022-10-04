@@ -36,6 +36,7 @@ export interface TourStepProps {
   prevButtonProps?: { children: React.ReactNode; onClick: () => void }; //	{ children: '上一步' }	上一步按钮的属性
   className?: string;
   style?: React.CSSProperties;
+  rootClassName?: string;
 }
 
 const TourStep = (props: TourStepProps) => {
@@ -61,15 +62,15 @@ const TourStep = (props: TourStepProps) => {
     closeIcon,
     rootClassName,
   } = props;
-  console.log('title', title);
   const stepsLength = steps.length;
-  const { currentStep, setCurrentStep } = useContext(TourContext);
+  const { currentStep, setCurrentStep,setMergeMask } = useContext(TourContext);
 
   const closeContent = (btnType: string | undefined) => {
     setCurrentStep(-1);
     if (typeof onClose === 'function') {
       onClose();
     }
+    setMergeMask(false)
     if (btnType === 'finish' && typeof onFinish === 'function') {
       onFinish();
     }
@@ -145,18 +146,10 @@ const TourStep = (props: TourStepProps) => {
   const slickNode: React.ReactNode =
     stepsLength > 1
       ? steps.map((item, index) => {
-          const backgroundColor = index === currentStep ? 'blue' : '#8c8c8c';
           return (
-            <div
+            <span
               key={index}
-              style={{
-                display: 'inline-block',
-                width: 2,
-                height: 2,
-                border: `1px solid ${backgroundColor}`,
-                borderRadius: 2,
-                backgroundColor: backgroundColor,
-              }}
+             className={index === currentStep ? 'active' :''}
             />
           );
         })
@@ -174,9 +167,13 @@ const TourStep = (props: TourStepProps) => {
         {headerNode}
         <div className={`${prefixCls}-description`}>{descriptionNode}</div>
         <div className={`${prefixCls}-footer`}>
-          {slickNode}
-          {currentStep !== 0 ? prevButtonNode : null}
-          {currentStep === stepsLength - 1 ? finishButtonNode : nextButtonNode}
+          <div className={`${prefixCls}-sliders`}>
+            {slickNode}
+          </div>
+          <div className={`${prefixCls}-buttons`}>
+            {currentStep !== 0 ? prevButtonNode : null}
+            {currentStep === stepsLength - 1 ? finishButtonNode : nextButtonNode}
+          </div>
         </div>
       </div>
     </div>

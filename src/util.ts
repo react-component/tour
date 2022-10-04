@@ -32,11 +32,15 @@ type CompatibleDocument = {
   parentWindow?: Window;
 } & Document
 
-export function offset(el: Element) {
+export function offset(el: HTMLElement) {
   const rect = el.getBoundingClientRect();
+  const { offsetWidth, offsetHeight, style } = (el|| {});
   const pos = {
     left: rect.left,
     top: rect.top,
+    offsetWidth:offsetWidth,
+    offsetHeight:offsetHeight,
+    style:style
   };
   const doc = el.ownerDocument as CompatibleDocument;
   const w = doc.defaultView || doc.parentWindow;

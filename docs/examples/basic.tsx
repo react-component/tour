@@ -44,9 +44,6 @@ class Test extends Component {
     });
   };
 
-  onVisibleChange = visible => {
-    console.log('tour', visible); // eslint-disable-line no-console
-  };
 
   onOverlayInnerStyleChange = () => {
     this.setState(prevState => ({
@@ -126,9 +123,6 @@ class Test extends Component {
           </label>
         </div>
         <div>
-          {/*<p ref={this.BtnRef} style={{ borderRadius: 10 }}>*/}
-          {/*  步骤一*/}
-          {/*</p>*/}
           <button className="ant-target" ref={this.createBtnRef}>
             Create
           </button>
@@ -154,20 +148,6 @@ class Test extends Component {
         </div>
 
         <Tour
-          // getTourContainer={() => this.BtnRef.current}
-          // placement={placement}
-          // mouseEnterDelay={0}
-          // mouseLeaveDelay={0.1}
-          // destroyTourOnHide={this.state.destroyTourOnHide}
-          // onVisibleChange={this.onVisibleChange}
-          // overlay={
-          //   <div style={{ height: 30, width: 100 }}>i am a tour</div>
-          // }
-          // align={{
-          //   offset: [this.state.offsetX, this.state.offsetY],
-          // }}
-          // overlayInnerStyle={state.overlayInnerStyle}
-          current={0}
           steps={[
             {
               title: '创建',

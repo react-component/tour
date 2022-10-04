@@ -3,30 +3,26 @@ import {
   useRef,
   useImperativeHandle,
   forwardRef,
-  useLayoutEffect,
   useState,
   useEffect,
+  useLayoutEffect,
 } from 'react';
 import Trigger from 'rc-trigger';
 import type { TriggerProps } from 'rc-trigger';
-import CSSMotion from 'rc-motion';
 import classNames from 'classnames';
 import TourContext, { TourProvider } from './context';
-import type {
-  AlignType,
-  AnimationType,
-  ActionType,
-} from 'rc-trigger/lib/interface';
 import { placements as builtinPlacements } from './placements';
 import TourStep from './TourStep';
 import Mask from './Mask';
 import type { TourStepProps } from './TourStep';
+import placements from './placements';
+import { offset } from '@/util';
 
 // TODO
-// 2. prefixCls 改为 rc-tour
 // 3. 非块级元素获取不到 width,height, 测试场景,  弹窗居中的场景
 // 4. 参考https://ant.design/components/popover-cn/ demo
-// 5. 找不到target如何居中
+// 5. 找不到target如何居中 箭头不显示
+// 1. 关闭按钮
 
 export interface TourProps extends TriggerProps {
   steps: TourStepProps[]; // 引导步骤
@@ -35,36 +31,30 @@ export interface TourProps extends TriggerProps {
   onChange: (current: number) => void; // 步骤改变时的回调，current为改变前的步骤，next为改变后的步骤
   onClose: (current: number) => void; // 关闭引导时的回调
   onFinish: () => void; // 完成引导时的回调
-  mask: boolean; // 	true,	整体是否启用蒙层
+  mask: boolean; // true,	整体是否启用蒙层
   arrow: boolean | { pointAtCenter: boolean }; //	true	整体是否显示箭头，包含是否指向元素中心的配置
   type: 'default' | 'primary'; //	default	整体类型，影响底色与文字颜色
+  rootClassName: string;
+  placement:
+    | `left`
+    | `leftTop`
+    | `leftBottom`
+    | `right`
+    | `rightTop`
+    | `rightBottom`
+    | `top`
+    | `topLeft`
+    | `topRight`
+    | `bottom`
+    | `bottomLeft`
+    | `bottomRight`;
 }
 
 const Tour = (props: TourProps, ref: any) => {
   const {
     popupClassName,
-    mouseEnterDelay = 0,
-    mouseLeaveDelay = 0.1,
     prefixCls = 'rc-tour',
     children,
-    // onVisibleChange,
-    afterVisibleChange,
-    transitionName,
-    animation,
-    motion,
-    placement = 'right',
-    // align = {},
-    // destroyTourOnHide = false,
-    // defaultVisible,
-    // getMergePopupContainer,
-    overlayInnerStyle,
-    arrowContent,
-    overlay,
-    showArrow,
-    maskClassName,
-    maskStyle = {
-      zIndex: 1060,
-    },
     steps,
     open,
     current = 0,
@@ -72,60 +62,38 @@ const Tour = (props: TourProps, ref: any) => {
     onClose,
     onFinish,
     mask = true, //	整体是否启用蒙层
-    arrow,
+    arrow = true,
     type,
     rootClassName,
     ...restProps
   } = props;
 
-  const { popupAlign } = props;
-
-  const domRef = useRef(null);
-  useImperativeHandle(ref, () => domRef.current);
   const [currentStep, setCurrentStep] = useState(current);
+  const [mergeMask, setMergeMask] = useState(mask);
   const getPopupElement = () => {
-    const { showArrow = true, arrowContent = null, overlay } = props;
     return [
-      showArrow && (
-        <div className={`${prefixCls}-arrow`} key="arrow">
-          {arrowContent}
-        </div>
-      ),
+      arrow && <div className={`${prefixCls}-arrow`} key="arrow" />,
       <TourStep
         key="content"
         prefixCls={prefixCls}
-        overlay={overlay}
         rootClassName={rootClassName}
         steps={steps}
         current={currentStep}
         {...steps[currentStep]}
-        // overlayInnerStyle={overlayInnerStyle}
       />,
     ];
   };
-
-  // ============================ Mask ============================
-  const documentWidth =
-    document.documentElement.clientWidth || document.body.clientWidth;
-  const documentHeight =
-    document.documentElement.clientHeight || document.body.clientHeight;
-
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [maskLeft, setLeft] = useState(0);
-  const [maskTop, setTop] = useState(0);
-  const [round, setRound] = useState(0);
-  const [currentDOM, setCurrentDom] = useState(null);
-  const getMergePopupContainer = steps[currentStep]?.target;
+  const { target, placement = 'topLeft' } = steps[currentStep] || {};
   const popupVisible = 0 <= currentStep && currentStep < steps.length;
+  const maskRef = useRef(null);
 
-  const setPostion = () => {
-    setCurrentDom(
-      typeof getMergePopupContainer === 'function'
-        ? getMergePopupContainer()
-        : getMergePopupContainer,
-    );
-    if (!currentDOM) {
+  useLayoutEffect(() => {
+    console.log(maskRef.current);
+    console.log(maskRef.current.getBBox());
+    let position = null;
+    const mergedTarget = typeof target === 'function' ? target() : target;
+    if (!mergedTarget) {
+      const { width, height } = maskRef.current.getBBox();
       // popupAlign = {
       //   // points: ['c', 'c'], // align top left point of sourceNode with top right point of targetNode
       //   // overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed,
@@ -134,115 +102,63 @@ const Tour = (props: TourProps, ref: any) => {
       //   overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed,,
       //   useCssTransform: true,
       // };
+      const left = width;
+      position = {
+        left,
+        top,
+        width,
+        height,
+      };
     } else {
-      const { left, top } = currentDOM.getBoundingClientRect();
-      const { offsetWidth, offsetHeight, style = {} } = currentDOM || {};
-      const { borderRadius = 0 } = style;
-      setWidth(offsetWidth);
-      setHeight(offsetHeight);
-      setLeft(left);
-      setTop(top);
-      // console.log('left', left);
-      // console.log('top', top);
-
-      if (borderRadius) {
-        setRound(parseInt(borderRadius));
-      }
+      const {
+        left,
+        top,
+        offsetWidth,
+        offsetHeight,
+        style = { borderRadius: 0 },
+      } = offset(mergedTarget);
+      position = {
+        left,
+        top,
+        width: offsetWidth,
+        height: offsetHeight,
+        style,
+      };
     }
-  };
-  useEffect(() => {
-    setPostion();
-  });
+  }, [mergeMask]);
 
-  const maskNode: React.ReactNode = (
-    <CSSMotion key="mask" visible={mask}>
-      {(
-        { className: motionMaskClassName, style: motionMaskStyle },
-        maskRef,
-      ) => {
-        return (
-          <svg
-            className={classNames(
-              `${prefixCls}-mask`,
-              motionMaskClassName,
-              maskClassName,
-            )}
-            // onClick={maskClosable ? onClose : undefined}
-            ref={maskRef}
-            style={{
-              ...motionMaskStyle,
-              ...maskStyle,
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: documentWidth,
-              height: documentHeight,
-            }}
-          >
-            <defs>
-              <mask id="mask-main">
-                <rect
-                  x="0"
-                  y="0"
-                  width={documentWidth}
-                  height={documentHeight}
-                  fill="white"
-                />
-                <rect
-                  x={maskLeft}
-                  y={maskTop}
-                  width={width}
-                  height={height}
-                  rx={round}
-                  ry={round}
-                  fill="black"
-                />
-              </mask>
-            </defs>
-            <rect
-              x="0"
-              y="0"
-              width={documentWidth}
-              height={documentHeight}
-              fill="rgba(0,0,0,0.5)"
-              mask="url(#mask-main)"
-            />
-          </svg>
-        );
-      }}
-    </CSSMotion>
-  );
   return (
     <TourProvider
       value={{
         currentStep,
         setCurrentStep,
+        mergeMask,
+        setMergeMask,
       }}
     >
       <Trigger
+        {...restProps}
+        getPopupContainer={target}
+        popupAlign={{
+          points: placements[placement].points,
+        }}
+        popupPlacement={placement}
+        builtinPlacements={placements}
+        popupVisible={popupVisible}
         key={currentStep}
         popupClassName={rootClassName}
         prefixCls={prefixCls}
         popup={getPopupElement}
-        builtinPlacements={builtinPlacements}
-        popupPlacement={placement}
-        ref={domRef}
-        // getPopupContainer={getMergePopupContainer}
-        getPopupContainer={getMergePopupContainer}
-        popupMotion={motion}
-        popupVisible={popupVisible}
-        popupAlign={popupAlign}
-        {...restProps}
+        autoDestroy={true}
       >
         <></>
       </Trigger>
       <Mask
         prefixCls={prefixCls}
-        visible={popupVisible}
         steps={steps}
+        ref={maskRef}
         rootClassName={rootClassName}
       />
-      {/* {popupVisible ? maskNode : null} */}
     </TourProvider>
   );
 };
