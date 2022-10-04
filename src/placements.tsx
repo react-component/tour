@@ -6,7 +6,8 @@ const autoAdjustOverflow = {
 };
 
 const targetOffset = [0, 0];
-
+const documentHeight =
+  document.documentElement.clientHeight || document.body.clientHeight;
 export const placements: BuildInPlacements = {
   left: {
     points: ['cr', 'cl'],
@@ -79,6 +80,12 @@ export const placements: BuildInPlacements = {
     overflow: autoAdjustOverflow,
     offset: [-4, 0],
     targetOffset,
+  },
+  center: {
+    points: ['cc', 'cc'],
+    offset: [0, documentHeight / 2],
+    targetOffset,
+    overflow: autoAdjustOverflow,
   },
 };
 

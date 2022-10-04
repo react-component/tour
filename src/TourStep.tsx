@@ -63,14 +63,14 @@ const TourStep = (props: TourStepProps) => {
     rootClassName,
   } = props;
   const stepsLength = steps.length;
-  const { currentStep, setCurrentStep,setMergeMask } = useContext(TourContext);
+  const { currentStep, setCurrentStep, setMergeMask } = useContext(TourContext);
 
   const closeContent = (btnType: string | undefined) => {
     setCurrentStep(-1);
     if (typeof onClose === 'function') {
       onClose();
     }
-    setMergeMask(false)
+    setMergeMask(false);
     if (btnType === 'finish' && typeof onFinish === 'function') {
       onFinish();
     }
@@ -149,7 +149,7 @@ const TourStep = (props: TourStepProps) => {
           return (
             <span
               key={index}
-             className={index === currentStep ? 'active' :''}
+              className={index === currentStep ? 'active' : ''}
             />
           );
         })
@@ -159,7 +159,6 @@ const TourStep = (props: TourStepProps) => {
     <div
       className={classNames(`${prefixCls}-inner`, rootClassName)}
       role={prefixCls}
-      style={{ minWidth: 200, ...style }}
     >
       <div className={`${prefixCls}-popContent`} style={style}>
         {closer}
@@ -167,12 +166,12 @@ const TourStep = (props: TourStepProps) => {
         {headerNode}
         <div className={`${prefixCls}-description`}>{descriptionNode}</div>
         <div className={`${prefixCls}-footer`}>
-          <div className={`${prefixCls}-sliders`}>
-            {slickNode}
-          </div>
+          <div className={`${prefixCls}-sliders`}>{slickNode}</div>
           <div className={`${prefixCls}-buttons`}>
             {currentStep !== 0 ? prevButtonNode : null}
-            {currentStep === stepsLength - 1 ? finishButtonNode : nextButtonNode}
+            {currentStep === stepsLength - 1
+              ? finishButtonNode
+              : nextButtonNode}
           </div>
         </div>
       </div>

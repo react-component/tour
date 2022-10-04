@@ -83,49 +83,46 @@ const Tour = (props: TourProps, ref: any) => {
       />,
     ];
   };
-  const { target, placement = 'topLeft' } = steps[currentStep] || {};
+  const {
+    target,
+    placement = 'bottom',
+    style: stepStyle,
+  } = steps[currentStep] || {};
+  const [mergedPlacement, setMergedPlacement] = useState(placement);
   const popupVisible = 0 <= currentStep && currentStep < steps.length;
   const maskRef = useRef(null);
 
   useLayoutEffect(() => {
-    console.log(maskRef.current);
-    console.log(maskRef.current.getBBox());
-    let position = null;
-    const mergedTarget = typeof target === 'function' ? target() : target;
-    if (!mergedTarget) {
-      const { width, height } = maskRef.current.getBBox();
-      // popupAlign = {
-      //   // points: ['c', 'c'], // align top left point of sourceNode with top right point of targetNode
-      //   // overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed,
-      //   // ...popupAlign,
-      //   points: [`cc`, `cc`],
-      //   overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed,,
-      //   useCssTransform: true,
-      // };
-      const left = width;
-      position = {
-        left,
-        top,
-        width,
-        height,
-      };
-    } else {
-      const {
-        left,
-        top,
-        offsetWidth,
-        offsetHeight,
-        style = { borderRadius: 0 },
-      } = offset(mergedTarget);
-      position = {
-        left,
-        top,
-        width: offsetWidth,
-        height: offsetHeight,
-        style,
-      };
+    const targetDom = typeof target === 'function' ? target() : target;
+    if (!targetDom) {
+      console.log('-----这里只有notFound执行');
+      setMergedPlacement('center');
+      // setMergedTarget(() => document.querySelector('body'));
     }
-  }, [mergeMask]);
+  });
+  // useLayoutEffect(() => {
+  //   console.log(maskRef.current);
+  //   console.log(maskRef.current.getBBox());
+  //   let position = null;
+  //   const mergedTarget = typeof target === 'function' ? target() : target;
+  //   if (!mergedTarget) {
+  //   } else {
+  //     const {
+  //       left,
+  //       top,
+  //       offsetWidth,
+  //       offsetHeight,
+  //       style = { borderRadius: 0 },
+  //     } = offset(mergedTarget);
+  //     position = {
+  //       left,
+  //       top,
+  //       width: offsetWidth,
+  //       height: offsetHeight,
+  //       style,
+  //     };
+  //   }
+  // }, [target, mergeMask]);
 
   return (
     <TourProvider
@@ -140,9 +137,10 @@ const Tour = (props: TourProps, ref: any) => {
         {...restProps}
         getPopupContainer={target}
         popupAlign={{
-          points: placements[placement].points,
+          points: placements[mergedPlacement].points,
+          offset: placements[mergedPlacement].offset,
         }}
-        popupPlacement={placement}
+        popupPlacement={mergedPlacement}
         builtinPlacements={placements}
         popupVisible={popupVisible}
         key={currentStep}
