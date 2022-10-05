@@ -2,9 +2,9 @@ import React from 'react';
 // TODO 删除any
 const TourContext = React.createContext<{
   currentStep: number;
-  setCurrentStep: () => void;
+  setCurrentStep: (currentStep: number) => void;
   mergeMask: boolean;
-  setMergeMask: () => void;
+  setMergeMask: (mergeMask: boolean) => void;
 }>({
   currentStep: 0,
   setCurrentStep: () => {},

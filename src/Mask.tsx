@@ -1,37 +1,40 @@
-import React, { useState, useContext, useEffect, forwardRef } from 'react';
+import React, { useState, useEffect, forwardRef } from 'react';
 import classNames from 'classnames';
-import TourContext from './context';
 import Portal from '@rc-component/portal';
 import { isInViewPort } from './util';
-const Mask = forwardRef((props: any, ref) => {
-  const { steps, prefixCls, scrollLocker, rootClassName } = props;
-  const { currentStep, mergeMask } = useContext(TourContext);
-  // ============================ Mask ============================
+
+export interface MaskProps {
+  prefixCls?: string;
+  target: () => HTMLElement; //	获取引导卡片指向的元素
+  rootClassName?: string;
+  mask?: boolean;
+}
+
+const Mask = forwardRef<SVGSVGElement, MaskProps>((props, ref) => {
+  const { prefixCls, rootClassName, target, mask } = props;
+  const [width, setWidth] = useState<number>(0);
+  const [height, setHeight] = useState<number>(0);
+  const [maskLeft, setLeft] = useState<number>(0);
+  const [maskTop, setTop] = useState<number>(0);
+  const [round, setRound] = useState<number>(0);
+  const [currentDOM, setCurrentDom] = useState<HTMLElement | null>(null);
+
   const documentWidth =
     document.documentElement.clientWidth || document.body.clientWidth;
   const documentHeight =
     document.documentElement.clientHeight || document.body.clientHeight;
 
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [maskLeft, setLeft] = useState(0);
-  const [maskTop, setTop] = useState(0);
-  const [round, setRound] = useState(0);
-  const [currentDOM, setCurrentDom] = useState(null);
-
-  const mergedTarget = steps[currentStep]?.target;
+  // const mergedTarget = steps[currentStep]?.target;
 
   const setPosition = () => {
-    setCurrentDom(
-      typeof mergedTarget === 'function' ? mergedTarget() : mergedTarget,
-    );
+    setCurrentDom(typeof target === 'function' ? target() : target);
 
     if (currentDOM) {
       if (!isInViewPort(currentDOM)) {
         currentDOM.scrollIntoView(true);
       }
       const { left, top } = currentDOM.getBoundingClientRect();
-      const { offsetWidth, offsetHeight, style = {} } = currentDOM || {};
+      const { offsetWidth, offsetHeight, style } = currentDOM || {};
       const { borderRadius = 0 } = style;
       setWidth(offsetWidth);
       setHeight(offsetHeight);
@@ -47,13 +50,8 @@ const Mask = forwardRef((props: any, ref) => {
     setPosition();
   });
 
-  useEffect(() => {
-    scrollLocker?.lock();
-    return scrollLocker?.unLock;
-  }, [scrollLocker]);
-
   return (
-    <Portal open={mergeMask} autoLock>
+    <Portal open={mask} autoLock>
       <div className={classNames(`${prefixCls}-root`, rootClassName)}>
         <svg
           className={classNames(`${prefixCls}-mask`, rootClassName)}

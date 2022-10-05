@@ -19,108 +19,11 @@ class Test extends Component {
     this.updateBtnRef = createRef();
     this.deleteBtnRef = createRef();
   }
-
-  onPlacementChange = e => {
-    const placement = e.target.value;
-    const { offset } = placements[placement];
-    this.setState({
-      placement: e.target.value,
-      offsetX: offset[0],
-      offsetY: offset[1],
-    });
-  };
-
-  onOffsetXChange = e => {
-    const targetValue = e.target.value;
-    this.setState({
-      offsetX: targetValue || undefined,
-    });
-  };
-
-  onOffsetYChange = e => {
-    const targetValue = e.target.value;
-    this.setState({
-      offsetY: targetValue || undefined,
-    });
-  };
-
-  onOverlayInnerStyleChange = () => {
-    this.setState(prevState => ({
-      overlayInnerStyle: prevState.overlayInnerStyle
-        ? undefined
-        : { background: 'red' },
-    }));
-  };
-
-  maskChange = () => {
-    this.setState(prevState => ({
-      mask: !prevState.mask,
-    }));
-  };
-
-  preventDefault = e => {
-    e.preventDefault();
-  };
-
-  componentDidMount() {
-    // console.log(' this.BtnRef.current2', this.BtnRef.current.offsetWidth);
-  }
+  componentDidMount() {}
 
   render() {
-    const { state } = this;
-    const { placement, offsetX, offsetY } = state;
     return (
       <div>
-        <div style={{ margin: '10px 20px' }}>
-          <label>
-            placement:
-            <select value={placement} onChange={this.onPlacementChange}>
-              {Object.keys(placements).map(p => (
-                <option key={p} value={p}>
-                  {p}
-                </option>
-              ))}
-            </select>
-          </label>
-          <br />
-          <label>
-            offsetX:
-            <input
-              type="text"
-              value={offsetX}
-              onChange={this.onOffsetXChange}
-              style={{ width: 50 }}
-            />
-          </label>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <label>
-            offsetY:
-            <input
-              type="text"
-              value={offsetY}
-              onChange={this.onOffsetYChange}
-              style={{ width: 50 }}
-            />
-          </label>
-          <label>
-            <input
-              value="overlayInnerStyle"
-              checked={!!state.overlayInnerStyle}
-              type="checkbox"
-              onChange={this.onOverlayInnerStyleChange}
-            />
-            overlayInnerStyle(red background)
-          </label>
-          <label>
-            <input
-              value="overlayInnerStyle"
-              checked={!!state.mask}
-              type="checkbox"
-              onChange={this.maskChange}
-            />
-            overlayInnerStyle(red background)
-          </label>
-        </div>
         <div>
           <button className="ant-target" ref={this.createBtnRef}>
             Create
@@ -152,12 +55,16 @@ class Test extends Component {
               title: '创建',
               description: '创建一条数据',
               target: () => this.createBtnRef.current,
-              nextButtonProps: (
-                <button className="ant-btn ant-btn-primary">下一步</button>
-              ),
-              prevButtonProps: (
-                <button className="ant-btn ant-btn-primary">上一步</button>
-              ),
+              nextButtonProps: {
+                children: (
+                  <button className="ant-btn ant-btn-primary">下一步</button>
+                ),
+              },
+              prevButtonProps: {
+                children: (
+                  <button className="ant-btn ant-btn-primary">上一步</button>
+                ),
+              },
               type: 'primary',
             },
             {
@@ -170,8 +77,16 @@ class Test extends Component {
                 </div>
               ),
               target: () => this.updateBtnRef.current,
-              nextButtonProps: <button>下一步</button>,
-              prevButtonProps: <button>上一步</button>,
+              nextButtonProps: {
+                children: (
+                  <button className="ant-btn ant-btn-primary">下一步</button>
+                ),
+              },
+              prevButtonProps: {
+                children: (
+                  <button className="ant-btn ant-btn-primary">上一步</button>
+                ),
+              },
             },
             {
               title: '删除',
@@ -179,13 +94,23 @@ class Test extends Component {
               description: (
                 <div>
                   <span>危险操作：删除一条数据</span>
-                  <button type="link">帮助文档</button>
+                  <button>帮助文档</button>
                 </div>
               ),
               target: () => this.deleteBtnRef.current,
-              nextButtonProps: <button>下一步</button>,
-              prevButtonProps: <button>上一步</button>,
-              finishButtonProps: <button>结束引导</button>,
+              nextButtonProps: {
+                children: (
+                  <button className="ant-btn ant-btn-primary">下一步</button>
+                ),
+              },
+              prevButtonProps: {
+                children: (
+                  <button className="ant-btn ant-btn-primary">上一步</button>
+                ),
+              },
+              finishButtonProps: {
+                children: <button>结束引导</button>,
+              },
             },
           ]}
         />

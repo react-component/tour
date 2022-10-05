@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { useRef, forwardRef, useState, useLayoutEffect } from 'react';
 import Trigger from 'rc-trigger';
-import type { TriggerProps } from 'rc-trigger';
-
+import classNames from 'classnames';
 import { TourProvider } from './context';
 import TourStep from './TourStep';
 import Mask from './Mask';
@@ -10,22 +9,23 @@ import placements from './placements';
 import type { TourStepProps } from './TourStep';
 import type { placementType } from './placements';
 
-export interface TourProps extends TriggerProps {
+export interface TourProps {
   steps: TourStepProps[]; // 引导步骤
-  open: boolean; // 受控打开引导（与 current 受控分开）
-  current: number; // 受控当前处于哪一步
-  onChange: (current: number) => void; // 步骤改变时的回调，current为改变前的步骤，next为改变后的步骤
-  onClose: (current: number) => void; // 关闭引导时的回调
-  onFinish: () => void; // 完成引导时的回调
-  mask: boolean; // true,	整体是否启用蒙层
-  arrow: boolean | { pointAtCenter: boolean };
-  rootClassName: string;
+  open?: boolean; // 受控打开引导（与 current 受控分开）
+  current?: number; // 受控当前处于哪一步
+  onChange?: (current: number) => void; // 步骤改变时的回调，current为改变前的步骤，next为改变后的步骤
+  onClose?: (current: number) => void; // 关闭引导时的回调
+  onFinish?: () => void; // 完成引导时的回调
+  mask?: boolean; // true,	整体是否启用蒙层
+  arrow?: boolean | { pointAtCenter: boolean };
+  rootClassName?: string;
   placement?: placementType;
+  children?: React.ReactNode;
+  prefixCls?: string;
 }
 
-const Tour: React.FC<TourProps> = (props: TourProps) => {
+const Tour = (props: TourProps) => {
   const {
-    popupClassName,
     prefixCls = 'rc-tour',
     children,
     steps,
@@ -42,15 +42,24 @@ const Tour: React.FC<TourProps> = (props: TourProps) => {
 
   const [currentStep, setCurrentStep] = useState<number>(current);
   const [mergeMask, setMergeMask] = useState(mask);
+  let pointAtCenter = false;
+  if (typeof arrow === 'object') {
+    pointAtCenter = arrow.pointAtCenter;
+  }
+
   const getPopupElement = () => {
+    console.log('arrow', arrow);
+    console.log('pointAtCenter', pointAtCenter);
+    const arrowClassName = pointAtCenter
+      ? classNames(`${prefixCls}-arrow`, `${prefixCls}-arrow-center`)
+      : `${prefixCls}-arrow`;
     return [
-      arrow && <div className={`${prefixCls}-arrow`} key="arrow" />,
+      Boolean(arrow) && <div className={arrowClassName} key="arrow" />,
       <TourStep
         key="content"
         prefixCls={prefixCls}
         rootClassName={rootClassName}
-        steps={steps}
-        current={currentStep}
+        stepsLength={steps.length}
         {...steps[currentStep]}
       />,
     ];
@@ -59,10 +68,11 @@ const Tour: React.FC<TourProps> = (props: TourProps) => {
     target,
     placement = 'bottom',
     style: stepStyle,
+    className: stepClassName,
   } = steps[currentStep] || {};
   const [mergedPlacement, setMergedPlacement] = useState(placement);
   const popupVisible = 0 <= currentStep && currentStep < steps.length;
-  const maskRef = useRef(null);
+  const maskRef = useRef<SVGSVGElement>(null);
 
   useLayoutEffect(() => {
     const targetDom = typeof target === 'function' ? target() : target;
@@ -88,11 +98,12 @@ const Tour: React.FC<TourProps> = (props: TourProps) => {
           points: placements[mergedPlacement].points,
           offset: placements[mergedPlacement].offset,
         }}
+        popupStyle={stepStyle}
         popupPlacement={mergedPlacement}
         builtinPlacements={placements}
         popupVisible={popupVisible}
         key={currentStep}
-        popupClassName={rootClassName}
+        popupClassName={classNames(rootClassName, stepClassName)}
         prefixCls={prefixCls}
         popup={getPopupElement}
         autoDestroy={true}
@@ -101,8 +112,9 @@ const Tour: React.FC<TourProps> = (props: TourProps) => {
       </Trigger>
       <Mask
         prefixCls={prefixCls}
-        steps={steps}
+        target={target}
         ref={maskRef}
+        mask={mergeMask}
         rootClassName={rootClassName}
       />
     </TourProvider>
