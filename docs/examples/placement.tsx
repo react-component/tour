@@ -2,19 +2,19 @@ import React, { useRef, useState } from 'react';
 import Tour from '../../src/index';
 import './basic.less';
 import { placements } from '@/placements';
+import type { placementType } from '@/placements';
 
 const MyControl = () => {
-  const [placement, setPlacement] = useState('rightBottom');
+  const [placement, setPlacement] = useState<placementType>('rightBottom');
   const btnRef = useRef<HTMLButtonElement>(null);
-  console.log('placement', placement);
   return (
     <div style={{ margin: 20 }}>
       <select
         onChange={e => {
-          setPlacement(e.target.value);
+          setPlacement(e.target.value as placementType);
         }}
       >
-        {Object.keys(placements).map(item => (
+        {Object.keys(placements).map((item: placementType) => (
           <option value={item} key={item}>
             {item}
           </option>
@@ -33,14 +33,28 @@ const MyControl = () => {
       <br /> <br />
       <br />
       <br />
-      <p style={{ paddingLeft: 400 }}>
+      <p style={{ paddingLeft: 300 }}>
         <span
           ref={btnRef}
           style={{ position: 'relative', display: 'inline-block' }}
         >
           第一步
-        </span>{' '}
+        </span>
       </p>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <Tour
         current={0}
         key={placement}
@@ -49,6 +63,7 @@ const MyControl = () => {
             title: '创建',
             description: '创建一条数据',
             target: () => btnRef.current,
+            placement: placement,
             nextButtonProps: {
               children: (
                 <button className="ant-btn ant-btn-primary">下一步</button>

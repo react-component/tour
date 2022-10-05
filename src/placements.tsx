@@ -45,7 +45,7 @@ export const placements: BuildInPlacements = {
   bottom: {
     points: ['tc', 'bc'],
     overflow: autoAdjustOverflow,
-    offset: [0, 4],
+    offset: [0, 18],
     targetOffset,
   },
   topLeft: {

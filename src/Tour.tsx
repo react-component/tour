@@ -48,8 +48,6 @@ const Tour = (props: TourProps) => {
   }
 
   const getPopupElement = () => {
-    console.log('arrow', arrow);
-    console.log('pointAtCenter', pointAtCenter);
     const arrowClassName = pointAtCenter
       ? classNames(`${prefixCls}-arrow`, `${prefixCls}-arrow-center`)
       : `${prefixCls}-arrow`;
@@ -82,6 +80,7 @@ const Tour = (props: TourProps) => {
     }
   }, [target]);
 
+  console.log('mergedPlacement', mergedPlacement);
   return (
     <TourProvider
       value={{

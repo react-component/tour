@@ -1,9 +1,18 @@
 import React, { Component, createRef } from 'react';
 import Tour from '../../src/index';
 import './basic.less';
-import { placements } from '../../src/placements';
+import { placements } from '@/placements';
 
+interface RefObject<T> {
+  // immutable
+  readonly current: T | null;
+}
 class Test extends Component {
+  private BtnRef: RefObject<HTMLButtonElement>;
+  private createBtnRef: RefObject<HTMLButtonElement>;
+  private updateBtnRef: RefObject<HTMLButtonElement>;
+  private deleteBtnRef: RefObject<HTMLButtonElement>;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -14,10 +23,10 @@ class Test extends Component {
       offsetY: placements.right.offset[1],
       overlayInnerStyle: undefined,
     };
-    this.BtnRef = createRef();
-    this.createBtnRef = createRef();
-    this.updateBtnRef = createRef();
-    this.deleteBtnRef = createRef();
+    this.BtnRef = createRef<HTMLButtonElement>();
+    this.createBtnRef = createRef<HTMLButtonElement>();
+    this.updateBtnRef = createRef<HTMLButtonElement>();
+    this.deleteBtnRef = createRef<HTMLButtonElement>();
   }
   componentDidMount() {}
 
