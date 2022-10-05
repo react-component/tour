@@ -1,28 +1,14 @@
 import * as React from 'react';
-import {
-  useRef,
-  useImperativeHandle,
-  forwardRef,
-  useState,
-  useEffect,
-  useLayoutEffect,
-} from 'react';
+import { useRef, forwardRef, useState, useLayoutEffect } from 'react';
 import Trigger from 'rc-trigger';
 import type { TriggerProps } from 'rc-trigger';
-import classNames from 'classnames';
-import TourContext, { TourProvider } from './context';
-import { placements as builtinPlacements } from './placements';
+
+import { TourProvider } from './context';
 import TourStep from './TourStep';
 import Mask from './Mask';
-import type { TourStepProps } from './TourStep';
 import placements from './placements';
-import { offset } from '@/util';
-
-// TODO
-// 3. 非块级元素获取不到 width,height, 测试场景,  弹窗居中的场景
-// 4. 参考https://ant.design/components/popover-cn/ demo
-// 5. 找不到target如何居中 箭头不显示
-// 1. 关闭按钮
+import type { TourStepProps } from './TourStep';
+import type { placementType } from './placements';
 
 export interface TourProps extends TriggerProps {
   steps: TourStepProps[]; // 引导步骤
@@ -32,25 +18,12 @@ export interface TourProps extends TriggerProps {
   onClose: (current: number) => void; // 关闭引导时的回调
   onFinish: () => void; // 完成引导时的回调
   mask: boolean; // true,	整体是否启用蒙层
-  arrow: boolean | { pointAtCenter: boolean }; //	true	整体是否显示箭头，包含是否指向元素中心的配置
-  type: 'default' | 'primary'; //	default	整体类型，影响底色与文字颜色
+  arrow: boolean | { pointAtCenter: boolean };
   rootClassName: string;
-  placement:
-    | `left`
-    | `leftTop`
-    | `leftBottom`
-    | `right`
-    | `rightTop`
-    | `rightBottom`
-    | `top`
-    | `topLeft`
-    | `topRight`
-    | `bottom`
-    | `bottomLeft`
-    | `bottomRight`;
+  placement?: placementType;
 }
 
-const Tour = (props: TourProps, ref: any) => {
+const Tour: React.FC<TourProps> = (props: TourProps) => {
   const {
     popupClassName,
     prefixCls = 'rc-tour',
@@ -61,14 +34,13 @@ const Tour = (props: TourProps, ref: any) => {
     onChange,
     onClose,
     onFinish,
-    mask = true, //	整体是否启用蒙层
+    mask = true,
     arrow = true,
-    type,
     rootClassName,
     ...restProps
   } = props;
 
-  const [currentStep, setCurrentStep] = useState(current);
+  const [currentStep, setCurrentStep] = useState<number>(current);
   const [mergeMask, setMergeMask] = useState(mask);
   const getPopupElement = () => {
     return [
@@ -97,32 +69,8 @@ const Tour = (props: TourProps, ref: any) => {
     if (!targetDom) {
       console.log('-----这里只有notFound执行');
       setMergedPlacement('center');
-      // setMergedTarget(() => document.querySelector('body'));
     }
-  });
-  // useLayoutEffect(() => {
-  //   console.log(maskRef.current);
-  //   console.log(maskRef.current.getBBox());
-  //   let position = null;
-  //   const mergedTarget = typeof target === 'function' ? target() : target;
-  //   if (!mergedTarget) {
-  //   } else {
-  //     const {
-  //       left,
-  //       top,
-  //       offsetWidth,
-  //       offsetHeight,
-  //       style = { borderRadius: 0 },
-  //     } = offset(mergedTarget);
-  //     position = {
-  //       left,
-  //       top,
-  //       width: offsetWidth,
-  //       height: offsetHeight,
-  //       style,
-  //     };
-  //   }
-  // }, [target, mergeMask]);
+  }, [target]);
 
   return (
     <TourProvider

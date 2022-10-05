@@ -1,34 +1,17 @@
 import * as React from 'react';
-import {
-  useRef,
-  useImperativeHandle,
-  forwardRef,
-  useLayoutEffect,
-  useState,
-  useContext,
-} from 'react';
-import TourContext, { TourConsumer } from './context';
+import { useContext } from 'react';
+import TourContext from './context';
 import classNames from 'classnames';
+import type { placementType } from './placements';
+
 export interface TourStepProps {
   prefixCls?: string;
-  target: (() => HTMLElement) | HTMLElement; //	获取引导卡片指向的元素
+  target: () => HTMLElement; //	获取引导卡片指向的元素
   arrow?: boolean | { pointAtCenter: boolean }; // 是否显示箭头，包含是否指向元素中心的配置
   cover?: React.ReactNode; // 展示的图片或者视频
   title: React.ReactNode; // 标题
   description?: React.ReactNode; //	主要描述部分
-  placement?:
-    | 'left'
-    | 'leftTop'
-    | 'leftBottom'
-    | 'right'
-    | 'rightTop'
-    | 'rightBottom'
-    | 'top'
-    | 'topLeft'
-    | 'topRight'
-    | 'bottom'
-    | 'bottomLeft'
-    | 'bottomRight'; // 'bottom',引导卡片相对于目标元素的位置
+  placement?: placementType;
   onClose?: () => void; //	-	关闭引导时的回调函数
   mask?: boolean; //	true	是否启用蒙层，默认跟随 Tour 的 mask 属性
   type?: 'default' | 'primary'; //	default	类型，影响底色与文字颜色
@@ -67,6 +50,8 @@ const TourStep = (props: TourStepProps) => {
 
   const closeContent = (btnType: string | undefined) => {
     setCurrentStep(-1);
+    console.log('------', currentStep);
+
     if (typeof onClose === 'function') {
       onClose();
     }
@@ -135,7 +120,7 @@ const TourStep = (props: TourStepProps) => {
   const closer: React.ReactNode = (
     <button
       type="button"
-      onClick={onClose}
+      onClick={() => closeContent('close')}
       aria-label="Close"
       className={`${prefixCls}-close`}
     >
@@ -155,24 +140,24 @@ const TourStep = (props: TourStepProps) => {
         })
       : null;
 
+  const mergedClassName = classNames(
+    `${prefixCls}-inner`,
+    rootClassName,
+    className,
+    type === 'primary' ? `${prefixCls}-primary` : '',
+  );
+
   return (
-    <div
-      className={classNames(`${prefixCls}-inner`, rootClassName)}
-      role={prefixCls}
-    >
-      <div className={`${prefixCls}-popContent`} style={style}>
-        {closer}
-        {coverNode}
-        {headerNode}
-        <div className={`${prefixCls}-description`}>{descriptionNode}</div>
-        <div className={`${prefixCls}-footer`}>
-          <div className={`${prefixCls}-sliders`}>{slickNode}</div>
-          <div className={`${prefixCls}-buttons`}>
-            {currentStep !== 0 ? prevButtonNode : null}
-            {currentStep === stepsLength - 1
-              ? finishButtonNode
-              : nextButtonNode}
-          </div>
+    <div className={mergedClassName} role={prefixCls} style={style}>
+      {closer}
+      {coverNode}
+      {headerNode}
+      <div className={`${prefixCls}-description`}>{descriptionNode}</div>
+      <div className={`${prefixCls}-footer`}>
+        <div className={`${prefixCls}-sliders`}>{slickNode}</div>
+        <div className={`${prefixCls}-buttons`}>
+          {currentStep !== 0 ? prevButtonNode : null}
+          {currentStep === stepsLength - 1 ? finishButtonNode : nextButtonNode}
         </div>
       </div>
     </div>

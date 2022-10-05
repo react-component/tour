@@ -1,5 +1,9 @@
 // =============================== Motion ===============================
-export function getMotionName(prefixCls: string, transitionName?: string, animationName?: string) {
+export function getMotionName(
+  prefixCls: string,
+  transitionName?: string,
+  animationName?: string,
+) {
   let motionName = transitionName;
   if (!motionName && animationName) {
     motionName = `${prefixCls}-${animationName}`;
@@ -30,21 +34,30 @@ function getScroll(w: Window, top?: boolean): number {
 
 type CompatibleDocument = {
   parentWindow?: Window;
-} & Document
+} & Document;
 
 export function offset(el: HTMLElement) {
   const rect = el.getBoundingClientRect();
-  const { offsetWidth, offsetHeight, style } = (el|| {});
+  const { offsetWidth, offsetHeight, style } = el || {};
   const pos = {
     left: rect.left,
     top: rect.top,
-    offsetWidth:offsetWidth,
-    offsetHeight:offsetHeight,
-    style:style
+    offsetWidth: offsetWidth,
+    offsetHeight: offsetHeight,
+    style: style,
   };
   const doc = el.ownerDocument as CompatibleDocument;
   const w = doc.defaultView || doc.parentWindow;
   pos.left += getScroll(w);
   pos.top += getScroll(w, true);
   return pos;
+}
+
+export function isInViewPort(element: HTMLElement) {
+  const viewWidth = window.innerWidth || document.documentElement.clientWidth;
+  const viewHeight =
+    window.innerHeight || document.documentElement.clientHeight;
+  const { top, right, bottom, left } = element.getBoundingClientRect();
+
+  return top >= 0 && left >= 0 && right <= viewWidth && bottom <= viewHeight;
 }

@@ -44,7 +44,6 @@ class Test extends Component {
     });
   };
 
-
   onOverlayInnerStyleChange = () => {
     this.setState(prevState => ({
       overlayInnerStyle: prevState.overlayInnerStyle
@@ -159,6 +158,7 @@ class Test extends Component {
               prevButtonProps: (
                 <button className="ant-btn ant-btn-primary">上一步</button>
               ),
+              type: 'primary',
             },
             {
               title: '更新',

@@ -2,24 +2,17 @@
 
 @tour-prefix-cls: rc-tour;
 
-//
-// Tours
-// --------------------------------------------------
 
-// Base class
 .@{tour-prefix-cls} {
   position: absolute;
   z-index: 1070;
   display: block;
   visibility: visible;
-  // remove left/top by yiminghe
-  // left: -9999px;
-  // top: -9999px;
   font-size: 12px;
   line-height:1.5;
   opacity: 0.9;
-  width: 520px;
-  height: 200px;
+  min-width: 520px;
+  min-height: 200px;
   &-hidden {
     display: none;
   }
@@ -40,13 +33,15 @@
 
 // Wrapper for the tour content
 .@{tour-prefix-cls}-inner {
-  //padding: 8px 10px;
-  //color: #fff;
   text-align: left;
   text-decoration: none;
-  background-color: #373737;
   border-radius: 6px;;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.17);
+  position: relative;
+  background-color: #ffffff;
+  border: none;
+  background-clip: padding-box;
+  min-height: 200px;
 }
 
 // Arrows
@@ -73,11 +68,11 @@
   }
 
   &-placement-topLeft &-arrow {
-    left: 15%;
+    left: 0;
   }
 
   &-placement-topRight &-arrow {
-    right: 15%;
+    right: 0;
   }
 
   &-placement-right &-arrow,
@@ -99,7 +94,7 @@
   }
 
   &-placement-rightBottom &-arrow {
-    bottom: 15%;
+    bottom: 0;
   }
 
   &-placement-left &-arrow,
@@ -112,7 +107,7 @@
   }
 
   &-placement-left &-arrow {
-    top: 50%;
+    top: 0;
   }
 
   &-placement-leftTop &-arrow {
@@ -121,7 +116,7 @@
   }
 
   &-placement-leftBottom &-arrow {
-    bottom: 15%;
+    bottom: 0;
   }
 
   &-placement-bottom &-arrow,
@@ -138,11 +133,11 @@
   }
 
   &-placement-bottomLeft &-arrow {
-    left: 15%;
+    left: 0;
   }
 
   &-placement-bottomRight &-arrow {
-    right: 15%;
+    right: 0;
   }
 
 
@@ -163,15 +158,6 @@
     font-size: 14px;
     line-height: 21px;
     font-weight: bold;
-  }
-
-  &-popContent {
-    position: relative;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 6px 6px;
-    background-clip: padding-box;
-    min-height: 200px;
   }
 
   &-close {
@@ -281,6 +267,40 @@
   &-prevButton,&-nextButton{
     display: inline-block;
     margin-left: 8px;
+  }
+}
+
+
+.@{tour-prefix-cls}-inner.@{tour-prefix-cls}-primary {
+    color: #fff;
+    text-align: left;
+    text-decoration: none;
+    background-color: #1890ff;
+    border-radius: 6px;;
+    text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+    box-shadow: 0 2px #0000000b;
+  .@{tour-prefix-cls}-header{
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: #fff;
+  }
+  .@{tour-prefix-cls}-close{
+    color: #fff;
+    opacity: 1;
+  }
+  .ant-btn-primary {
+    border-color:#fff;
+  }
+
+  .@{tour-prefix-cls}-sliders{
+    span{
+      background: #fff;
+      margin-right:4px;
+      opacity: 0.75;
+      &.active{
+        background: #007aff;
+      }
+    }
   }
 }
 

@@ -16,7 +16,7 @@
     "url": "https://github.com/react-component/tour.git"
   },
   "license": "MIT",
-  "author": "smith3816@gmail.com",
+  "author": "wangning4567@163.com",
   "main": "./lib/index",
   "module": "./es/index",
   "typings": "es/index.d.ts",

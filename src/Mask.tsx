@@ -1,11 +1,11 @@
-import React, { useState, useContext, useEffect,forwardRef } from 'react';
+import React, { useState, useContext, useEffect, forwardRef } from 'react';
 import classNames from 'classnames';
 import TourContext from './context';
 import Portal from '@rc-component/portal';
-import {offset} from './util'
-const Mask = forwardRef((props: any,ref) => {
+import { isInViewPort } from './util';
+const Mask = forwardRef((props: any, ref) => {
   const { steps, prefixCls, scrollLocker, rootClassName } = props;
-  const { currentStep ,mergeMask} = useContext(TourContext);
+  const { currentStep, mergeMask } = useContext(TourContext);
   // ============================ Mask ============================
   const documentWidth =
     document.documentElement.clientWidth || document.body.clientWidth;
@@ -23,22 +23,15 @@ const Mask = forwardRef((props: any,ref) => {
 
   const setPosition = () => {
     setCurrentDom(
-      typeof mergedTarget === 'function'
-        ? mergedTarget()
-        : mergedTarget,
+      typeof mergedTarget === 'function' ? mergedTarget() : mergedTarget,
     );
 
-    if (!currentDOM) {
-      // popupAlign = {
-      //   // points: ['c', 'c'], // align top left point of sourceNode with top right point of targetNode
-      //   // overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed,
-      //   // ...popupAlign,
-      //   points: [`cc`, `cc`],
-      //   overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed,,
-      //   useCssTransform: true,
-      // };
-    } else {
-      const { left, top,offsetWidth, offsetHeight, style = {borderRadius:0} } = offset(currentDOM);
+    if (currentDOM) {
+      if (!isInViewPort(currentDOM)) {
+        currentDOM.scrollIntoView(true);
+      }
+      const { left, top } = currentDOM.getBoundingClientRect();
+      const { offsetWidth, offsetHeight, style = {} } = currentDOM || {};
       const { borderRadius = 0 } = style;
       setWidth(offsetWidth);
       setHeight(offsetHeight);
@@ -53,7 +46,6 @@ const Mask = forwardRef((props: any,ref) => {
   useEffect(() => {
     setPosition();
   });
-
 
   useEffect(() => {
     scrollLocker?.lock();

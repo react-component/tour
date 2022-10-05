@@ -5,6 +5,21 @@ const autoAdjustOverflow = {
   adjustY: 1,
 };
 
+export type placementType =
+  | 'left'
+  | 'leftTop'
+  | 'leftBottom'
+  | 'right'
+  | 'rightTop'
+  | 'rightBottom'
+  | 'top'
+  | 'topLeft'
+  | 'topRight'
+  | 'bottom'
+  | 'bottomLeft'
+  | 'bottomRight'
+  | 'center';
+
 const targetOffset = [0, 0];
 const documentHeight =
   document.documentElement.clientHeight || document.body.clientHeight;
