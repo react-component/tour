@@ -160,10 +160,10 @@ const TourStep = (props: TourStepProps) => {
 
   const slickNode: React.ReactNode =
     stepsLength > 1
-      ? new Array(stepsLength).map((item, index) => {
+      ? [...Array.from({ length: stepsLength }).keys()].map((item, index) => {
           return (
             <span
-              key={index}
+              key={item}
               className={index === currentStep ? 'active' : ''}
             />
           );
