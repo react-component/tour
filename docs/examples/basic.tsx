@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react';
 import Tour from '../../src/index';
 import './basic.less';
-import { placements } from '@/placements';
+import { placements } from '../../src/placements';
 
 interface RefObject<T> {
   // immutable
@@ -78,7 +78,7 @@ class Test extends Component {
             },
             {
               title: '更新',
-              cover: <img src="example.com" />,
+              cover: <img src="example.com" alt="更新" />,
               description: (
                 <div>
                   <span>更新一条数据</span>

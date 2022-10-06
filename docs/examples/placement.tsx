@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import Tour from '../../src/index';
 import './basic.less';
-import { placements } from '@/placements';
-import type { placementType } from '@/placements';
+import { placements } from '../../src/placements';
+import type { placementType } from '../../src/placements';
 
 const MyControl = () => {
   const [placement, setPlacement] = useState<placementType>('rightBottom');

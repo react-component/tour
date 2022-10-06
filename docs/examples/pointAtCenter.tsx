@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Tour from '../../src/index';
 import './basic.less';
-import { placements } from '@/placements';
+import { placements } from '../../src/placements';
 
 const MyControl = () => {
   const [placement, setPlacement] = useState('rightBottom');
