@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useRef, forwardRef, useState, useLayoutEffect } from 'react';
+import type { ReactNode } from 'react';
 import Trigger from 'rc-trigger';
 import classNames from 'classnames';
 import { TourProvider } from './context';
@@ -22,6 +23,7 @@ export interface TourProps {
   placement?: placementType;
   children?: React.ReactNode;
   prefixCls?: string;
+  renderStep?: (current: number) => ReactNode;
   type?: 'default' | 'primary'; //	default	类型，影响底色与文字颜色
 }
 
@@ -39,6 +41,7 @@ const Tour = (props: TourProps) => {
     arrow = true,
     type = 'default',
     rootClassName,
+    renderStep,
     ...restProps
   } = props;
 
@@ -77,6 +80,7 @@ const Tour = (props: TourProps) => {
         rootClassName={rootClassName}
         stepsLength={steps.length}
         type={type}
+        renderStep={renderStep}
         {...steps[currentStep]}
       />,
     ];

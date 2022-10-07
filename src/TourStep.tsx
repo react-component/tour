@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
+import type { ReactNode, CSSProperties } from 'react';
 import TourContext from './context';
 import classNames from 'classnames';
 import type { placementType } from './placements';
@@ -8,21 +9,22 @@ export interface TourStepProps {
   prefixCls?: string;
   target: () => HTMLElement; //	获取引导卡片指向的元素
   arrow?: boolean | { pointAtCenter: boolean }; // 是否显示箭头，包含是否指向元素中心的配置
-  cover?: React.ReactNode; // 展示的图片或者视频
-  title: React.ReactNode; // 标题
-  description?: React.ReactNode; //	主要描述部分
+  cover?: ReactNode; // 展示的图片或者视频
+  title: ReactNode; // 标题
+  description?: ReactNode; //	主要描述部分
   placement?: placementType;
   onClose?: () => void; //	-	关闭引导时的回调函数arrow
   onFinish?: () => void;
   mask?: boolean; //	true	是否启用蒙层，默认跟随 Tour 的 mask 属性
   type?: 'default' | 'primary'; //	default	类型，影响底色与文字颜色
-  nextButtonProps?: { children?: React.ReactNode; onClick?: () => void }; //	{ children: '下一步' }	下一步按钮的属性
-  prevButtonProps?: { children?: React.ReactNode; onClick?: () => void }; //	{ children: '上一步' }	上一步按钮的属性
-  finishButtonProps?: { children?: React.ReactNode; onClick?: () => void }; //	{ children: '上一步' }	上一步按钮的属性
+  nextButtonProps?: { children?: ReactNode; onClick?: () => void }; //	{ children: '下一步' }	下一步按钮的属性
+  prevButtonProps?: { children?: ReactNode; onClick?: () => void }; //	{ children: '上一步' }	上一步按钮的属性
+  finishButtonProps?: { children?: ReactNode; onClick?: () => void }; //	{ children: '上一步' }	上一步按钮的属性
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   rootClassName?: string;
   stepsLength?: number;
+  renderStep?: (current: number) => ReactNode;
 }
 
 const TourStep = (props: TourStepProps) => {
@@ -50,6 +52,7 @@ const TourStep = (props: TourStepProps) => {
     prefixCls,
     stepsLength,
     rootClassName,
+    renderStep,
   } = props;
   const { currentStep, setCurrentStep, setMergedMask } =
     useContext(TourContext);
@@ -72,7 +75,7 @@ const TourStep = (props: TourStepProps) => {
       prevButtonProps.onClick();
     }
   };
-  const prevButtonNode: React.ReactNode = (
+  const prevButtonNode: ReactNode = (
     <div className={`${prefixCls}-prevButton`} onClick={prevBtnClick}>
       {prevButtonProps?.children || (
         <button className="ant-btn ant-btn-primary">上一步</button>
@@ -87,7 +90,7 @@ const TourStep = (props: TourStepProps) => {
     }
   };
 
-  const nextButtonNode: React.ReactNode = (
+  const nextButtonNode: ReactNode = (
     <div className={`${prefixCls}-nextButton`} onClick={nextBtnClick}>
       {nextButtonProps?.children || (
         <button className="ant-btn ant-btn-primary">下一步</button>
@@ -102,7 +105,7 @@ const TourStep = (props: TourStepProps) => {
     }
   };
 
-  const finishButtonNode: React.ReactNode = (
+  const finishButtonNode: ReactNode = (
     <div className={`${prefixCls}-prevButton`} onClick={finishBtnClick}>
       {finishButtonProps?.children || (
         <button className="ant-btn ant-btn-primary">结束引导</button>
@@ -110,7 +113,7 @@ const TourStep = (props: TourStepProps) => {
     </div>
   );
 
-  let headerNode: React.ReactNode;
+  let headerNode: ReactNode;
   if (title) {
     headerNode = (
       <div className={`${prefixCls}-header`}>
@@ -119,19 +122,19 @@ const TourStep = (props: TourStepProps) => {
     );
   }
 
-  let descriptionNode: React.ReactNode;
+  let descriptionNode: ReactNode;
   if (description) {
     descriptionNode = (
       <div className={`${prefixCls}-description`}>{description}</div>
     );
   }
 
-  let coverNode: React.ReactNode;
+  let coverNode: ReactNode;
   if (cover) {
     coverNode = <div className={`${prefixCls}-cover`}>{cover}</div>;
   }
 
-  const closer: React.ReactNode = (
+  const closer: ReactNode = (
     <button
       type="button"
       onClick={() => closeContent('close')}
@@ -159,17 +162,14 @@ const TourStep = (props: TourStepProps) => {
     </button>
   );
 
-  const slickNode: React.ReactNode =
-    stepsLength > 1
-      ? [...Array.from({ length: stepsLength }).keys()].map((item, index) => {
-          return (
-            <span
-              key={item}
-              className={index === currentStep ? 'active' : ''}
-            />
-          );
-        })
-      : null;
+  const mergedSlickNode =
+    (typeof renderStep === 'function' && renderStep(currentStep)) ||
+    [...Array.from({ length: stepsLength }).keys()].map((item, index) => {
+      return (
+        <span key={item} className={index === currentStep ? 'active' : ''} />
+      );
+    });
+  const slickNode: ReactNode = stepsLength > 1 ? mergedSlickNode : null;
 
   const mergedClassName = classNames(
     `${prefixCls}-inner`,
