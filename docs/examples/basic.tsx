@@ -78,7 +78,12 @@ class Test extends Component {
             },
             {
               title: '更新',
-              cover: <img src="example.com" alt="更新" />,
+              cover: (
+                <img
+                  src="https://avatars0.githubusercontent.com/u/9441414?s=200&v=4"
+                  alt="更新"
+                />
+              ),
               description: (
                 <div>
                   <span>更新一条数据</span>

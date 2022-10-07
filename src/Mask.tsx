@@ -24,8 +24,6 @@ const Mask = forwardRef<SVGSVGElement, MaskProps>((props, ref) => {
   const documentHeight =
     document.documentElement.clientHeight || document.body.clientHeight;
 
-  // const mergedTarget = steps[currentStep]?.target;
-
   const setPosition = () => {
     setCurrentDom(typeof target === 'function' ? target() : target);
 

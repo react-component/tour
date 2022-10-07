@@ -22,6 +22,7 @@ export interface TourProps {
   placement?: placementType;
   children?: React.ReactNode;
   prefixCls?: string;
+  type?: 'default' | 'primary'; //	default	类型，影响底色与文字颜色
 }
 
 const Tour = (props: TourProps) => {
@@ -30,64 +31,75 @@ const Tour = (props: TourProps) => {
     children,
     steps,
     open,
-    current = 0,
+    current,
     onChange,
     onClose,
     onFinish,
     mask = true,
     arrow = true,
+    type = 'default',
     rootClassName,
     ...restProps
   } = props;
 
-  const [currentStep, setCurrentStep] = useState<number>(current);
-  const [mergeMask, setMergeMask] = useState(mask);
-  let pointAtCenter = false;
-  if (typeof arrow === 'object') {
-    pointAtCenter = arrow.pointAtCenter;
-  }
+  const [currentStep, setCurrentStep] = useState<number>(
+    open ? current || 0 : -1,
+  );
+
+  const {
+    target,
+    placement: stepPlacement = 'bottom',
+    style: stepStyle,
+    arrow: stepArrow,
+    className: stepClassName,
+    mask: stepMask = true,
+  } = steps[currentStep] || {};
+
+  const [mergedMask, setMergedMask] = useState(
+    open && (typeof stepMask === 'undefined' ? mask : stepMask),
+  );
+
+  const mergedArrow = typeof stepArrow === 'undefined' ? arrow : stepArrow;
+
+  const pointAtCenter =
+    typeof mergedArrow === 'object' ? mergedArrow.pointAtCenter : false;
+
+  const arrowClassName = pointAtCenter
+    ? classNames(`${prefixCls}-arrow`, `${prefixCls}-arrow-center`)
+    : `${prefixCls}-arrow`;
 
   const getPopupElement = () => {
-    const arrowClassName = pointAtCenter
-      ? classNames(`${prefixCls}-arrow`, `${prefixCls}-arrow-center`)
-      : `${prefixCls}-arrow`;
     return [
-      Boolean(arrow) && <div className={arrowClassName} key="arrow" />,
+      mergedArrow && <div className={arrowClassName} key="arrow" />,
       <TourStep
         key="content"
         prefixCls={prefixCls}
         rootClassName={rootClassName}
         stepsLength={steps.length}
+        type={type}
         {...steps[currentStep]}
       />,
     ];
   };
-  const {
-    target,
-    placement = 'bottom',
-    style: stepStyle,
-    className: stepClassName,
-  } = steps[currentStep] || {};
-  const [mergedPlacement, setMergedPlacement] = useState(placement);
+
+  const [mergedPlacement, setMergedPlacement] = useState(stepPlacement);
   const popupVisible = 0 <= currentStep && currentStep < steps.length;
   const maskRef = useRef<SVGSVGElement>(null);
 
   useLayoutEffect(() => {
     const targetDom = typeof target === 'function' ? target() : target;
     if (!targetDom) {
-      console.log('-----这里只有notFound执行');
       setMergedPlacement('center');
     }
   }, [target]);
 
-  console.log('mergedPlacement', mergedPlacement);
   return (
     <TourProvider
       value={{
         currentStep,
         setCurrentStep,
-        mergeMask,
-        setMergeMask,
+        mergedMask,
+        setMergedMask,
       }}
     >
       <Trigger
@@ -113,7 +125,7 @@ const Tour = (props: TourProps) => {
         prefixCls={prefixCls}
         target={target}
         ref={maskRef}
-        mask={mergeMask}
+        mask={mergedMask}
         rootClassName={rootClassName}
       />
     </TourProvider>

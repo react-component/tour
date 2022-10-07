@@ -12,7 +12,7 @@ export interface TourStepProps {
   title: React.ReactNode; // 标题
   description?: React.ReactNode; //	主要描述部分
   placement?: placementType;
-  onClose?: () => void; //	-	关闭引导时的回调函数
+  onClose?: () => void; //	-	关闭引导时的回调函数arrow
   onFinish?: () => void;
   mask?: boolean; //	true	是否启用蒙层，默认跟随 Tour 的 mask 属性
   type?: 'default' | 'primary'; //	default	类型，影响底色与文字颜色
@@ -51,7 +51,8 @@ const TourStep = (props: TourStepProps) => {
     stepsLength,
     rootClassName,
   } = props;
-  const { currentStep, setCurrentStep, setMergeMask } = useContext(TourContext);
+  const { currentStep, setCurrentStep, setMergedMask } =
+    useContext(TourContext);
 
   const closeContent = (btnType: string | undefined) => {
     setCurrentStep(-1);
@@ -59,7 +60,7 @@ const TourStep = (props: TourStepProps) => {
     if (typeof onClose === 'function') {
       onClose();
     }
-    setMergeMask(false);
+    setMergedMask(false);
     if (btnType === 'finish' && typeof onFinish === 'function') {
       onFinish();
     }
