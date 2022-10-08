@@ -3,6 +3,7 @@ import { useRef, forwardRef, useState, useLayoutEffect } from 'react';
 import type { ReactNode } from 'react';
 import Trigger from 'rc-trigger';
 import classNames from 'classnames';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { TourProvider } from './context';
 import TourStep from './TourStep';
 import Mask from './Mask';
@@ -11,20 +12,19 @@ import type { TourStepProps } from './TourStep';
 import type { placementType } from './placements';
 
 export interface TourProps {
-  steps: TourStepProps[]; // 引导步骤
-  open?: boolean; // 受控打开引导（与 current 受控分开）
-  current?: number; // 受控当前处于哪一步
-  onChange?: (current: number) => void; // 步骤改变时的回调，current为改变前的步骤，next为改变后的步骤
-  onClose?: (current: number) => void; // 关闭引导时的回调
-  onFinish?: () => void; // 完成引导时的回调
-  mask?: boolean; // true,	整体是否启用蒙层
+  steps: TourStepProps[];
+  open?: boolean;
+  current?: number;
+  onChange?: (current: number) => void;
+  onClose?: (current: number) => void;
+  onFinish?: () => void;
+  mask?: boolean;
   arrow?: boolean | { pointAtCenter: boolean };
   rootClassName?: string;
   placement?: placementType;
   children?: React.ReactNode;
   prefixCls?: string;
   renderStep?: (current: number) => ReactNode;
-  type?: 'default' | 'primary'; //	default	类型，影响底色与文字颜色
 }
 
 const Tour = (props: TourProps) => {
@@ -32,21 +32,21 @@ const Tour = (props: TourProps) => {
     prefixCls = 'rc-tour',
     children,
     steps,
-    open,
-    current=0,
+    current,
     onChange,
     onClose,
     onFinish,
     mask = true,
     arrow = true,
-    type = 'default',
     rootClassName,
     renderStep,
+    renderPanel,
     ...restProps
   } = props;
 
-  const [currentStep, setCurrentStep] = useState<number>(
-      open !== false ? current: -1);
+  // todo currentStep=> mergedCurrent
+  const [currentStep, setCurrentStep] = useMergedState(current || 0);
+  const [open, setOpen] = useMergedState(true, { value: props.open });
 
   const {
     target,
@@ -54,21 +54,21 @@ const Tour = (props: TourProps) => {
     style: stepStyle,
     arrow: stepArrow,
     className: stepClassName,
-    mask: stepMask = true,
+    mask: stepMask,
   } = steps[currentStep] || {};
 
-  const [mergedMask, setMergedMask] = useState(
-    open !== false ? (typeof stepMask === 'undefined' ? mask : stepMask) : false,
-  );
+  const [mergedMask, setMergedMask] = useMergedState(mask, {
+    value: stepMask,
+  });
 
   const mergedArrow = typeof stepArrow === 'undefined' ? arrow : stepArrow;
 
   const pointAtCenter =
     typeof mergedArrow === 'object' ? mergedArrow.pointAtCenter : false;
 
-  const arrowClassName = pointAtCenter
-    ? classNames(`${prefixCls}-arrow`, `${prefixCls}-arrow-center`)
-    : `${prefixCls}-arrow`;
+  const arrowClassName = classNames(`${prefixCls}-arrow`, {
+    [`${prefixCls}-arrow-center`]: pointAtCenter,
+  });
 
   const getPopupElement = () => {
     return [
@@ -76,9 +76,7 @@ const Tour = (props: TourProps) => {
       <TourStep
         key="content"
         prefixCls={prefixCls}
-        rootClassName={rootClassName}
         stepsLength={steps.length}
-        type={type}
         renderStep={renderStep}
         {...steps[currentStep]}
       />,
@@ -86,7 +84,8 @@ const Tour = (props: TourProps) => {
   };
 
   const [mergedPlacement, setMergedPlacement] = useState(stepPlacement);
-  const popupVisible = 0 <= currentStep && currentStep < steps.length;
+
+  // const popupVisible = 0 <= currentStep && currentStep < steps.length;
   const maskRef = useRef<SVGSVGElement>(null);
 
   useLayoutEffect(() => {
@@ -103,24 +102,23 @@ const Tour = (props: TourProps) => {
         setCurrentStep,
         mergedMask,
         setMergedMask,
+        open,
+        setOpen,
       }}
     >
       <Trigger
         {...restProps}
         getPopupContainer={target}
-        popupAlign={{
-          points: placements[mergedPlacement].points,
-          offset: placements[mergedPlacement].offset,
-        }}
+        popupAlign={placements[mergedPlacement]}
         popupStyle={stepStyle}
         popupPlacement={mergedPlacement}
         builtinPlacements={placements}
-        popupVisible={popupVisible}
+        popupVisible={open}
         key={currentStep}
         popupClassName={classNames(rootClassName, stepClassName)}
         prefixCls={prefixCls}
         popup={getPopupElement}
-        autoDestroy={true}
+        autoDestroy
       >
         <></>
       </Trigger>
@@ -128,8 +126,7 @@ const Tour = (props: TourProps) => {
         prefixCls={prefixCls}
         target={target}
         ref={maskRef}
-        mask={mergedMask}
-        rootClassName={rootClassName}
+        mask={open && mergedMask}
       />
     </TourProvider>
   );

@@ -59,22 +59,13 @@ class Test extends Component {
         </div>
 
         <Tour
+          current={2}
           steps={[
             {
               title: '创建',
               description: '创建一条数据',
               target: () => this.createBtnRef.current,
-              nextButtonProps: {
-                children: (
-                  <button className="ant-btn ant-btn-primary">下一步</button>
-                ),
-              },
-              prevButtonProps: {
-                children: (
-                  <button className="ant-btn ant-btn-primary">上一步</button>
-                ),
-              },
-              type: 'primary',
+              mask: true,
             },
             {
               title: '更新',
@@ -90,17 +81,8 @@ class Test extends Component {
                   <button>帮助文档</button>
                 </div>
               ),
+              mask: false,
               target: () => this.updateBtnRef.current,
-              nextButtonProps: {
-                children: (
-                  <button className="ant-btn ant-btn-primary">下一步</button>
-                ),
-              },
-              prevButtonProps: {
-                children: (
-                  <button className="ant-btn ant-btn-primary">上一步</button>
-                ),
-              },
             },
             {
               title: '删除',
@@ -112,19 +94,7 @@ class Test extends Component {
                 </div>
               ),
               target: () => this.deleteBtnRef.current,
-              nextButtonProps: {
-                children: (
-                  <button className="ant-btn ant-btn-primary">下一步</button>
-                ),
-              },
-              prevButtonProps: {
-                children: (
-                  <button className="ant-btn ant-btn-primary">上一步</button>
-                ),
-              },
-              finishButtonProps: {
-                children: <button>结束引导</button>,
-              },
+              mask: true,
             },
           ]}
         />

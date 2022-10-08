@@ -7,22 +7,11 @@ const MyControl = () => {
     <div style={{ margin: 20 }}>
       <Tour
         placement={'bottom'}
-        current={0}
         steps={[
           {
             title: '创建',
             description: '创建一条数据',
             target: undefined,
-            nextButtonProps: {
-              children: (
-                <button className="ant-btn ant-btn-primary">下一步</button>
-              ),
-            },
-            prevButtonProps: {
-              children: (
-                <button className="ant-btn ant-btn-primary">上一步</button>
-              ),
-            },
           },
         ]}
       />
