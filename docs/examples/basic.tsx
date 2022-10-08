@@ -1,58 +1,136 @@
-import React, { version } from 'react';
-import classNames from 'classnames';
-import Portal from '../../src';
+import React, { Component, createRef } from 'react';
+import Tour from '../../src/index';
 import './basic.less';
+import { placements } from '../../src/placements';
 
-export default () => {
-  const [show, setShow] = React.useState(true);
-  const [customizeContainer, setCustomizeContainer] = React.useState(false);
-  const [lock, setLock] = React.useState(true);
+interface RefObject<T> {
+  // immutable
+  readonly current: T | null;
+}
+class Test extends Component {
+  private BtnRef: RefObject<HTMLButtonElement>;
+  private createBtnRef: RefObject<HTMLButtonElement>;
+  private updateBtnRef: RefObject<HTMLButtonElement>;
+  private deleteBtnRef: RefObject<HTMLButtonElement>;
 
-  const divRef = React.useRef<HTMLDivElement>(null);
+  constructor(props) {
+    super(props);
+    this.state = {
+      destroyTourOnHide: false,
+      placement: 'right',
+      transitionName: 'rc-tour-zoom',
+      offsetX: placements.right.offset[0],
+      offsetY: placements.right.offset[1],
+      overlayInnerStyle: undefined,
+    };
+    this.BtnRef = createRef<HTMLButtonElement>();
+    this.createBtnRef = createRef<HTMLButtonElement>();
+    this.updateBtnRef = createRef<HTMLButtonElement>();
+    this.deleteBtnRef = createRef<HTMLButtonElement>();
+  }
+  componentDidMount() {}
 
-  React.useEffect(
-    () => () => {
-      console.log('Demo unmount!!');
-    },
-    [],
-  );
-
-  const getContainer = customizeContainer ? () => divRef.current : undefined;
-  const contentCls = customizeContainer ? '' : 'abs';
-
-  return (
-    <React.StrictMode>
-      <div style={{ height: '200vh' }}>
-        <div style={{ border: '2px solid red' }}>
-          Real Version: {version}
-          <button onClick={() => setShow(!show)}>
-            show: {show.toString()}
+  render() {
+    return (
+      <div>
+        <div>
+          <button className="ant-target" ref={this.createBtnRef}>
+            Create
           </button>
-          <button onClick={() => setCustomizeContainer(!customizeContainer)}>
-            customize container: {customizeContainer.toString()}
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <button className="ant-target" ref={this.updateBtnRef}>
+            Update
           </button>
-          <button onClick={() => setLock(!lock)}>
-            lock scroll: {lock.toString()}
+          <button className="ant-target" ref={this.deleteBtnRef}>
+            Delete
           </button>
-          <div
-            id="customize"
-            ref={divRef}
-            style={{ border: '1px solid green', minHeight: 10 }}
-          />
         </div>
 
-        <Portal open={show} getContainer={getContainer} autoLock={lock}>
-          <p className={classNames(contentCls, 'root')}>Hello Root</p>
-          <Portal open={show} getContainer={getContainer} autoLock={lock}>
-            <p className={classNames(contentCls, 'parent')}>Hello Parent</p>
-            <Portal open={show} getContainer={getContainer} autoLock={lock}>
-              <p className={classNames(contentCls, 'children')}>
-                Hello Children
-              </p>
-            </Portal>
-          </Portal>
-        </Portal>
+        <Tour
+          steps={[
+            {
+              title: '创建',
+              description: '创建一条数据',
+              target: () => this.createBtnRef.current,
+              nextButtonProps: {
+                children: (
+                  <button className="ant-btn ant-btn-primary">下一步</button>
+                ),
+              },
+              prevButtonProps: {
+                children: (
+                  <button className="ant-btn ant-btn-primary">上一步</button>
+                ),
+              },
+              type: 'primary',
+            },
+            {
+              title: '更新',
+              cover: (
+                <img
+                  src="https://avatars0.githubusercontent.com/u/9441414?s=200&v=4"
+                  alt="更新"
+                />
+              ),
+              description: (
+                <div>
+                  <span>更新一条数据</span>
+                  <button>帮助文档</button>
+                </div>
+              ),
+              target: () => this.updateBtnRef.current,
+              nextButtonProps: {
+                children: (
+                  <button className="ant-btn ant-btn-primary">下一步</button>
+                ),
+              },
+              prevButtonProps: {
+                children: (
+                  <button className="ant-btn ant-btn-primary">上一步</button>
+                ),
+              },
+            },
+            {
+              title: '删除',
+              cover: <video src="example.com" />,
+              description: (
+                <div>
+                  <span>危险操作：删除一条数据</span>
+                  <button>帮助文档</button>
+                </div>
+              ),
+              target: () => this.deleteBtnRef.current,
+              nextButtonProps: {
+                children: (
+                  <button className="ant-btn ant-btn-primary">下一步</button>
+                ),
+              },
+              prevButtonProps: {
+                children: (
+                  <button className="ant-btn ant-btn-primary">上一步</button>
+                ),
+              },
+              finishButtonProps: {
+                children: <button>结束引导</button>,
+              },
+            },
+          ]}
+        />
       </div>
-    </React.StrictMode>
-  );
-};
+    );
+  }
+}
+
+export default Test;
