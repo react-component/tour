@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { useRef, forwardRef, useState, useLayoutEffect } from 'react';
-import type { ReactNode, CSSProperties } from 'react';
+import { useRef, forwardRef, useLayoutEffect } from 'react';
+import type { ReactNode } from 'react';
 import Trigger from 'rc-trigger';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { TourProvider } from './context';
 import TourStep from './TourStep';
 import Mask from './Mask';
 import placements from './placements';
 import type { TourStepProps } from './TourStep';
-import type { placementType } from './placements';
+import type { PlacementType } from './placements';
 
 export interface TourProps {
   steps: TourStepProps[];
@@ -21,45 +20,68 @@ export interface TourProps {
   mask?: boolean;
   arrow?: boolean | { pointAtCenter: boolean };
   rootClassName?: string;
-  placement?: placementType;
-  children?: ReactNode;
+  placement?: PlacementType;
   prefixCls?: string;
   renderPanel?: (panel: TourStepProps) => ReactNode;
-  style?: CSSProperties;
 }
 
 const Tour = (props: TourProps) => {
   const {
     prefixCls = 'rc-tour',
-    children,
     steps,
     current,
     onChange,
     onClose,
     onFinish,
+    open = true,
     mask = true,
     arrow = true,
     rootClassName,
+    placement = 'bottom',
     renderPanel,
     ...restProps
   } = props;
 
-  // todo currentStep=> mergedCurrent
-  const [currentStep, setCurrentStep] = useMergedState(current || 0);
-  const [open, setOpen] = useMergedState(true, { value: props.open });
+  const [mergedCurrent, setMergedCurrent] = useMergedState(
+    current || (!open ? -1 : 0),
+  );
 
+  // TODO useMergedState(0,{value:current});
+  // const [mergedCurrent, setMergedCurrent] = useMergedState(!open ? -1 : 0, {
+  //   value: current,
+  // });
+  const [mergedOpen, setMergedOpen] = useMergedState(open, {
+    value: mergedCurrent < steps.length && mergedCurrent > -1,
+  });
   const {
     target,
-    placement: stepPlacement = 'bottom',
+    placement: stepPlacement,
     style: stepStyle,
     arrow: stepArrow,
     className: stepClassName,
     mask: stepMask,
-  } = steps[currentStep] || {};
+  } = steps[mergedCurrent] || {};
 
-  const [mergedMask, setMergedMask] = useMergedState(mask, {
-    value: stepMask,
+  const [mergedMask] = useMergedState(mask, {
+    value: mergedOpen && stepMask,
   });
+
+  const [mergedPlacement, setMergedPlacement] = useMergedState(placement, {
+    value: stepPlacement,
+  });
+
+  useLayoutEffect(() => {
+    const targetDom = typeof target === 'function' ? target() : target;
+    if (!targetDom) {
+      setMergedPlacement('center');
+    }
+  }, [target]);
+
+  // TODO 不起作用
+  // const mergedTarget = typeof target === 'function' ? target() : target;
+  // const [mergedPlacement] = useMergedState(placement, {
+  //   value: stepPlacement,
+  // });
 
   const mergedArrow = typeof stepArrow === 'undefined' ? arrow : stepArrow;
 
@@ -69,7 +91,7 @@ const Tour = (props: TourProps) => {
   const arrowClassName = classNames(`${prefixCls}-arrow`, {
     [`${prefixCls}-arrow-center`]: pointAtCenter,
   });
-  const [mergedPlacement, setMergedPlacement] = useState(stepPlacement);
+
   const maskRef = useRef<SVGSVGElement>(null);
 
   const getPopupElement = () => {
@@ -82,30 +104,28 @@ const Tour = (props: TourProps) => {
           stepsLength={steps.length}
           renderPanel={renderPanel}
           onChange={onChange}
-          {...steps[currentStep]}
+          onPrev={() => {
+            setMergedCurrent(mergedCurrent - 1);
+          }}
+          onNext={() => {
+            setMergedCurrent(mergedCurrent + 1);
+          }}
+          onClose={() => {
+            setMergedCurrent(-1);
+          }}
+          current={mergedCurrent}
+          onFinish={() => {
+            setMergedCurrent(-1);
+          }}
+          setOpen={setMergedOpen}
+          {...steps[mergedCurrent]}
         />
       </>
     );
   };
-
-  useLayoutEffect(() => {
-    const targetDom = typeof target === 'function' ? target() : target;
-    if (!targetDom) {
-      setMergedPlacement('center');
-    }
-  }, [target]);
-
+  console.log('stepStyle', stepStyle);
   return (
-    <TourProvider
-      value={{
-        currentStep,
-        setCurrentStep,
-        mergedMask,
-        setMergedMask,
-        open,
-        setOpen,
-      }}
-    >
+    <>
       <Trigger
         {...restProps}
         getPopupContainer={target}
@@ -113,8 +133,8 @@ const Tour = (props: TourProps) => {
         popupStyle={stepStyle}
         popupPlacement={mergedPlacement}
         builtinPlacements={placements}
-        popupVisible={open}
-        key={currentStep}
+        popupVisible={mergedOpen}
+        key={mergedCurrent}
         popupClassName={classNames(rootClassName, stepClassName)}
         prefixCls={prefixCls}
         popup={getPopupElement}
@@ -126,9 +146,9 @@ const Tour = (props: TourProps) => {
         prefixCls={prefixCls}
         target={target}
         ref={maskRef}
-        mask={open && mergedMask}
+        mask={mergedMask}
       />
-    </TourProvider>
+    </>
   );
 };
 

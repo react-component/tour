@@ -5,7 +5,7 @@ const autoAdjustOverflow = {
   adjustY: 1,
 };
 
-export type placementType =
+export type PlacementType =
   | 'left'
   | 'leftTop'
   | 'leftBottom'

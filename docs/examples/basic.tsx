@@ -95,6 +95,7 @@ class Test extends Component {
               ),
               target: () => this.deleteBtnRef.current,
               mask: true,
+              style: { color: 'red' },
             },
           ]}
         />

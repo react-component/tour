@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { useContext } from 'react';
 import type { ReactNode, CSSProperties } from 'react';
-import TourContext from './context';
 import classNames from 'classnames';
-import type { placementType } from './placements';
+import type { PlacementType } from './placements';
 
 export interface TourStepProps {
   prefixCls?: string;
@@ -12,15 +10,19 @@ export interface TourStepProps {
   cover?: ReactNode; // 展示的图片或者视频
   title: ReactNode; // 标题
   description?: ReactNode; //	主要描述部分
-  placement?: placementType;
+  placement?: PlacementType;
   mask?: boolean;
   className?: string;
   style?: CSSProperties;
   stepsLength?: number;
+  current?: number;
   onClose?: () => void;
   onFinish?: () => void;
   onChange?: (current: number) => void;
-  renderPanel?: (step: TourStepProps, currentStep: number) => ReactNode;
+  renderPanel?: (step: TourStepProps, current: number) => ReactNode;
+  setOpen?: (open: boolean) => void;
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
 const TourStep = (props: TourStepProps) => {
@@ -28,27 +30,35 @@ const TourStep = (props: TourStepProps) => {
     title,
     description,
     className,
-    style,
     prefixCls,
     stepsLength,
-    onChange = () => {},
+    current,
     renderPanel,
+    onChange = () => {},
+    onPrev = () => {},
+    onNext = () => {},
+    onFinish = () => {},
+    onClose = () => {},
   } = props;
-  const { currentStep, setCurrentStep, setMergedMask, setOpen } =
-    useContext(TourContext);
 
-  const closeContent = () => {
-    setOpen(false);
-    setMergedMask(false);
+  const onCloseClick = () => {
+    onClose();
+    onChange(current);
   };
-
-  const prevBtnClick = () => {
-    setCurrentStep(currentStep - 1);
-    onChange(currentStep - 1);
+  const onPrevClick = e => {
+    onPrev();
+    onChange(current);
+    e.stopPropagation();
   };
-  const nextBtnClick = () => {
-    setCurrentStep(currentStep + 1);
-    onChange(currentStep + 1);
+  const onNextClick = e => {
+    onNext();
+    onChange(current);
+    e.stopPropagation();
+  };
+  const onFinishClick = e => {
+    onFinish();
+    onChange(current);
+    e.stopPropagation();
   };
 
   const mergedClassName = classNames(`${prefixCls}-inner`, className);
@@ -56,7 +66,7 @@ const TourStep = (props: TourStepProps) => {
     <>
       <button
         type="button"
-        onClick={() => closeContent()}
+        onClick={onCloseClick}
         aria-label="Close"
         className={`${prefixCls}-close`}
       >
@@ -87,7 +97,7 @@ const TourStep = (props: TourStepProps) => {
                   return (
                     <span
                       key={item}
-                      className={index === currentStep ? 'active' : ''}
+                      className={index === current ? 'active' : ''}
                     />
                   );
                 },
@@ -95,17 +105,17 @@ const TourStep = (props: TourStepProps) => {
             : null}
         </div>
         <div className={`${prefixCls}-buttons`}>
-          {currentStep !== 0 ? (
-            <div className={`${prefixCls}-prevButton`} onClick={prevBtnClick}>
+          {current !== 0 ? (
+            <div className={`${prefixCls}-prevButton`} onClick={onPrevClick}>
               <button className="ant-btn ant-btn-primary">上一步</button>
             </div>
           ) : null}
-          {currentStep === stepsLength - 1 ? (
-            <div className={`${prefixCls}-prevButton`} onClick={closeContent}>
+          {current === stepsLength - 1 ? (
+            <div className={`${prefixCls}-prevButton`} onClick={onFinishClick}>
               <button className="ant-btn ant-btn-primary">结束引导</button>
             </div>
           ) : (
-            <div className={`${prefixCls}-nextButton`} onClick={nextBtnClick}>
+            <div className={`${prefixCls}-nextButton`} onClick={onNextClick}>
               <button className="ant-btn ant-btn-primary">下一步</button>
             </div>
           )}
@@ -114,9 +124,9 @@ const TourStep = (props: TourStepProps) => {
     </>
   );
   return (
-    <div className={mergedClassName} role={prefixCls} style={style}>
+    <div className={mergedClassName}>
       {typeof renderPanel === 'function'
-        ? renderPanel({ ...props }, currentStep)
+        ? renderPanel({ ...props }, current)
         : defaultPanelDOM}
     </div>
   );
