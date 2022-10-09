@@ -13,13 +13,14 @@ export interface TourStepProps {
   title: ReactNode; // 标题
   description?: ReactNode; //	主要描述部分
   placement?: placementType;
-  onClose?: () => void; //	-	关闭引导时的回调函数arrow
-  onFinish?: () => void;
-  mask?: boolean; //	true	是否启用蒙层，默认跟随 Tour 的 mask 属性
+  mask?: boolean;
   className?: string;
   style?: CSSProperties;
   stepsLength?: number;
-  renderStep?: (current: number) => ReactNode;
+  onClose?: () => void;
+  onFinish?: () => void;
+  onChange?: (current: number) => void;
+  renderPanel?: (step: TourStepProps, currentStep: number) => ReactNode;
 }
 
 const TourStep = (props: TourStepProps) => {
@@ -30,7 +31,8 @@ const TourStep = (props: TourStepProps) => {
     style,
     prefixCls,
     stepsLength,
-    renderStep,
+    onChange = () => {},
+    renderPanel,
   } = props;
   const { currentStep, setCurrentStep, setMergedMask, setOpen } =
     useContext(TourContext);
@@ -42,24 +44,16 @@ const TourStep = (props: TourStepProps) => {
 
   const prevBtnClick = () => {
     setCurrentStep(currentStep - 1);
+    onChange(currentStep - 1);
   };
   const nextBtnClick = () => {
     setCurrentStep(currentStep + 1);
+    onChange(currentStep + 1);
   };
 
-  const mergedSlickNode =
-    (typeof renderStep === 'function' && renderStep(currentStep)) ||
-    [...Array.from({ length: stepsLength }).keys()].map((item, index) => {
-      return (
-        <span key={item} className={index === currentStep ? 'active' : ''} />
-      );
-    });
-  const slickNode: ReactNode = stepsLength > 1 ? mergedSlickNode : null;
-
   const mergedClassName = classNames(`${prefixCls}-inner`, className);
-
-  return (
-    <div className={mergedClassName} role={prefixCls} style={style}>
+  const defaultPanelDOM = (
+    <>
       <button
         type="button"
         onClick={() => closeContent()}
@@ -67,11 +61,7 @@ const TourStep = (props: TourStepProps) => {
         className={`${prefixCls}-close`}
       >
         <span className={`${prefixCls}-close-x`} />
-        <span
-          role="img"
-          aria-label="close"
-          className="anticon anticon-close ant-modal-close-icon"
-        >
+        <span role="img" aria-label="close">
           <svg
             viewBox="64 64 896 896"
             focusable="false"
@@ -90,7 +80,20 @@ const TourStep = (props: TourStepProps) => {
       </div>
       <div className={`${prefixCls}-description`}>{description}</div>
       <div className={`${prefixCls}-footer`}>
-        <div className={`${prefixCls}-sliders`}>{slickNode}</div>
+        <div className={`${prefixCls}-sliders`}>
+          {stepsLength > 1
+            ? [...Array.from({ length: stepsLength }).keys()].map(
+                (item, index) => {
+                  return (
+                    <span
+                      key={item}
+                      className={index === currentStep ? 'active' : ''}
+                    />
+                  );
+                },
+              )
+            : null}
+        </div>
         <div className={`${prefixCls}-buttons`}>
           {currentStep !== 0 ? (
             <div className={`${prefixCls}-prevButton`} onClick={prevBtnClick}>
@@ -108,6 +111,13 @@ const TourStep = (props: TourStepProps) => {
           )}
         </div>
       </div>
+    </>
+  );
+  return (
+    <div className={mergedClassName} role={prefixCls} style={style}>
+      {typeof renderPanel === 'function'
+        ? renderPanel({ ...props }, currentStep)
+        : defaultPanelDOM}
     </div>
   );
 };

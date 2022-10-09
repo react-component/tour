@@ -64,16 +64,6 @@ const MyControl = () => {
             description: '创建一条数据',
             target: () => btnRef.current,
             placement: placement,
-            nextButtonProps: {
-              children: (
-                <button className="ant-btn ant-btn-primary">下一步</button>
-              ),
-            },
-            prevButtonProps: {
-              children: (
-                <button className="ant-btn ant-btn-primary">上一步</button>
-              ),
-            },
           },
         ]}
       />

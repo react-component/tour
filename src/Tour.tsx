@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useRef, forwardRef, useState, useLayoutEffect } from 'react';
-import type { ReactNode } from 'react';
+import type { ReactNode, CSSProperties } from 'react';
 import Trigger from 'rc-trigger';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
@@ -22,9 +22,10 @@ export interface TourProps {
   arrow?: boolean | { pointAtCenter: boolean };
   rootClassName?: string;
   placement?: placementType;
-  children?: React.ReactNode;
+  children?: ReactNode;
   prefixCls?: string;
-  renderStep?: (current: number) => ReactNode;
+  renderPanel?: (panel: TourStepProps) => ReactNode;
+  style?: CSSProperties;
 }
 
 const Tour = (props: TourProps) => {
@@ -39,7 +40,6 @@ const Tour = (props: TourProps) => {
     mask = true,
     arrow = true,
     rootClassName,
-    renderStep,
     renderPanel,
     ...restProps
   } = props;
@@ -69,24 +69,24 @@ const Tour = (props: TourProps) => {
   const arrowClassName = classNames(`${prefixCls}-arrow`, {
     [`${prefixCls}-arrow-center`]: pointAtCenter,
   });
+  const [mergedPlacement, setMergedPlacement] = useState(stepPlacement);
+  const maskRef = useRef<SVGSVGElement>(null);
 
   const getPopupElement = () => {
-    return [
-      mergedArrow && <div className={arrowClassName} key="arrow" />,
-      <TourStep
-        key="content"
-        prefixCls={prefixCls}
-        stepsLength={steps.length}
-        renderStep={renderStep}
-        {...steps[currentStep]}
-      />,
-    ];
+    return (
+      <>
+        {mergedArrow && <div className={arrowClassName} key="arrow" />}
+        <TourStep
+          key="content"
+          prefixCls={prefixCls}
+          stepsLength={steps.length}
+          renderPanel={renderPanel}
+          onChange={onChange}
+          {...steps[currentStep]}
+        />
+      </>
+    );
   };
-
-  const [mergedPlacement, setMergedPlacement] = useState(stepPlacement);
-
-  // const popupVisible = 0 <= currentStep && currentStep < steps.length;
-  const maskRef = useRef<SVGSVGElement>(null);
 
   useLayoutEffect(() => {
     const targetDom = typeof target === 'function' ? target() : target;
