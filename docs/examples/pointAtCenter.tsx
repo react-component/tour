@@ -28,7 +28,7 @@ const App = () => {
         </span>{' '}
       </p>
       <Tour
-        current={0}
+        defaultCurrent={0}
         arrow={{ pointAtCenter: true }}
         steps={[
           {
