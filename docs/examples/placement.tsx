@@ -56,7 +56,7 @@ const App = () => {
       <br />
       <br />
       <Tour
-        current={0}
+        defaultCurrent={0}
         key={placement}
         steps={[
           {
