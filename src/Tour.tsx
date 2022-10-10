@@ -35,7 +35,7 @@ const Tour = (props: TourProps) => {
     onChange = () => {},
     onClose = () => {},
     onFinish = () => {},
-    open = true,
+    open,
     mask = true,
     arrow = true,
     rootClassName,
@@ -44,13 +44,21 @@ const Tour = (props: TourProps) => {
     ...restProps
   } = props;
 
-  const [mergedCurrent, setMergedCurrent] = useMergedState(!open ? -1 : 0, {
-    defaultValue: defaultCurrent,
+  const [mergedCurrent, setMergedCurrent] = useMergedState(0, {
     value: current,
+    defaultValue: defaultCurrent,
   });
-  const [mergedOpen, setMergedOpen] = useMergedState(open, {
-    value: mergedCurrent < steps.length && mergedCurrent > -1,
+
+  const [mergedOpen, setMergedOpen] = useMergedState(true, {
+    value: open,
+    postState: origin => {
+      if (mergedCurrent < 0 || mergedCurrent >= steps.length) {
+        return false;
+      }
+      return origin;
+    },
   });
+
   const {
     target,
     placement: stepPlacement,

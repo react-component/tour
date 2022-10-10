@@ -5,11 +5,11 @@ import type { PlacementType } from './placements';
 
 export interface TourStepProps {
   prefixCls?: string;
-  target: () => HTMLElement; //	获取引导卡片指向的元素
-  arrow?: boolean | { pointAtCenter: boolean }; // 是否显示箭头，包含是否指向元素中心的配置
-  cover?: ReactNode; // 展示的图片或者视频
-  title: ReactNode; // 标题
-  description?: ReactNode; //	主要描述部分
+  target: () => HTMLElement;
+  arrow?: boolean | { pointAtCenter: boolean };
+  cover?: ReactNode;
+  title: ReactNode;
+  description?: ReactNode;
   placement?: PlacementType;
   mask?: boolean;
   className?: string;
