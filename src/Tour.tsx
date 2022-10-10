@@ -13,9 +13,10 @@ import type { PlacementType } from './placements';
 export interface TourProps {
   steps: TourStepProps[];
   open?: boolean;
+  defaultCurrent?: number;
   current?: number;
   onChange?: (current: number) => void;
-  onClose?: (current: number) => void;
+  onClose?: () => void;
   onFinish?: () => void;
   mask?: boolean;
   arrow?: boolean | { pointAtCenter: boolean };
@@ -29,10 +30,11 @@ const Tour = (props: TourProps) => {
   const {
     prefixCls = 'rc-tour',
     steps,
+    defaultCurrent,
     current,
-    onChange,
-    onClose,
-    onFinish,
+    onChange = () => {},
+    onClose = () => {},
+    onFinish = () => {},
     open = true,
     mask = true,
     arrow = true,
@@ -42,14 +44,10 @@ const Tour = (props: TourProps) => {
     ...restProps
   } = props;
 
-  const [mergedCurrent, setMergedCurrent] = useMergedState(
-    current || (!open ? -1 : 0),
-  );
-
-  // TODO useMergedState(0,{value:current});
-  // const [mergedCurrent, setMergedCurrent] = useMergedState(!open ? -1 : 0, {
-  //   value: current,
-  // });
+  const [mergedCurrent, setMergedCurrent] = useMergedState(!open ? -1 : 0, {
+    defaultValue: defaultCurrent,
+    value: current,
+  });
   const [mergedOpen, setMergedOpen] = useMergedState(open, {
     value: mergedCurrent < steps.length && mergedCurrent > -1,
   });
@@ -75,13 +73,7 @@ const Tour = (props: TourProps) => {
     if (!targetDom) {
       setMergedPlacement('center');
     }
-  }, [target]);
-
-  // TODO 不起作用
-  // const mergedTarget = typeof target === 'function' ? target() : target;
-  // const [mergedPlacement] = useMergedState(placement, {
-  //   value: stepPlacement,
-  // });
+  }, [target]); //eslint-disable-line
 
   const mergedArrow = typeof stepArrow === 'undefined' ? arrow : stepArrow;
 
@@ -112,10 +104,12 @@ const Tour = (props: TourProps) => {
           }}
           onClose={() => {
             setMergedCurrent(-1);
+            onClose();
           }}
           current={mergedCurrent}
           onFinish={() => {
             setMergedCurrent(-1);
+            onFinish();
           }}
           setOpen={setMergedOpen}
           {...steps[mergedCurrent]}
@@ -123,7 +117,7 @@ const Tour = (props: TourProps) => {
       </>
     );
   };
-  console.log('stepStyle', stepStyle);
+
   return (
     <>
       <Trigger

@@ -7,7 +7,7 @@ interface RefObject<T> {
   // immutable
   readonly current: T | null;
 }
-class Test extends Component {
+class App extends Component {
   private BtnRef: RefObject<HTMLButtonElement>;
   private createBtnRef: RefObject<HTMLButtonElement>;
   private updateBtnRef: RefObject<HTMLButtonElement>;
@@ -59,7 +59,7 @@ class Test extends Component {
         </div>
 
         <Tour
-          current={2}
+          defaultCurrent={2}
           steps={[
             {
               title: '创建',
@@ -104,4 +104,4 @@ class Test extends Component {
   }
 }
 
-export default Test;
+export default App;

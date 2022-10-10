@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import Tour from '../../src/index';
 import './basic.less';
 
-const MyControl = () => {
+const App = () => {
   const btnRef = useRef<HTMLButtonElement>(null);
   return (
     <div style={{ margin: 20 }}>
@@ -42,4 +42,4 @@ const MyControl = () => {
   );
 };
 
-export default MyControl;
+export default App;

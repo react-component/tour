@@ -34,11 +34,11 @@ const TourStep = (props: TourStepProps) => {
     stepsLength,
     current,
     renderPanel,
-    onChange = () => {},
-    onPrev = () => {},
-    onNext = () => {},
-    onFinish = () => {},
-    onClose = () => {},
+    onChange,
+    onPrev,
+    onNext,
+    onFinish,
+    onClose,
   } = props;
 
   const onCloseClick = () => {

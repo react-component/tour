@@ -2,19 +2,19 @@ import React, { useRef, useState } from 'react';
 import Tour from '../../src/index';
 import './basic.less';
 import { placements } from '../../src/placements';
-import type { placementType } from '../../src/placements';
+import type { PlacementType } from '../../src/placements';
 
-const MyControl = () => {
-  const [placement, setPlacement] = useState<placementType>('rightBottom');
+const App = () => {
+  const [placement, setPlacement] = useState<PlacementType>('rightBottom');
   const btnRef = useRef<HTMLButtonElement>(null);
   return (
     <div style={{ margin: 20 }}>
       <select
         onChange={e => {
-          setPlacement(e.target.value as placementType);
+          setPlacement(e.target.value as PlacementType);
         }}
       >
-        {Object.keys(placements).map((item: placementType) => (
+        {Object.keys(placements).map((item: PlacementType) => (
           <option value={item} key={item}>
             {item}
           </option>
@@ -71,4 +71,4 @@ const MyControl = () => {
   );
 };
 
-export default MyControl;
+export default App;
