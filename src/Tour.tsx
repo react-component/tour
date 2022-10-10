@@ -32,9 +32,9 @@ const Tour = (props: TourProps) => {
     steps,
     defaultCurrent,
     current,
-    onChange = () => {},
-    onClose = () => {},
-    onFinish = () => {},
+    onChange,
+    onClose,
+    onFinish,
     open,
     mask = true,
     arrow = true,
@@ -68,10 +68,7 @@ const Tour = (props: TourProps) => {
     mask: stepMask,
   } = steps[mergedCurrent] || {};
 
-  const [mergedMask] = useMergedState(mask, {
-    value: mergedOpen && stepMask,
-  });
-
+  const mergedMask = mergedOpen && (stepMask ?? mask);
   const [mergedPlacement, setMergedPlacement] = useMergedState(placement, {
     value: stepPlacement,
   });
@@ -112,12 +109,12 @@ const Tour = (props: TourProps) => {
           }}
           onClose={() => {
             setMergedCurrent(-1);
-            onClose();
+            onClose?.();
           }}
           current={mergedCurrent}
           onFinish={() => {
             setMergedCurrent(-1);
-            onFinish();
+            onFinish?.();
           }}
           setOpen={setMergedOpen}
           {...steps[mergedCurrent]}

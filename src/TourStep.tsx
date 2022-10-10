@@ -42,22 +42,22 @@ const TourStep = (props: TourStepProps) => {
   } = props;
 
   const onCloseClick = () => {
-    onClose();
-    onChange(current);
+    onClose?.();
+    onChange?.(current);
   };
   const onPrevClick = e => {
-    onPrev();
-    onChange(current);
+    onPrev?.();
+    onChange?.(current);
     e.stopPropagation();
   };
   const onNextClick = e => {
-    onNext();
-    onChange(current);
+    onNext?.();
+    onChange?.(current);
     e.stopPropagation();
   };
   const onFinishClick = e => {
-    onFinish();
-    onChange(current);
+    onFinish?.();
+    onChange?.(current);
     e.stopPropagation();
   };
 
