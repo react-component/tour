@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { useRef, forwardRef, useLayoutEffect } from 'react';
+import { useRef, forwardRef } from 'react';
 import type { ReactNode } from 'react';
 import Trigger from 'rc-trigger';
+import Portal from '@rc-component/portal';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import { useTarget } from './hooks';
 import TourStep from './TourStep';
 import Mask from './Mask';
 import placements from './placements';
@@ -68,17 +70,10 @@ const Tour = (props: TourProps) => {
     mask: stepMask,
   } = steps[mergedCurrent] || {};
 
-  const mergedMask = mergedOpen && (stepMask ?? mask);
-  const [mergedPlacement, setMergedPlacement] = useMergedState(placement, {
+  const [mergedPlacement] = useMergedState(placement, {
     value: stepPlacement,
   });
-
-  useLayoutEffect(() => {
-    const targetDom = typeof target === 'function' ? target() : target;
-    if (!targetDom) {
-      setMergedPlacement('center');
-    }
-  }, [target]); //eslint-disable-line
+  const mergedMask = mergedOpen && (stepMask ?? mask);
 
   const mergedArrow = typeof stepArrow === 'undefined' ? arrow : stepArrow;
 
@@ -89,8 +84,14 @@ const Tour = (props: TourProps) => {
     [`${prefixCls}-arrow-center`]: pointAtCenter,
   });
 
-  const maskRef = useRef<SVGSVGElement>(null);
-
+  const maskRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [pos, popupAlign, hasTarget] = useTarget(
+    target,
+    mergedPlacement,
+    containerRef.current,
+    mergedOpen,
+  );
   const getPopupElement = () => {
     return (
       <>
@@ -104,6 +105,7 @@ const Tour = (props: TourProps) => {
           onPrev={() => {
             setMergedCurrent(mergedCurrent - 1);
           }}
+          ref={maskRef}
           onNext={() => {
             setMergedCurrent(mergedCurrent + 1);
           }}
@@ -127,8 +129,8 @@ const Tour = (props: TourProps) => {
     <>
       <Trigger
         {...restProps}
-        getPopupContainer={target}
-        popupAlign={placements[mergedPlacement]}
+        getPopupContainer={() => maskRef.current}
+        popupAlign={popupAlign}
         popupStyle={stepStyle}
         popupPlacement={mergedPlacement}
         builtinPlacements={placements}
@@ -137,15 +139,31 @@ const Tour = (props: TourProps) => {
         popupClassName={classNames(rootClassName, stepClassName)}
         prefixCls={prefixCls}
         popup={getPopupElement}
-        autoDestroy
+        forceRender={false}
+        zIndex={1090}
       >
-        <></>
+        <Portal open={mergedOpen} autoLock>
+          {hasTarget ? (
+            <div
+              ref={containerRef}
+              key={mergedCurrent}
+              style={{
+                left: pos.left,
+                width: pos.width,
+                height: pos.height,
+                top: pos.top,
+                position: 'absolute',
+              }}
+            />
+          ) : null}
+        </Portal>
       </Trigger>
       <Mask
         prefixCls={prefixCls}
-        target={target}
+        pos={pos}
         ref={maskRef}
         mask={mergedMask}
+        open={mergedOpen}
       />
     </>
   );

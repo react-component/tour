@@ -2,7 +2,10 @@ import * as React from 'react';
 import type { ReactNode, CSSProperties } from 'react';
 import classNames from 'classnames';
 import type { PlacementType } from './placements';
-
+interface RefObject<T> {
+  // immutable
+  readonly current: T | null;
+}
 export interface TourStepProps {
   prefixCls?: string;
   target: () => HTMLElement;
@@ -23,6 +26,7 @@ export interface TourStepProps {
   setOpen?: (open: boolean) => void;
   onPrev?: () => void;
   onNext?: () => void;
+  ref?: RefObject<HTMLDivElement>;
 }
 
 const TourStep = (props: TourStepProps) => {
