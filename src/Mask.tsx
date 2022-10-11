@@ -1,15 +1,17 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import Portal from '@rc-component/portal';
+import type { posType } from './hooks';
 
 export interface MaskProps {
   prefixCls?: string;
-  pos: {}; //	获取引导卡片指向的元素
+  pos: posType; //	获取引导卡片指向的元素
   rootClassName?: string;
   mask?: boolean;
+  open?: boolean;
 }
 
-const Mask = forwardRef<SVGSVGElement, MaskProps>((props, ref) => {
+const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
   const { prefixCls, rootClassName, pos, mask, open } = props;
   return (
     <Portal open={open} autoLock>

@@ -1,4 +1,5 @@
 import { useEffect, useReducer, useState } from 'react';
+import type { AlignType } from 'rc-trigger/lib/interface';
 import { isInViewPort } from './util';
 import placements from './placements';
 export function useForceUpdate() {
@@ -6,16 +7,22 @@ export function useForceUpdate() {
   return forceUpdate;
 }
 
-export function useTarget(target, placement, containerElement, mergedOpen) {
-  const [pos, setPos] = useState<{
-    left: number;
-    round: number;
-    top: number;
-    height: number;
-    width: number;
-    documentWidth: number;
-    documentHeight: number;
-  }>({
+export type posType = {
+  left: number;
+  round: number;
+  top: number;
+  height: number;
+  width: number;
+  documentWidth: number;
+  documentHeight: number;
+};
+export function useTarget(
+  target,
+  placement,
+  containerElement,
+  mergedOpen,
+): [posType, AlignType, boolean] {
+  const [pos, setPos] = useState<posType>({
     left: 0,
     round: 0,
     top: 0,
