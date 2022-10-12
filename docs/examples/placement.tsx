@@ -20,19 +20,9 @@ const App = () => {
           </option>
         ))}
       </select>
-      <br />
-      <br /> <br />
-      <br />
-      <br /> <br />
-      <br /> <br />
-      <br />
-      <br /> <br />
-      <br /> <br />
-      <br />
-      <br /> <br />
-      <br /> <br />
-      <br />
-      <br />
+
+      <div style={{ height: 300 }} />
+
       <p style={{ paddingLeft: 300 }}>
         <span
           ref={btnRef}
@@ -41,20 +31,9 @@ const App = () => {
           第一步
         </span>
       </p>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+
+      <div style={{ height: 300 }} />
+
       <Tour
         defaultCurrent={0}
         key={placement}

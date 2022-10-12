@@ -16,19 +16,7 @@ const App = () => {
         >
           Create
         </button>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+        <div style={{ height: 200 }} />
         <button className="ant-target" ref={updateBtnRef}>
           Update
         </button>
@@ -36,20 +24,9 @@ const App = () => {
           Delete
         </button>
       </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+
+      <div style={{ height: 200 }} />
+
       <Tour
         defaultCurrent={2}
         steps={[
@@ -61,6 +38,16 @@ const App = () => {
           },
           {
             title: '更新',
+            description: (
+              <div>
+                <span>更新一条数据</span>
+                <button>帮助文档</button>
+              </div>
+            ),
+            target: () => updateBtnRef.current,
+          },
+          {
+            title: '更新（无阴影）',
             description: (
               <div>
                 <span>更新一条数据</span>

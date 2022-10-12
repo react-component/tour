@@ -1,11 +1,11 @@
-import { useReducer, useState } from 'react';
+import { useState, useMemo } from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { isInViewPort } from '../util';
-// import placements from '../placements';
-import type { TourStepProps } from '..';
-export function useForceUpdate() {
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
-  return forceUpdate;
+import type { TourStepInfo } from '..';
+
+export interface Gap {
+  offset?: number;
+  radius?: number;
 }
 
 export interface PosInfo {
@@ -13,10 +13,12 @@ export interface PosInfo {
   top: number;
   height: number;
   width: number;
+  radius: number;
 }
 
 export default function useTarget(
-  target: TourStepProps['target'],
+  target: TourStepInfo['target'],
+  gap?: Gap,
 ): [PosInfo, HTMLElement] {
   // ========================= Target =========================
   // We trade `undefined` as not get target by function yet.
@@ -26,7 +28,8 @@ export default function useTarget(
   >(undefined);
 
   useLayoutEffect(() => {
-    const nextElement = typeof target === 'function' ? target() : target;
+    const nextElement =
+      typeof target === 'function' ? (target as any)() : target;
     setTargetElement(nextElement || null);
   });
 
@@ -42,7 +45,7 @@ export default function useTarget(
 
       const { left, top, width, height } =
         targetElement.getBoundingClientRect();
-      const nextPosInfo: PosInfo = { left, top, width, height };
+      const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 };
 
       setPosInfo(origin => {
         if (JSON.stringify(origin) !== JSON.stringify(nextPosInfo)) {
@@ -57,5 +60,23 @@ export default function useTarget(
     }
   }, [targetElement]);
 
-  return [posInfo, targetElement];
+  // ======================== PosInfo =========================
+  const mergedPosInfo = useMemo(() => {
+    if (!posInfo) {
+      return posInfo;
+    }
+
+    const gapOffset = gap?.offset || 6;
+    const gapRadius = gap?.radius || 2;
+
+    return {
+      left: posInfo.left - gapOffset,
+      top: posInfo.top - gapOffset,
+      width: posInfo.width + gapOffset * 2,
+      height: posInfo.height + gapOffset * 2,
+      radius: gapRadius,
+    };
+  }, [posInfo, gap]);
+
+  return [mergedPosInfo, targetElement];
 }

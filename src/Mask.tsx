@@ -4,6 +4,11 @@ import Portal from '@rc-component/portal';
 import type { PosInfo } from './hooks/useTarget';
 import useId from 'rc-util/lib/hooks/useId';
 
+const COVER_PROPS = {
+  fill: 'transparent',
+  pointerEvents: 'auto',
+};
+
 export interface MaskProps {
   prefixCls?: string;
   pos: PosInfo; //	获取引导卡片指向的元素
@@ -30,6 +35,7 @@ const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
           top: 0,
           bottom: 0,
           zIndex: 900,
+          pointerEvents: 'none',
         }}
       >
         {mask ? (
@@ -46,6 +52,7 @@ const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
                   <rect
                     x={pos.left}
                     y={pos.top}
+                    rx={pos.radius}
                     width={pos.width}
                     height={pos.height}
                     fill="black"
@@ -61,6 +68,40 @@ const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
               fill="rgba(0,0,0,0.5)"
               mask={`url(#${maskId})`}
             />
+
+            {/* Block click region */}
+            {pos && (
+              <>
+                <rect
+                  {...COVER_PROPS}
+                  x="0"
+                  y="0"
+                  width="100%"
+                  height={pos.top}
+                />
+                <rect
+                  {...COVER_PROPS}
+                  x="0"
+                  y="0"
+                  width={pos.left}
+                  height="100%"
+                />
+                <rect
+                  {...COVER_PROPS}
+                  x="0"
+                  y={pos.top + pos.height}
+                  width="100%"
+                  height={`calc(100vh - ${pos.top + pos.height}px)`}
+                />
+                <rect
+                  {...COVER_PROPS}
+                  x={pos.left + pos.width}
+                  y="0"
+                  width={`calc(100vw - ${pos.left + pos.width}px)`}
+                  height="100%"
+                />
+              </>
+            )}
           </svg>
         ) : null}
       </div>

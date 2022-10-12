@@ -3,11 +3,21 @@ import Tour from '../../src/index';
 import './basic.less';
 
 const MyControl = () => {
+  const [open, setOpen] = React.useState(false);
+
   return (
     <div style={{ margin: 20 }}>
+      <button
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
+        Open: {String(open)}
+      </button>
+
       <Tour
         placement={'bottom'}
-        open={false}
+        open={open}
         steps={[
           {
             title: '创建',

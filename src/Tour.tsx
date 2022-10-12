@@ -6,6 +6,7 @@ import Portal from '@rc-component/portal';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import useTarget from './hooks/useTarget';
+import type { Gap } from './hooks/useTarget';
 import TourStep from './TourStep';
 import type { TourStepInfo } from './TourStep';
 import Mask from './Mask';
@@ -39,6 +40,7 @@ export interface TourProps {
   placement?: PlacementType;
   prefixCls?: string;
   renderPanel?: (panel: TourStepProps) => ReactNode;
+  gap?: Gap;
 }
 
 const Tour = (props: TourProps) => {
@@ -56,6 +58,7 @@ const Tour = (props: TourProps) => {
     rootClassName,
     placement = 'bottom',
     renderPanel,
+    gap,
     ...restProps
   } = props;
 
@@ -89,7 +92,7 @@ const Tour = (props: TourProps) => {
     [`${prefixCls}-arrow-center`]: pointAtCenter,
   });
 
-  const [posInfo, targetElement] = useTarget(target);
+  const [posInfo, targetElement] = useTarget(target, gap);
   const popupAlign = targetElement ? placements[mergedPlacement] : CENTER_ALIGN;
 
   // ========================= Change =========================
@@ -157,6 +160,7 @@ const Tour = (props: TourProps) => {
             style={{
               ...(posInfo || CENTER_PLACEHOLDER),
               position: 'fixed',
+              pointerEvents: 'none',
             }}
           />
         </Portal>
