@@ -61,12 +61,6 @@ const App = () => {
           },
           {
             title: '更新',
-            cover: (
-              <img
-                src="https://avatars0.githubusercontent.com/u/9441414?s=200&v=4"
-                alt="更新"
-              />
-            ),
             description: (
               <div>
                 <span>更新一条数据</span>
@@ -78,7 +72,6 @@ const App = () => {
           },
           {
             title: '删除',
-            cover: <video src="example.com" />,
             description: (
               <div>
                 <span>危险操作：删除一条数据</span>

@@ -1,19 +1,32 @@
 import * as React from 'react';
-import { useRef, forwardRef } from 'react';
+import { forwardRef } from 'react';
 import type { ReactNode } from 'react';
 import Trigger from 'rc-trigger';
 import Portal from '@rc-component/portal';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { useTarget } from './hooks';
+import useTarget from './hooks/useTarget';
 import TourStep from './TourStep';
+import type { TourStepInfo } from './TourStep';
 import Mask from './Mask';
 import placements from './placements';
 import type { TourStepProps } from './TourStep';
 import type { PlacementType } from './placements';
 
+const CENTER_ALIGN = {
+  points: ['cc', 'cc'],
+  offset: [0, 0],
+};
+
+const CENTER_PLACEHOLDER: React.CSSProperties = {
+  left: '50%',
+  top: '50%',
+  width: 1,
+  height: 1,
+};
+
 export interface TourProps {
-  steps: TourStepProps[];
+  steps: TourStepInfo[];
   open?: boolean;
   defaultCurrent?: number;
   current?: number;
@@ -51,15 +64,8 @@ const Tour = (props: TourProps) => {
     defaultValue: defaultCurrent,
   });
 
-  const [mergedOpen, setMergedOpen] = useMergedState(true, {
-    value: open,
-    postState: origin => {
-      if (mergedCurrent < 0 || mergedCurrent >= steps.length) {
-        return false;
-      }
-      return origin;
-    },
-  });
+  const mergedOpen =
+    mergedCurrent < 0 || mergedCurrent >= steps.length ? false : open ?? true;
 
   const {
     target,
@@ -70,9 +76,8 @@ const Tour = (props: TourProps) => {
     mask: stepMask,
   } = steps[mergedCurrent] || {};
 
-  const [mergedPlacement] = useMergedState(placement, {
-    value: stepPlacement,
-  });
+  const mergedPlacement = stepPlacement ?? placement;
+
   const mergedMask = mergedOpen && (stepMask ?? mask);
 
   const mergedArrow = typeof stepArrow === 'undefined' ? arrow : stepArrow;
@@ -84,14 +89,21 @@ const Tour = (props: TourProps) => {
     [`${prefixCls}-arrow-center`]: pointAtCenter,
   });
 
-  const maskRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [pos, popupAlign, hasTarget] = useTarget(
-    target,
-    mergedPlacement,
-    containerRef.current,
-    mergedOpen,
-  );
+  const [posInfo, targetElement] = useTarget(target);
+  const popupAlign = targetElement ? placements[mergedPlacement] : CENTER_ALIGN;
+
+  // ========================= Change =========================
+  const onInternalChange = (nextCurrent: number) => {
+    setMergedCurrent(nextCurrent);
+    onChange?.(nextCurrent);
+  };
+
+  // ========================= Render =========================
+  // Skip if not init yet
+  if (targetElement === undefined) {
+    return null;
+  }
+
   const getPopupElement = () => {
     return (
       <>
@@ -99,15 +111,13 @@ const Tour = (props: TourProps) => {
         <TourStep
           key="content"
           prefixCls={prefixCls}
-          stepsLength={steps.length}
+          total={steps.length}
           renderPanel={renderPanel}
-          onChange={onChange}
           onPrev={() => {
-            setMergedCurrent(mergedCurrent - 1);
+            onInternalChange(mergedCurrent - 1);
           }}
-          ref={maskRef}
           onNext={() => {
-            setMergedCurrent(mergedCurrent + 1);
+            onInternalChange(mergedCurrent + 1);
           }}
           onClose={() => {
             setMergedCurrent(-1);
@@ -118,7 +128,6 @@ const Tour = (props: TourProps) => {
             setMergedCurrent(-1);
             onFinish?.();
           }}
-          setOpen={setMergedOpen}
           {...steps[mergedCurrent]}
         />
       </>
@@ -129,7 +138,6 @@ const Tour = (props: TourProps) => {
     <>
       <Trigger
         {...restProps}
-        getPopupContainer={() => maskRef.current}
         popupAlign={popupAlign}
         popupStyle={stepStyle}
         popupPlacement={mergedPlacement}
@@ -143,25 +151,19 @@ const Tour = (props: TourProps) => {
         zIndex={1090}
       >
         <Portal open={mergedOpen} autoLock>
-          {hasTarget ? (
-            <div
-              ref={containerRef}
-              key={mergedCurrent}
-              style={{
-                left: pos.left,
-                width: pos.width,
-                height: pos.height,
-                top: pos.top,
-                position: 'absolute',
-              }}
-            />
-          ) : null}
+          <div
+            className={`${prefixCls}-target-placeholder`}
+            key={mergedCurrent}
+            style={{
+              ...(posInfo || CENTER_PLACEHOLDER),
+              position: 'fixed',
+            }}
+          />
         </Portal>
       </Trigger>
       <Mask
         prefixCls={prefixCls}
-        pos={pos}
-        ref={maskRef}
+        pos={posInfo}
         mask={mergedMask}
         open={mergedOpen}
       />
