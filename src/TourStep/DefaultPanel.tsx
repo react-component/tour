@@ -56,17 +56,17 @@ export default function DefaultPanel(props: TourStepProps) {
         </div>
         <div className={`${prefixCls}-buttons`}>
           {current !== 0 ? (
-            <div className={`${prefixCls}-prevButton`} onClick={onPrev}>
-              <button className="ant-btn ant-btn-primary">上一步</button>
+            <div className={`${prefixCls}-prevBtn`} onClick={onPrev}>
+              <button className="ant-btn">上一步</button>
             </div>
           ) : null}
           {current === total - 1 ? (
-            <div className={`${prefixCls}-prevButton`} onClick={onFinish}>
-              <button className="ant-btn ant-btn-primary">结束引导</button>
+            <div className={`${prefixCls}-finishBtn`} onClick={onFinish}>
+              <button className="ant-btn">结束引导</button>
             </div>
           ) : (
-            <div className={`${prefixCls}-nextButton`} onClick={onNext}>
-              <button className="ant-btn ant-btn-primary">下一步</button>
+            <div className={`${prefixCls}-nextBtn`} onClick={onNext}>
+              <button className="ant-btn">下一步</button>
             </div>
           )}
         </div>

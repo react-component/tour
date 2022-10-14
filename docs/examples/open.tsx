@@ -2,7 +2,7 @@ import React from 'react';
 import Tour from '../../src/index';
 import './basic.less';
 
-const MyControl = () => {
+const App = () => {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -30,4 +30,4 @@ const MyControl = () => {
   );
 };
 
-export default MyControl;
+export default App;
