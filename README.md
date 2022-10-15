@@ -47,19 +47,19 @@ We use typescript to create the Type definition. You can view directly in IDE. B
 
 ### Tour
 
-| Prop     | Description                       | Type                       | Default                     |
-|----------|-----------------------------------|----------------------------|-----------------------------|
-| steps    | Customize portal container element | TourStepInfo[]             | document.body               |
-| open     | Show the portal                   | boolean                    | false                       |
-| defaultCurrent | Lock screen scroll when open      | number                     | 0                           |
-| current |                                   | number                     | -                           |
-| onChange |                                   | (current: number) => void; | -                           |
-| onClose |                                   | () => void;                | 0                           |
-| onFinish |                                   | () => void;                | -                           |
-| mask |                                   | boolean                    | true                        |
+| Prop     | Description                       | Type                       | Default                    |
+|----------|-----------------------------------|----------------------------|----------------------------|
+| steps    | Customize portal container element | TourStepInfo[]             | document.body              |
+| open     | Show the portal                   | boolean                    | false                      |
+| defaultCurrent | Lock screen scroll when open      | number                     | 0                          |
+| current |                                   | number                     | -                          |
+| onChange |                                   | (current: number) => void; | -                          |
+| onClose |                                   | () => void;                | 0                          |
+| onFinish |                                   | () => void;                | -                          |
+| mask |                                   | boolean                    | true                       |
 | arrow |                                   | boolean                    | { pointAtCenter: boolean }; | true          |
-| rootClassName |                                   | string                     | ''                          |
-| placement | `left` \|  `leftTop` \| `leftBottom` \              | `right` \| `rightTop` \| `rightBottom` \| `top`  \| `topLeft` \| `topRight` \| `bottom`  \| `bottomLeft` \| `bottomRight`  \| `center`   | string      | ''                          |
+| rootClassName |                                   | string                     | ''                         |
+| placement | `left` \|  `leftTop` \| `leftBottom` \| `right` \| `rightTop` \| `rightBottom` \| `top`  \| `topLeft` \| `topRight` \| `bottom`  \| `bottomLeft` \| `bottomRight`  \| `center`   | string      | ''                          |
 | prefixCls |                                   | string                    | { pointAtCenter: boolean }; | true          |
 | renderPanel |                                   | (panel: TourStepProps) => ReactNode;                   | { pointAtCenter: boolean }; | true          |
-| gap |                                   | gap                 | -                           | true          |
+| gap |                                   | gap                 | -                          | true          |
