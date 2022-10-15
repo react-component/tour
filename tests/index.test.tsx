@@ -1,145 +1,259 @@
-global.isOverflow = true;
+import React, { useState, useRef } from 'react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import Tour from '../src/index';
+import placements from '../src/placements';
+import type { PlacementType } from '../src/placements';
 
-jest.mock('../src/util', () => {
-  const origin = jest.requireActual('../src/util');
-  return {
-    ...origin,
-    isBodyOverflowing: () => global.isOverflow,
-  };
-});
+function doAsync(cb) {
+  setTimeout(() => {
+    cb();
+  }, 1000);
+}
 
-describe('Portal', () => {
+window.requestAnimationFrame = window.setTimeout;
+window.cancelAnimationFrame = window.clearTimeout;
+
+describe('Tour', () => {
+  window.requestAnimationFrame = window.setTimeout;
+  window.cancelAnimationFrame = window.clearTimeout;
   beforeEach(() => {
-    global.isOverflow = true;
+    jest.useFakeTimers();
   });
 
-  // it('Order', () => {
-  //   render(
-  //     <Portal open debug="root">
-  //       <p>Root</p>
-  //       <Portal open debug="parent">
-  //         <p>Parent</p>
-  //         <Portal open debug="children">
-  //           <p>Children</p>
-  //         </Portal>
-  //       </Portal>
-  //     </Portal>,
-  //   );
-  //
-  //   const pList = Array.from(document.body.querySelectorAll('p'));
-  //   expect(pList).toHaveLength(3);
-  //   expect(pList.map(p => p.textContent)).toEqual([
-  //     'Root',
-  //     'Parent',
-  //     'Children',
-  //   ]);
-  // });
-  //
-  // describe('getContainer', () => {
-  //   it('false', () => {
-  //     const { container } = render(
-  //       <>
-  //         Hello
-  //         <Portal open getContainer={false}>
-  //           Bamboo
-  //         </Portal>
-  //         Light
-  //       </>,
-  //     );
-  //
-  //     expect(container).toMatchSnapshot();
-  //   });
-  //
-  //   it('customize in same level', () => {
-  //     let renderTimes = 0;
-  //
-  //     const Content = () => {
-  //       React.useEffect(() => {
-  //         renderTimes += 1;
-  //       });
-  //
-  //       return <>Bamboo</>;
-  //     };
-  //
-  //     const Demo = () => {
-  //       const divRef = React.useRef();
-  //
-  //       return (
-  //         <div ref={divRef} className="holder">
-  //           <Portal open getContainer={() => divRef.current}>
-  //             <Content />
-  //           </Portal>
-  //         </div>
-  //       );
-  //     };
-  //
-  //     const { container } = render(<Demo />);
-  //     expect(container).toMatchSnapshot();
-  //     expect(renderTimes).toEqual(1);
-  //   });
-  // });
-  //
-  // describe('dynamic change autoLock', () => {
-  //   function test(name: string, config?: Parameters<typeof render>[1]) {
-  //     it(name, () => {
-  //       const { rerender } = render(<Portal open />, config);
-  //       expect(document.body).not.toHaveStyle({
-  //         overflowY: 'hidden',
-  //       });
-  //
-  //       rerender(<Portal open autoLock />);
-  //       expect(document.body).toHaveStyle({
-  //         overflowY: 'hidden',
-  //       });
-  //
-  //       rerender(<Portal open={false} autoLock />);
-  //       expect(document.body).not.toHaveStyle({
-  //         overflowY: 'hidden',
-  //       });
-  //
-  //       rerender(<Portal open autoLock />);
-  //       expect(document.body).toHaveStyle({
-  //         overflowY: 'hidden',
-  //       });
-  //
-  //       rerender(<Portal open autoLock={false} />);
-  //       expect(document.body).not.toHaveStyle({
-  //         overflowY: 'hidden',
-  //       });
-  //     });
-  //   }
-  //
-  //   test('basic');
-  //   test('StrictMode', {
-  //     wrapper: React.StrictMode,
-  //   });
-  //
-  //   it('window not scrollable', () => {
-  //     global.isOverflow = false;
-  //     render(<Portal open />);
-  //
-  //     expect(document.body).not.toHaveStyle({
-  //       overflowY: 'hidden',
-  //     });
-  //   });
-  // });
-  //
-  // it('autoDestroy', () => {
-  //   expect(document.querySelector('p')).toBeFalsy();
-  //
-  //   const renderDemo = (open: boolean, autoDestroy: boolean) => (
-  //     <Portal open={open} autoDestroy={autoDestroy}>
-  //       <p>Root</p>
-  //     </Portal>
-  //   );
-  //
-  //   const { rerender } = render(renderDemo(true, false));
-  //   expect(document.querySelector('p')).toBeTruthy();
-  //
-  //   rerender(renderDemo(false, false));
-  //   expect(document.querySelector('p')).toBeTruthy();
-  //
-  //   rerender(renderDemo(false, true));
-  //   expect(document.querySelector('p')).toBeFalsy();
-  // });
+  afterEach(() => {
+    jest.useRealTimers();
+    cleanup();
+  });
+
+  it('single', async () => {
+    const Demo = () => {
+      const btnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <button ref={btnRef}>按钮</button>
+          <Tour
+            placement={'bottom'}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+    const { getByText, container } = render(<Demo />);
+    expect(getByText('创建一条数据')).toBeTruthy();
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('basic', () => {
+    const Demo = () => {
+      const createBtnRef = useRef<HTMLButtonElement>(null);
+      const updateBtnRef = useRef<HTMLButtonElement>(null);
+      const deleteBtnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <div>
+            <button ref={createBtnRef}>Create</button>
+            <div style={{ height: 200 }} />
+            <button ref={updateBtnRef}>Update</button>
+            <button ref={deleteBtnRef}>Delete</button>
+          </div>
+          <div style={{ height: 200 }} />
+
+          <Tour
+            defaultCurrent={1}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => createBtnRef.current,
+                mask: true,
+              },
+              {
+                title: '更新',
+                description: (
+                  <div>
+                    <span>更新一条数据</span>
+                    <button>帮助文档</button>
+                  </div>
+                ),
+                target: () => updateBtnRef.current,
+              },
+              {
+                title: '删除',
+                description: (
+                  <div>
+                    <span>危险操作:删除一条数据</span>
+                    <button>帮助文档</button>
+                  </div>
+                ),
+                target: () => deleteBtnRef.current,
+                mask: true,
+                style: { color: 'red' },
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+    const { getByText } = render(<Demo />);
+    expect(getByText('更新一条数据')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: '上一步' }));
+    expect(getByText('创建一条数据')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: '下一步' }));
+    expect(getByText('更新一条数据')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: '下一步' }));
+    expect(getByText('危险操作:删除一条数据')).toBeTruthy();
+    expect(document.querySelector('.rc-tour')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: '结束引导' }));
+    expect(document.querySelector('.rc-tour')).toBeFalsy();
+  });
+
+  it('open', () => {
+    const Demo = () => {
+      const [open, setOpen] = useState(false);
+      return (
+        <div style={{ margin: 20 }}>
+          <button
+            onClick={() => {
+              setOpen(!open);
+            }}
+          >
+            open
+          </button>
+
+          <Tour
+            placement={'bottom'}
+            open={open}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: undefined,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+
+    const { getByText } = render(<Demo />);
+    expect(document.querySelector(`.rc-tour`)).toBeFalsy();
+    fireEvent.click(screen.getByRole('button', { name: 'open' }));
+    expect(document.querySelector(`.rc-tour`)).toBeTruthy();
+    expect(getByText('创建一条数据')).toBeTruthy();
+  });
+
+  describe('placement', () => {
+    it('change placement', async () => {
+      const Demo = () => {
+        const [placement, setPlacement] = useState<PlacementType>('left');
+        return (
+          <div style={{ margin: 20 }}>
+            <button
+              onClick={() => {
+                setPlacement('bottom');
+              }}
+            >
+              bottom
+            </button>
+
+            <Tour
+              placement={placement}
+              steps={[
+                {
+                  title: '创建',
+                  description: '创建一条数据',
+                  target: undefined,
+                },
+              ]}
+            />
+          </div>
+        );
+      };
+
+      render(<Demo />);
+      doAsync(() =>
+        expect(document.querySelector(`.rc-tour-placement-left`)).toBeTruthy(),
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: 'bottom' }));
+      doAsync(() =>
+        expect(
+          document.querySelector(`.rc-tour-placement-bottom`),
+        ).toBeTruthy(),
+      );
+    });
+
+    it('placements', async () => {
+      const Demo = props => {
+        const btnRef = useRef<HTMLButtonElement>(null);
+        return (
+          <div style={{ margin: 20 }}>
+            <button ref={btnRef}>按钮</button>
+            <Tour
+              placement={props.placement}
+              steps={[
+                {
+                  title: '创建',
+                  description: '创建一条数据',
+                  target: () => btnRef.current,
+                },
+              ]}
+            />
+          </div>
+        );
+      };
+
+      Object.keys(placements).forEach(item => {
+        const { unmount } = render(<Demo placement={item} />);
+        setTimeout(
+          () =>
+            expect(
+              document.querySelector(`.rc-tour-placement-${item}`),
+            ).toBeTruthy(),
+          100,
+        );
+        unmount();
+      });
+    });
+  });
+
+  describe('showArrow', () => {
+    it('should show tooltip arrow default', () => {
+      let arrow = true;
+      const Demo = () => {
+        const btnRef = useRef<HTMLButtonElement>(null);
+        return (
+          <div style={{ margin: 20 }}>
+            <button ref={btnRef}>按钮</button>
+            <Tour
+              placement={'bottom'}
+              arrow={arrow}
+              steps={[
+                {
+                  title: '创建',
+                  description: '创建一条数据',
+                  target: () => btnRef.current,
+                },
+              ]}
+            />
+          </div>
+        );
+      };
+
+      const { rerender } = render(<Demo />);
+      expect(document.querySelector(`.rc-tour-arrow`)).toBeTruthy();
+
+      arrow = false;
+      rerender(<Demo />);
+      doAsync(() => {
+        expect(document.querySelector(`.rc-tour-arrow`)).toBeFalsy();
+      });
+    });
+  });
 });
