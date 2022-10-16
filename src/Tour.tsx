@@ -40,7 +40,7 @@ export interface TourProps {
   className?: string;
   placement?: PlacementType;
   prefixCls?: string;
-  renderPanel?: (panel: TourStepProps) => ReactNode;
+  renderPanel?: (props: TourStepProps, current: number) => ReactNode;
   gap?: Gap;
 }
 
