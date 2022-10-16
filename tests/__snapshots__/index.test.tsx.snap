@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tour single 1`] = `
+<div
+  style="margin: 20px;"
+>
+  <button>
+    按钮
+  </button>
+</div>
+`;

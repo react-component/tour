@@ -35,7 +35,65 @@ open http://localhost:8000
 import Tour from 'rc-tour';
 
 const Demo = () => {
-  return <Tour open>Hello World</Tour>;
+    const createBtnRef = useRef<HTMLButtonElement>(null);
+    const updateBtnRef = useRef<HTMLButtonElement>(null);
+    const deleteBtnRef = useRef<HTMLButtonElement>(null);
+    return (
+        <div style={{ margin: 20 }}>
+            <div>
+                <button
+                    className="ant-target"
+                    ref={createBtnRef}
+                    style={{ marginLeft: 100 }}
+                >
+                    Create
+                </button>
+                <div style={{ height: 200 }} />
+                <button className="ant-target" ref={updateBtnRef}>
+                    Update
+                </button>
+                <button className="ant-target" ref={deleteBtnRef}>
+                    Delete
+                </button>
+            </div>
+
+            <div style={{ height: 200 }} />
+
+            <Tour
+                defaultCurrent={0}
+                steps={[
+                    {
+                        title: '创建',
+                        description: '创建一条数据',
+                        target: () => createBtnRef.current,
+                        mask: true,
+                    },
+                    {
+                        title: '更新',
+                        description: (
+                            <div>
+                                <span>更新一条数据</span>
+                                <button>帮助文档</button>
+                            </div>
+                        ),
+                        target: () => updateBtnRef.current,
+                    },
+                    {
+                        title: '删除',
+                        description: (
+                            <div>
+                                <span>危险操作：删除一条数据</span>
+                                <button>帮助文档</button>
+                            </div>
+                        ),
+                        target: () => deleteBtnRef.current,
+                        mask: true,
+                        style: { color: 'red' },
+                    },
+                ]}
+            />
+        </div>
+    );
 };
 
 export default Demo;
@@ -57,9 +115,9 @@ We use typescript to create the Type definition. You can view directly in IDE. B
 | onClose |                                   | () => void;                          | 0                          |
 | onFinish |                                   | () => void;                          | -                          |
 | mask |                                   | boolean                              | true                       |
-| arrow |                                   | boolean                              | { pointAtCenter: boolean }; | true          |
+| arrow |                                   | boolean\| { pointAtCenter: boolean }; | true          |
 | rootClassName |                                   | string                               | ''                         |
-| placement |                               | `left` \                             |  `leftTop` \| `leftBottom` \| `right` \| `rightTop` \| `rightBottom` \| `top`  \| `topLeft` \| `topRight` \| `bottom`  \| `bottomLeft` \| `bottomRight`  \| `center`   | ''                          |
+| placement |                               | `left` \|  `leftTop` \| `leftBottom` \| `right` \| `rightTop` \| `rightBottom` \| `top`  \| `topLeft` \| `topRight` \| `bottom`  \| `bottomLeft` \| `bottomRight`  \| `center`   | ''                          |
 | prefixCls |                                   | string                               | { pointAtCenter: boolean }; | true          |
 | renderPanel |                                   | (panel: TourStepProps) => ReactNode; | { pointAtCenter: boolean }; | true          |
 | gap |                                   | gap                                  | -                          | true          |

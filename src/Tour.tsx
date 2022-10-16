@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { forwardRef } from 'react';
 import type { ReactNode } from 'react';
+
 import Trigger from 'rc-trigger';
 import Portal from '@rc-component/portal';
 import classNames from 'classnames';
@@ -10,7 +11,7 @@ import type { Gap } from './hooks/useTarget';
 import TourStep from './TourStep';
 import type { TourStepInfo } from './TourStep';
 import Mask from './Mask';
-import placements from './placements';
+import placements, { getCenterPlacements } from './placements';
 import type { TourStepProps } from './TourStep';
 import type { PlacementType } from './placements';
 
@@ -36,7 +37,7 @@ export interface TourProps {
   onFinish?: () => void;
   mask?: boolean;
   arrow?: boolean | { pointAtCenter: boolean };
-  rootClassName?: string;
+  className?: string;
   placement?: PlacementType;
   prefixCls?: string;
   renderPanel?: (panel: TourStepProps) => ReactNode;
@@ -55,7 +56,7 @@ const Tour = (props: TourProps) => {
     open,
     mask = true,
     arrow = true,
-    rootClassName,
+    className,
     placement = 'bottom',
     renderPanel,
     gap,
@@ -85,16 +86,19 @@ const Tour = (props: TourProps) => {
 
   const mergedArrow = typeof stepArrow === 'undefined' ? arrow : stepArrow;
 
-  const pointAtCenter =
+  const arrowPointAtCenter =
     typeof mergedArrow === 'object' ? mergedArrow.pointAtCenter : false;
 
   const arrowClassName = classNames(`${prefixCls}-arrow`, {
-    [`${prefixCls}-arrow-center`]: pointAtCenter,
+    [`${prefixCls}-arrowPointAtCenter`]: arrowPointAtCenter,
   });
 
   const [posInfo, targetElement] = useTarget(target, gap);
-  const popupAlign = targetElement ? placements[mergedPlacement] : CENTER_ALIGN;
-
+  const popupAlign = targetElement
+    ? arrowPointAtCenter
+      ? getCenterPlacements({ placement })
+      : placements[mergedPlacement]
+    : CENTER_ALIGN;
   // ========================= Change =========================
   const onInternalChange = (nextCurrent: number) => {
     setMergedCurrent(nextCurrent);
@@ -147,7 +151,7 @@ const Tour = (props: TourProps) => {
         builtinPlacements={placements}
         popupVisible={mergedOpen}
         key={mergedCurrent}
-        popupClassName={classNames(rootClassName, stepClassName)}
+        popupClassName={classNames(className, stepClassName)}
         prefixCls={prefixCls}
         popup={getPopupElement}
         forceRender={false}

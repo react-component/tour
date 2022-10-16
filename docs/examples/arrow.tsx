@@ -4,32 +4,25 @@ import './basic.less';
 
 const App = () => {
   const btnRef = useRef<HTMLButtonElement>(null);
+  const [arrow, setArrow] = React.useState<
+    boolean | { pointAtCenter: boolean }
+  >(true);
   return (
     <div style={{ margin: 20 }}>
-      <br />
-      <br /> <br />
-      <br />
-      <br /> <br />
-      <br /> <br />
-      <br />
-      <br /> <br />
-      <br /> <br />
-      <br />
-      <br /> <br />
-      <br /> <br />
-      <br />
-      <br />
-      <p style={{ paddingLeft: 400 }}>
-        <span
-          ref={btnRef}
-          style={{ position: 'relative', display: 'inline-block' }}
-        >
-          第一步
-        </span>{' '}
-      </p>
+      <div style={{ height: 200 }} />
+      <button
+        ref={btnRef}
+        onClick={() => {
+          setArrow({ pointAtCenter: true });
+        }}
+        style={{ width: 200 }}
+      >
+        arrow: {JSON.stringify(arrow)}
+      </button>
       <Tour
         defaultCurrent={0}
-        arrow={{ pointAtCenter: true }}
+        arrow={arrow}
+        placement={'bottomRight'}
         steps={[
           {
             title: '创建',
