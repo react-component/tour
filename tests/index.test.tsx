@@ -149,6 +149,37 @@ describe('Tour', () => {
   });
 
   describe('placement', () => {
+    it('placements', async () => {
+      const Demo = props => {
+        const btnRef = useRef<HTMLButtonElement>(null);
+        return (
+          <div style={{ margin: 20 }}>
+            <button ref={btnRef}>按钮</button>
+            <Tour
+              placement={props.placement}
+              steps={[
+                {
+                  title: '创建',
+                  description: '创建一条数据',
+                  target: () => btnRef.current,
+                },
+              ]}
+            />
+          </div>
+        );
+      };
+
+      Object.keys(placements).forEach(item => {
+        const { unmount } = render(<Demo placement={item} />);
+        doAsync(() =>
+          expect(
+            document.querySelector(`.rc-tour-placement-${item}`),
+          ).toBeTruthy(),
+        );
+        unmount();
+      });
+    });
+
     it('change placement', async () => {
       const Demo = () => {
         const [placement, setPlacement] = useState<PlacementType>('left');
@@ -188,39 +219,6 @@ describe('Tour', () => {
         ).toBeTruthy(),
       );
     });
-
-    it('placements', async () => {
-      const Demo = props => {
-        const btnRef = useRef<HTMLButtonElement>(null);
-        return (
-          <div style={{ margin: 20 }}>
-            <button ref={btnRef}>按钮</button>
-            <Tour
-              placement={props.placement}
-              steps={[
-                {
-                  title: '创建',
-                  description: '创建一条数据',
-                  target: () => btnRef.current,
-                },
-              ]}
-            />
-          </div>
-        );
-      };
-
-      Object.keys(placements).forEach(item => {
-        const { unmount } = render(<Demo placement={item} />);
-        setTimeout(
-          () =>
-            expect(
-              document.querySelector(`.rc-tour-placement-${item}`),
-            ).toBeTruthy(),
-          100,
-        );
-        unmount();
-      });
-    });
   });
 
   describe('showArrow', () => {
@@ -251,9 +249,7 @@ describe('Tour', () => {
 
       arrow = false;
       rerender(<Demo />);
-      doAsync(() => {
-        expect(document.querySelector(`.rc-tour-arrow`)).toBeFalsy();
-      });
+      expect(document.querySelector(`.rc-tour-arrow`)).toBeFalsy();
     });
   });
 });
