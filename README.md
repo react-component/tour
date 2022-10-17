@@ -117,6 +117,8 @@ We use typescript to create the Type definition. You can view directly in IDE. B
 | arrow | `boolean`&#124; `{ pointAtCenter: boolean}`  | `true` | 整体是否显示箭头，包含是否指向元素中心的配置 |
 | type | `default`&#124; `primary`  | `default` | 整体类型，影响底色与文字颜色 |
 
+### TourStep
+
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
 | target | `() => HTMLElement`&#124; `HTMLElement`   | - | 获取引导卡片指向的元素 |
