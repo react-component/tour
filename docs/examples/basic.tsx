@@ -1,58 +1,78 @@
-import React, { version } from 'react';
-import classNames from 'classnames';
-import Portal from '../../src';
+import React, { useRef } from 'react';
+import Tour from '../../src/index';
 import './basic.less';
 
-export default () => {
-  const [show, setShow] = React.useState(true);
-  const [customizeContainer, setCustomizeContainer] = React.useState(false);
-  const [lock, setLock] = React.useState(true);
-
-  const divRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(
-    () => () => {
-      console.log('Demo unmount!!');
-    },
-    [],
-  );
-
-  const getContainer = customizeContainer ? () => divRef.current : undefined;
-  const contentCls = customizeContainer ? '' : 'abs';
-
+const App = () => {
+  const createBtnRef = useRef<HTMLButtonElement>(null);
+  const updateBtnRef = useRef<HTMLButtonElement>(null);
+  const deleteBtnRef = useRef<HTMLButtonElement>(null);
   return (
-    <React.StrictMode>
-      <div style={{ height: '200vh' }}>
-        <div style={{ border: '2px solid red' }}>
-          Real Version: {version}
-          <button onClick={() => setShow(!show)}>
-            show: {show.toString()}
-          </button>
-          <button onClick={() => setCustomizeContainer(!customizeContainer)}>
-            customize container: {customizeContainer.toString()}
-          </button>
-          <button onClick={() => setLock(!lock)}>
-            lock scroll: {lock.toString()}
-          </button>
-          <div
-            id="customize"
-            ref={divRef}
-            style={{ border: '1px solid green', minHeight: 10 }}
-          />
-        </div>
-
-        <Portal open={show} getContainer={getContainer} autoLock={lock}>
-          <p className={classNames(contentCls, 'root')}>Hello Root</p>
-          <Portal open={show} getContainer={getContainer} autoLock={lock}>
-            <p className={classNames(contentCls, 'parent')}>Hello Parent</p>
-            <Portal open={show} getContainer={getContainer} autoLock={lock}>
-              <p className={classNames(contentCls, 'children')}>
-                Hello Children
-              </p>
-            </Portal>
-          </Portal>
-        </Portal>
+    <div style={{ margin: 20 }}>
+      <div>
+        <button
+          className="ant-target"
+          ref={createBtnRef}
+          style={{ marginLeft: 100 }}
+        >
+          Create
+        </button>
+        <div style={{ height: 200 }} />
+        <button className="ant-target" ref={updateBtnRef}>
+          Update
+        </button>
+        <button className="ant-target" ref={deleteBtnRef}>
+          Delete
+        </button>
       </div>
-    </React.StrictMode>
+
+      <div style={{ height: 200 }} />
+
+      <Tour
+        defaultCurrent={2}
+        steps={[
+          {
+            title: '创建',
+            description: '创建一条数据',
+            target: () => createBtnRef.current,
+            mask: true,
+          },
+          {
+            title: '更新',
+            description: (
+              <div>
+                <span>更新一条数据</span>
+                <button>帮助文档</button>
+              </div>
+            ),
+            target: () => updateBtnRef.current,
+          },
+          {
+            title: '更新（无阴影）',
+            description: (
+              <div>
+                <span>更新一条数据</span>
+                <button>帮助文档</button>
+              </div>
+            ),
+            mask: false,
+            target: () => updateBtnRef.current,
+          },
+          {
+            title: '删除',
+            description: (
+              <div>
+                <span>危险操作：删除一条数据</span>
+                <button>帮助文档</button>
+              </div>
+            ),
+            target: () => deleteBtnRef.current,
+            mask: true,
+            style: { color: 'red' },
+          },
+        ]}
+      />
+    </div>
   );
 };
+
+export default App;

@@ -1,17 +1,13 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Portal, { inlineMock } from '../src';
+import Tour from '../src';
 
 describe('Test Env', () => {
   it('inlineMock', () => {
-    inlineMock(true);
-
     const { container } = render(
       <>
         Start
-        <Portal open>
-          <div className="bamboo">Hello World</div>
-        </Portal>
+        <Tour steps={[]} open={false} current={0} />
         End
       </>,
     );
