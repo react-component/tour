@@ -37,7 +37,7 @@ export interface TourProps {
   onFinish?: () => void;
   mask?: boolean;
   arrow?: boolean | { pointAtCenter: boolean };
-  className?: string;
+  rootClassName?: string;
   placement?: PlacementType;
   prefixCls?: string;
   renderPanel?: (props: TourStepProps, current: number) => ReactNode;
@@ -56,7 +56,7 @@ const Tour = (props: TourProps) => {
     open,
     mask = true,
     arrow = true,
-    className,
+    rootClassName,
     placement = 'bottom',
     renderPanel,
     gap,
@@ -151,7 +151,7 @@ const Tour = (props: TourProps) => {
         builtinPlacements={placements}
         popupVisible={mergedOpen}
         key={mergedCurrent}
-        popupClassName={classNames(className, stepClassName)}
+        popupClassName={classNames(rootClassName, stepClassName)}
         prefixCls={prefixCls}
         popup={getPopupElement}
         forceRender={false}
@@ -159,7 +159,10 @@ const Tour = (props: TourProps) => {
       >
         <Portal open={mergedOpen} autoLock>
           <div
-            className={`${prefixCls}-target-placeholder`}
+            className={classNames(
+              rootClassName,
+              `${prefixCls}-target-placeholder`,
+            )}
             key={mergedCurrent}
             style={{
               ...(posInfo || CENTER_PLACEHOLDER),
@@ -174,6 +177,7 @@ const Tour = (props: TourProps) => {
         pos={posInfo}
         mask={mergedMask}
         open={mergedOpen}
+        rootClassName={rootClassName}
       />
     </>
   );

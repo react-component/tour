@@ -113,6 +113,41 @@ describe('Tour', () => {
     expect(document.querySelector('.rc-tour')).toBeFalsy();
   });
 
+  it('rootClassName', () => {
+    const Demo = () => {
+      const btnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <button ref={btnRef}>按钮</button>
+          <Tour
+            placement={'bottom'}
+            rootClassName={'customClassName'}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+    const { container } = render(<Demo />);
+
+    doAsync(() => {
+      expect(container.querySelector('.rc-tour')).toHaveClass(
+        'customClassName',
+      );
+      expect(container.querySelector('.rc-tour-mask')).toHaveClass(
+        'customClassName',
+      );
+      expect(
+        container.querySelector('.rc-tour-target-placeholder'),
+      ).toHaveClass('customClassName');
+    });
+  });
+
   it('open', () => {
     const Demo = () => {
       const [open, setOpen] = useState(false);
