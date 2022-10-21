@@ -159,7 +159,10 @@ const Tour = (props: TourProps) => {
       >
         <Portal open={mergedOpen} autoLock>
           <div
-            className={`${prefixCls}-target-placeholder`}
+            className={classNames(
+              rootClassName,
+              `${prefixCls}-target-placeholder`,
+            )}
             key={mergedCurrent}
             style={{
               ...(posInfo || CENTER_PLACEHOLDER),
@@ -174,6 +177,7 @@ const Tour = (props: TourProps) => {
         pos={posInfo}
         mask={mergedMask}
         open={mergedOpen}
+        rootClassName={rootClassName}
       />
     </>
   );
