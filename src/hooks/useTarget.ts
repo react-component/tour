@@ -19,6 +19,7 @@ export interface PosInfo {
 export default function useTarget(
   target: TourStepInfo['target'],
   gap?: Gap,
+  open?: boolean,
 ): [PosInfo, HTMLElement] {
   // ========================= Target =========================
   // We trade `undefined` as not get target by function yet.
@@ -58,7 +59,7 @@ export default function useTarget(
       // Not exist target which means we just show in center
       setPosInfo(null);
     }
-  }, [targetElement]);
+  }, [targetElement, open]);
 
   // ======================== PosInfo =========================
   const mergedPosInfo = useMemo(() => {
