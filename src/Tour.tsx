@@ -92,7 +92,7 @@ const Tour = (props: TourProps) => {
     [`${prefixCls}-arrowPointAtCenter`]: arrowPointAtCenter,
   });
 
-  const [posInfo, targetElement] = useTarget(target, gap, open);
+  const [posInfo, targetElement] = useTarget(target, open, gap);
   const popupAlign = targetElement
     ? arrowPointAtCenter
       ? getCenterPlacements({ placement })

@@ -18,8 +18,8 @@ export interface PosInfo {
 
 export default function useTarget(
   target: TourStepInfo['target'],
+  open: boolean,
   gap?: Gap,
-  open?: boolean,
 ): [PosInfo, HTMLElement] {
   // ========================= Target =========================
   // We trade `undefined` as not get target by function yet.
