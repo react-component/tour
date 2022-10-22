@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { forwardRef } from 'react';
 import type { ReactNode } from 'react';
 
 import Trigger from 'rc-trigger';
@@ -93,7 +92,7 @@ const Tour = (props: TourProps) => {
     [`${prefixCls}-arrowPointAtCenter`]: arrowPointAtCenter,
   });
 
-  const [posInfo, targetElement] = useTarget(target, gap);
+  const [posInfo, targetElement] = useTarget(target, open, gap);
   const popupAlign = targetElement
     ? arrowPointAtCenter
       ? getCenterPlacements({ placement })
@@ -183,4 +182,4 @@ const Tour = (props: TourProps) => {
   );
 };
 
-export default forwardRef(Tour);
+export default Tour;
