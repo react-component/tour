@@ -6,7 +6,7 @@ import DefaultPanel from './DefaultPanel';
 
 export interface TourStepInfo {
   arrow?: boolean | { pointAtCenter: boolean };
-  target?: HTMLElement | (() => HTMLElement);
+  target?: HTMLElement | (() => HTMLElement) | null |(() => null);
   title: ReactNode;
   description?: ReactNode;
   placement?: PlacementType;
@@ -16,7 +16,7 @@ export interface TourStepInfo {
 }
 
 export interface TourStepProps extends TourStepInfo {
-  prefixCls: string;
+  prefixCls?: string;
   total?: number;
   current?: number;
   onClose?: () => void;
