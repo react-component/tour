@@ -102,35 +102,29 @@ export default Demo;
 ## 🔥 API
 
 We use typescript to create the Type definition. You can view directly in IDE. But you can still check the type definition [here](https://github.com/react-component/tour/blob/master/src/interface.ts).
-
 ### Tour
 
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| steps | `TourStepProps[]`  | - | 引导步骤 |
-| open | `boolean` | - | 受控打开引导（与 `current` 受控分开） |
-| current | `number` | - | 受控当前处于哪一步 |
+| steps | `TourStepProps[]` | - | 引导步骤 |
+| open | `boolean` | `true` | 受控打开引导（与 `current` 受控分开） |
+| current | `number` | 0 | 受控当前处于哪一步 |
+| defaultCurrent | `number` | 0 | 默认处于哪一步 |
 | onChange | `(current: number) => void` | - | 步骤改变时的回调，`current`为改变前的步骤，`next`为改变后的步骤 |
 | onClose | `(current: number) => void` | - | 关闭引导时的回调 |
 | onFinish | `() => void` | - | 完成引导时的回调 |
 | mask | `boolean` | `true` | 整体是否启用蒙层 |
-| arrow | `boolean`&#124; `{ pointAtCenter: boolean}`  | `true` | 整体是否显示箭头，包含是否指向元素中心的配置 |
-| type | `default`&#124; `primary`  | `default` | 整体类型，影响底色与文字颜色 |
+| arrow | `boolean` \| `{ pointAtCenter: boolean}` | `true` | 整体是否显示箭头，包含是否指向元素中心的配置 |
 
 ### TourStep
 
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| target | `() => HTMLElement`&#124; `HTMLElement`   | - | 获取引导卡片指向的元素 |
-| arrow | `boolean`&#124; `{ pointAtCenter: boolean}`  | `true` | 是否显示箭头，包含是否指向元素中心的配置 |
-| cover | `ReactNode` | - | 展示的图片或者视频 |
-| title | `ReactNode` | - | 标题 |
-| description | `ReactNode` | - | 主要描述部分 |
-| placement | `left`&#124; `leftTop` &#124; `leftBottom` &#124; `right`&#124; `rightTop`&#124; `rightBottom`&#124; `top`&#124; `topLeft`&#124; `topRight`&#124; `bottom` &#124; `bottomLeft`&#124; `bottomRight` | `bottom` | 引导卡片相对于目标元素的位置 |
-| onClose | `Function` | - | 关闭引导时的回调函数 |
+| target | `() => HTMLElement` \|  `HTMLElement` | - | 获取引导卡片指向的元素 |
+| arrow | `boolean` \| `{ pointAtCenter: boolean}` | `true` | 是否显示箭头，包含是否指向元素中心的配置 |
+| placement | `left` \| `leftTop` \| `leftBottom` \| `right` \| `rightTop` \| `rightBottom` \| `top` \| `topLeft` \| `topRight` \| `bottom`  \| `bottomLeft` \| `bottomRight` | `bottom` | 引导卡片相对于目标元素的位置 |
+| onClose | `() => void` | - | 关闭引导时的回调函数 |
 | mask | `boolean` | `true` | 是否启用蒙层，默认跟随 Tour 的 `mask` 属性 |
-| type | `default`&#124; `primary`  | `default` | 类型，影响底色与文字颜色 |
-| nextButtonProps | `{ children: ReactNode; onClick: Function }` |  `{ children: '下一步' }`  | 下一步按钮的属性 |
-| prevButtonProps | `{ children: ReactNode; onClick: Function }` |  `{ children: '上一步' }`  | 上一步按钮的属性 |
+| renderPanel | `(props: TourStepProps, current: number) => ReactNode;` |  | 渲染 popoup 弹窗方法 |
 | className | `string` | - | - |
 | style | `React.CSSProperties` | - | - |
