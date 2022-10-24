@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import Tour from '../src/index';
 import placements from '../src/placements';
 import type { PlacementType } from '../src/placements';
@@ -17,7 +17,6 @@ describe('Tour', () => {
 
   afterEach(() => {
     jest.useRealTimers();
-    cleanup();
   });
 
   it('single', async () => {
