@@ -10,12 +10,7 @@ function doAsync(cb) {
   }, 1000);
 }
 
-window.requestAnimationFrame = window.setTimeout;
-window.cancelAnimationFrame = window.clearTimeout;
-
 describe('Tour', () => {
-  window.requestAnimationFrame = window.setTimeout;
-  window.cancelAnimationFrame = window.clearTimeout;
   beforeEach(() => {
     jest.useFakeTimers();
   });
