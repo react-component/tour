@@ -46,7 +46,7 @@ export interface TourProps {
 const Tour = (props: TourProps) => {
   const {
     prefixCls = 'rc-tour',
-    steps,
+    steps = [],
     defaultCurrent,
     current,
     onChange,
