@@ -39,6 +39,7 @@ export interface TourProps {
   rootClassName?: string;
   placement?: PlacementType;
   prefixCls?: string;
+  type?: 'default' | 'primary'; //	default	类型，影响底色与文字颜色
   renderPanel?: (props: TourStepProps, current: number) => ReactNode;
   gap?: Gap;
 }
@@ -59,9 +60,11 @@ const Tour = (props: TourProps) => {
     placement = 'bottom',
     renderPanel,
     gap,
+    type,
     ...restProps
   } = props;
-
+  console.log('rctour--->>> props', props);
+  console.log('rctour--->>> type', type);
   const [mergedCurrent, setMergedCurrent] = useMergedState(0, {
     value: current,
     defaultValue: defaultCurrent,
@@ -134,6 +137,7 @@ const Tour = (props: TourProps) => {
             setMergedCurrent(-1);
             onFinish?.();
           }}
+          type={type}
           {...steps[mergedCurrent]}
         />
       </>
