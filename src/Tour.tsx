@@ -63,8 +63,7 @@ const Tour = (props: TourProps) => {
     type,
     ...restProps
   } = props;
-  console.log('rctour--->>> props', props);
-  console.log('rctour--->>> type', type);
+
   const [mergedCurrent, setMergedCurrent] = useMergedState(0, {
     value: current,
     defaultValue: defaultCurrent,
