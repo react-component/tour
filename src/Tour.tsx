@@ -80,29 +80,29 @@ const Tour = (props: TourProps) => {
   } = steps[mergedCurrent] || {};
 
   const mergedPlacement = stepPlacement ?? placement;
-
   const mergedMask = mergedOpen && (stepMask ?? mask);
+  const [posInfo, targetElement] = useTarget(target, open, gap);
 
-  const mergedArrow = typeof stepArrow === 'undefined' ? arrow : stepArrow;
-
+  // ========================= arrow =========================
+  const mergedArrow = targetElement? ( typeof stepArrow === 'undefined' ? arrow : stepArrow) :false;
   const arrowPointAtCenter =
     typeof mergedArrow === 'object' ? mergedArrow.pointAtCenter : false;
-
   const arrowClassName = classNames(`${prefixCls}-arrow`, {
     [`${prefixCls}-arrowPointAtCenter`]: arrowPointAtCenter,
   });
 
-  const [posInfo, targetElement] = useTarget(target, open, gap);
-  const popupAlign = targetElement
-    ? arrowPointAtCenter
-      ? getCenterPlacements({ placement })
-      : placements[mergedPlacement]
-    : CENTER_ALIGN;
   // ========================= Change =========================
   const onInternalChange = (nextCurrent: number) => {
     setMergedCurrent(nextCurrent);
     onChange?.(nextCurrent);
   };
+
+  // ========================= popupAlign =========================
+  const popupAlign = targetElement
+    ? arrowPointAtCenter
+      ? getCenterPlacements({ placement })
+      : placements[mergedPlacement]
+    : CENTER_ALIGN;
 
   // ========================= Render =========================
   // Skip if not init yet
@@ -112,7 +112,7 @@ const Tour = (props: TourProps) => {
 
   const getPopupElement = () => {
     return (
-      <>
+      <div className={`${prefixCls}-content`}>
         {mergedArrow && <div className={arrowClassName} key="arrow" />}
         <TourStep
           key="content"
@@ -136,7 +136,7 @@ const Tour = (props: TourProps) => {
           }}
           {...steps[mergedCurrent]}
         />
-      </>
+      </div>
     );
   };
 
