@@ -24,7 +24,6 @@ describe('Tour', () => {
       return (
         <div style={{ margin: 20 }}>
           <Tour />
-          <Tour steps={undefined}/>
         </div>
       );
     };
