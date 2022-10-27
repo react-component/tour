@@ -24,6 +24,7 @@ export interface TourStepProps extends TourStepInfo {
   renderPanel?: (step: TourStepProps, current: number) => ReactNode;
   onPrev?: () => void;
   onNext?: () => void;
+  type?: 'default' | 'primary'; //	default	类型，影响底色与文字颜色
 }
 
 const TourStep = (props: TourStepProps) => {
