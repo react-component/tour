@@ -19,6 +19,18 @@ describe('Tour', () => {
     jest.useRealTimers();
   });
 
+  it('steps in undefined', async () => {
+    const Demo = () => {
+      return (
+        <div style={{ margin: 20 }}>
+          <Tour />
+          <Tour steps={undefined}/>
+        </div>
+      );
+    };
+    render(<Demo />);
+  });
+
   it('single', async () => {
     const Demo = () => {
       const btnRef = useRef<HTMLButtonElement>(null);
