@@ -27,7 +27,7 @@ const CENTER_PLACEHOLDER: React.CSSProperties = {
 };
 
 export interface TourProps {
-  steps: TourStepInfo[];
+  steps?: TourStepInfo[];
   open?: boolean;
   defaultCurrent?: number;
   current?: number;
