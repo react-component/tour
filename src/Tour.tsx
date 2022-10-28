@@ -145,6 +145,8 @@ const Tour = (props: TourProps) => {
     );
   };
 
+  console.log('mergedOpen:', mergedOpen);
+
   return (
     <>
       <Trigger
@@ -154,7 +156,6 @@ const Tour = (props: TourProps) => {
         popupPlacement={mergedPlacement}
         builtinPlacements={placements}
         popupVisible={mergedOpen}
-        key={mergedCurrent}
         popupClassName={classNames(rootClassName, stepClassName)}
         prefixCls={prefixCls}
         popup={getPopupElement}
@@ -167,7 +168,6 @@ const Tour = (props: TourProps) => {
               rootClassName,
               `${prefixCls}-target-placeholder`,
             )}
-            key={mergedCurrent}
             style={{
               ...(posInfo || CENTER_PLACEHOLDER),
               position: 'fixed',
