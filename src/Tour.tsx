@@ -163,6 +163,7 @@ const Tour = (props: TourProps) => {
         prefixCls={prefixCls}
         popup={getPopupElement}
         forceRender={false}
+        destroyPopupOnHide
         zIndex={1090}
       >
         <Portal open={mergedOpen} autoLock>
