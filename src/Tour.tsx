@@ -32,7 +32,7 @@ export interface TourProps {
   defaultCurrent?: number;
   current?: number;
   onChange?: (current: number) => void;
-  onClose?: () => void;
+  onClose?: (current: number) => void;
   onFinish?: () => void;
   mask?: boolean;
   arrow?: boolean | { pointAtCenter: boolean };
@@ -84,7 +84,11 @@ const Tour = (props: TourProps) => {
   const [posInfo, targetElement] = useTarget(target, open, gap);
 
   // ========================= arrow =========================
-  const mergedArrow = targetElement? ( typeof stepArrow === 'undefined' ? arrow : stepArrow) :false;
+  const mergedArrow = targetElement
+    ? typeof stepArrow === 'undefined'
+      ? arrow
+      : stepArrow
+    : false;
   const arrowPointAtCenter =
     typeof mergedArrow === 'object' ? mergedArrow.pointAtCenter : false;
   const arrowClassName = classNames(`${prefixCls}-arrow`, {
@@ -127,11 +131,12 @@ const Tour = (props: TourProps) => {
           }}
           onClose={() => {
             setMergedCurrent(-1);
-            onClose?.();
+            onClose?.(mergedCurrent);
           }}
           current={mergedCurrent}
           onFinish={() => {
             setMergedCurrent(-1);
+            onClose?.(mergedCurrent);
             onFinish?.();
           }}
           {...steps[mergedCurrent]}
