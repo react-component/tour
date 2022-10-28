@@ -292,4 +292,23 @@ describe('Tour', () => {
       expect(document.querySelector(`.rc-tour-arrow`)).toBeFalsy();
     });
   });
+
+  it('onClose', () => {
+    const onClose = jest.fn();
+    render(
+      <Tour
+        onClose={onClose}
+        steps={[
+          {
+            title: '创建',
+            description: '创建一条数据',
+          },
+        ]}
+      />,
+    );
+
+    fireEvent.click(document.querySelector('.rc-tour-close-x'));
+
+    expect(onClose).toHaveBeenCalled();
+  });
 });
