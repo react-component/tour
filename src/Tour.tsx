@@ -67,8 +67,13 @@ const Tour = (props: TourProps) => {
     defaultValue: defaultCurrent,
   });
 
-  const mergedOpen =
-    mergedCurrent < 0 || mergedCurrent >= steps.length ? false : open ?? true;
+  const [mergedOpen, setMergedOpen] = useMergedState(undefined, {
+    value: open,
+    postState: origin =>
+      mergedCurrent < 0 || mergedCurrent >= steps.length
+        ? false
+        : origin ?? true,
+  });
 
   const {
     target,
@@ -130,12 +135,12 @@ const Tour = (props: TourProps) => {
             onInternalChange(mergedCurrent + 1);
           }}
           onClose={() => {
-            setMergedCurrent(-1);
+            setMergedOpen(false);
             onClose?.(mergedCurrent);
           }}
           current={mergedCurrent}
           onFinish={() => {
-            setMergedCurrent(-1);
+            setMergedOpen(false);
             onClose?.(mergedCurrent);
             onFinish?.();
           }}
@@ -144,8 +149,6 @@ const Tour = (props: TourProps) => {
       </div>
     );
   };
-
-  console.log('mergedOpen:', mergedOpen);
 
   return (
     <>
