@@ -107,14 +107,14 @@ describe('Tour', () => {
     };
     const { getByText } = render(<Demo />);
     expect(getByText('更新一条数据')).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: '上一步' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Prev' }));
     expect(getByText('创建一条数据')).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: '下一步' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     expect(getByText('更新一条数据')).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: '下一步' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     expect(getByText('危险操作:删除一条数据')).toBeTruthy();
     expect(document.querySelector('.rc-tour')).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: '结束引导' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
     expect(document.querySelector('.rc-tour')).toBeFalsy();
   });
 
@@ -291,5 +291,24 @@ describe('Tour', () => {
       rerender(<Demo />);
       expect(document.querySelector(`.rc-tour-arrow`)).toBeFalsy();
     });
+  });
+
+  it('onClose', () => {
+    const onClose = jest.fn();
+    render(
+      <Tour
+        onClose={onClose}
+        steps={[
+          {
+            title: '创建',
+            description: '创建一条数据',
+          },
+        ]}
+      />,
+    );
+
+    fireEvent.click(document.querySelector('.rc-tour-close-x'));
+
+    expect(onClose).toHaveBeenCalled();
   });
 });

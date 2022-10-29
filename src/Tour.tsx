@@ -32,7 +32,7 @@ export interface TourProps {
   defaultCurrent?: number;
   current?: number;
   onChange?: (current: number) => void;
-  onClose?: () => void;
+  onClose?: (current: number) => void;
   onFinish?: () => void;
   mask?: boolean;
   arrow?: boolean | { pointAtCenter: boolean };
@@ -67,8 +67,13 @@ const Tour = (props: TourProps) => {
     defaultValue: defaultCurrent,
   });
 
-  const mergedOpen =
-    mergedCurrent < 0 || mergedCurrent >= steps.length ? false : open ?? true;
+  const [mergedOpen, setMergedOpen] = useMergedState(undefined, {
+    value: open,
+    postState: origin =>
+      mergedCurrent < 0 || mergedCurrent >= steps.length
+        ? false
+        : origin ?? true,
+  });
 
   const {
     target,
@@ -84,7 +89,11 @@ const Tour = (props: TourProps) => {
   const [posInfo, targetElement] = useTarget(target, open, gap);
 
   // ========================= arrow =========================
-  const mergedArrow = targetElement? ( typeof stepArrow === 'undefined' ? arrow : stepArrow) :false;
+  const mergedArrow = targetElement
+    ? typeof stepArrow === 'undefined'
+      ? arrow
+      : stepArrow
+    : false;
   const arrowPointAtCenter =
     typeof mergedArrow === 'object' ? mergedArrow.pointAtCenter : false;
   const arrowClassName = classNames(`${prefixCls}-arrow`, {
@@ -126,12 +135,13 @@ const Tour = (props: TourProps) => {
             onInternalChange(mergedCurrent + 1);
           }}
           onClose={() => {
-            setMergedCurrent(-1);
-            onClose?.();
+            setMergedOpen(false);
+            onClose?.(mergedCurrent);
           }}
           current={mergedCurrent}
           onFinish={() => {
-            setMergedCurrent(-1);
+            setMergedOpen(false);
+            onClose?.(mergedCurrent);
             onFinish?.();
           }}
           {...steps[mergedCurrent]}
@@ -149,11 +159,11 @@ const Tour = (props: TourProps) => {
         popupPlacement={mergedPlacement}
         builtinPlacements={placements}
         popupVisible={mergedOpen}
-        key={mergedCurrent}
         popupClassName={classNames(rootClassName, stepClassName)}
         prefixCls={prefixCls}
         popup={getPopupElement}
         forceRender={false}
+        destroyPopupOnHide
         zIndex={1090}
       >
         <Portal open={mergedOpen} autoLock>
@@ -162,7 +172,6 @@ const Tour = (props: TourProps) => {
               rootClassName,
               `${prefixCls}-target-placeholder`,
             )}
-            key={mergedCurrent}
             style={{
               ...(posInfo || CENTER_PLACEHOLDER),
               position: 'fixed',
