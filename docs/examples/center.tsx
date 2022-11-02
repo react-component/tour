@@ -10,19 +10,38 @@ const App = () => {
       <div>
         <button
           onClick={() => {
-            setCurrent(0);
             setOpen(true);
           }}
         >
           Create
         </button>
+        <button
+          onClick={() => {
+            setCurrent(current - 1);
+          }}
+        >
+          prev
+        </button>
+        <button
+          onClick={() => {
+            setCurrent(current + 1);
+          }}
+        >
+          next
+        </button>
       </div>
+
+      <div>Current page: {current + 1}</div>
 
       <div style={{ height: 200 }} />
 
       <Tour
         current={current}
-        onChange={next => setCurrent(next)}
+        onChange={next => {
+          console.log('next:', next)
+          setCurrent(next)
+        }}
+        mask={false}
         onClose={() => setOpen(false)}
         open={open}
         steps={new Array(3).fill(null).map((_, index) => ({
