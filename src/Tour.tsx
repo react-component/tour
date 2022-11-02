@@ -13,6 +13,7 @@ import Mask from './Mask';
 import placements, { getCenterPlacements } from './placements';
 import type { TourStepProps } from './TourStep';
 import type { PlacementType } from './placements';
+import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 
 const CENTER_ALIGN = {
   points: ['cc', 'cc'],
@@ -75,6 +76,14 @@ const Tour = (props: TourProps) => {
         : origin ?? true,
   });
 
+  const openRef = React.useRef(mergedOpen);
+  useLayoutEffect(() => {
+    if (mergedOpen && !openRef.current) {
+      setMergedCurrent(0);
+    }
+    openRef.current = mergedOpen;
+  }, [mergedOpen])
+
   const {
     target,
     placement: stepPlacement,
@@ -119,6 +128,11 @@ const Tour = (props: TourProps) => {
     return null;
   }
 
+  const handleClose = () => {
+    setMergedOpen(false);
+    onClose?.(mergedCurrent);
+  }
+
   const getPopupElement = () => {
     return (
       <div className={`${prefixCls}-content`}>
@@ -134,14 +148,10 @@ const Tour = (props: TourProps) => {
           onNext={() => {
             onInternalChange(mergedCurrent + 1);
           }}
-          onClose={() => {
-            setMergedOpen(false);
-            onClose?.(mergedCurrent);
-          }}
+          onClose={handleClose}
           current={mergedCurrent}
           onFinish={() => {
-            setMergedOpen(false);
-            onClose?.(mergedCurrent);
+            handleClose();
             onFinish?.();
           }}
           {...steps[mergedCurrent]}

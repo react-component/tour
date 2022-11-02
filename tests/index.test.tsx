@@ -311,4 +311,75 @@ describe('Tour', () => {
 
     expect(onClose).toHaveBeenCalled();
   });
+
+  it('should return step 1 when reopen', () => {
+    const Demo = () => {
+      const [open, setOpen] = useState(false);
+      return (
+        <>
+          <button className="open-tour" onClick={() => setOpen(true)}>open</button>
+          <Tour
+            open={open}
+            onClose={() => setOpen(false)}
+            steps={[
+              {
+                title: 'step 1',
+                description: '创建一条数据',
+              },
+              {
+                title: 'step 2',
+                description: '创建一条数据',
+              },
+            ]}
+          />
+        </>
+      )
+    }
+
+    render(<Demo />);
+
+    fireEvent.click(document.querySelector('.open-tour'));
+    fireEvent.click(document.querySelector('.rc-tour-next-btn'));
+    expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 2');
+    fireEvent.click(document.querySelector('.rc-tour-close-x'));
+    fireEvent.click(document.querySelector('.open-tour'));
+    expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 1');
+  });
+
+  it('should keep current when controlled', () => {
+    const Demo = () => {
+      const [open, setOpen] = useState(false);
+      const [current, setCurrent] = useState(0);
+      return (
+        <>
+          <button className="open-tour" onClick={() => setOpen(true)}>open</button>
+          <Tour
+            current={current}
+            onChange={setCurrent}
+            open={open}
+            onClose={() => setOpen(false)}
+            steps={[
+              {
+                title: 'step 1',
+                description: '创建一条数据',
+              },
+              {
+                title: 'step 2',
+                description: '创建一条数据',
+              },
+            ]}
+          />
+        </>
+      )
+    }
+
+    render(<Demo />);
+
+    fireEvent.click(document.querySelector('.open-tour'));
+    fireEvent.click(document.querySelector('.rc-tour-next-btn'));
+    expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 2');
+    fireEvent.click(document.querySelector('.rc-tour-close-x'));
+    fireEvent.click(document.querySelector('.open-tour'));
+    expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 2');
+  });
 });
