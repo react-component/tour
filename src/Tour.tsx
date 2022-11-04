@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
-
+import CSSMotion from 'rc-motion';
 import Trigger from 'rc-trigger';
 import Portal from '@rc-component/portal';
 import classNames from 'classnames';
@@ -82,7 +82,7 @@ const Tour = (props: TourProps) => {
       setMergedCurrent(0);
     }
     openRef.current = mergedOpen;
-  }, [mergedOpen])
+  }, [mergedOpen]);
 
   const {
     target,
@@ -131,32 +131,36 @@ const Tour = (props: TourProps) => {
   const handleClose = () => {
     setMergedOpen(false);
     onClose?.(mergedCurrent);
-  }
+  };
 
   const getPopupElement = () => {
     return (
-      <div className={`${prefixCls}-content`}>
-        {mergedArrow && <div className={arrowClassName} key="arrow" />}
-        <TourStep
-          key="content"
-          prefixCls={prefixCls}
-          total={steps.length}
-          renderPanel={renderPanel}
-          onPrev={() => {
-            onInternalChange(mergedCurrent - 1);
-          }}
-          onNext={() => {
-            onInternalChange(mergedCurrent + 1);
-          }}
-          onClose={handleClose}
-          current={mergedCurrent}
-          onFinish={() => {
-            handleClose();
-            onFinish?.();
-          }}
-          {...steps[mergedCurrent]}
-        />
-      </div>
+      <CSSMotion visible={mergedOpen} motionName={`${prefixCls}-motion-wrap`}>
+        {({ className: motionClassName }) => (
+          <div className={classNames(`${prefixCls}-content`, motionClassName)}>
+            {mergedArrow && <div className={arrowClassName} key="arrow" />}
+            <TourStep
+              key="content"
+              prefixCls={prefixCls}
+              total={steps.length}
+              renderPanel={renderPanel}
+              onPrev={() => {
+                onInternalChange(mergedCurrent - 1);
+              }}
+              onNext={() => {
+                onInternalChange(mergedCurrent + 1);
+              }}
+              onClose={handleClose}
+              current={mergedCurrent}
+              onFinish={() => {
+                handleClose();
+                onFinish?.();
+              }}
+              {...steps[mergedCurrent]}
+            />
+          </div>
+        )}
+      </CSSMotion>
     );
   };
 
