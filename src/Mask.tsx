@@ -15,10 +15,11 @@ export interface MaskProps {
   rootClassName?: string;
   mask?: boolean;
   open?: boolean;
+  animate?: boolean;
 }
 
 const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
-  const { prefixCls, rootClassName, pos, mask, open } = props;
+  const { prefixCls, rootClassName, pos, mask, open, animate } = props;
 
   const id = useId();
   const maskId = `${prefixCls}-mask-${id}`;
@@ -65,24 +66,28 @@ const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
                     height={pos.height}
                     fill="black"
                   >
-                    <animate
-                      xmlns="http://www.w3.org/2000/svg"
-                      attributeName="x"
-                      attributeType="XML"
-                      dur="0.15s"
-                      from={posRef.current.left}
-                      to={pos.left}
-                      restart="always"
-                    />
-                    <animate
-                      xmlns="http://www.w3.org/2000/svg"
-                      attributeName="y"
-                      attributeType="XML"
-                      dur="0.15s"
-                      from={posRef.current.top}
-                      to={pos.top}
-                      restart="always"
-                    />
+                    {animate && (
+                      <>
+                        <animate
+                          xmlns="http://www.w3.org/2000/svg"
+                          attributeName="x"
+                          attributeType="XML"
+                          dur="0.15s"
+                          from={posRef.current?.left}
+                          to={pos?.left}
+                          restart="always"
+                        />
+                        <animate
+                          xmlns="http://www.w3.org/2000/svg"
+                          attributeName="y"
+                          attributeType="XML"
+                          dur="0.15s"
+                          from={posRef.current?.top}
+                          to={pos?.top}
+                          restart="always"
+                        />
+                      </>
+                    )}
                   </rect>
                 )}
               </mask>
