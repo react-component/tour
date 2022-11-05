@@ -82,7 +82,7 @@ const Tour = (props: TourProps) => {
       setMergedCurrent(0);
     }
     openRef.current = mergedOpen;
-  }, [mergedOpen])
+  }, [mergedOpen]);
 
   const {
     target,
@@ -131,7 +131,7 @@ const Tour = (props: TourProps) => {
   const handleClose = () => {
     setMergedOpen(false);
     onClose?.(mergedCurrent);
-  }
+  };
 
   const getPopupElement = () => {
     return (

@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import Portal from '@rc-component/portal';
 import type { PosInfo } from './hooks/useTarget';
@@ -22,6 +22,14 @@ const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
 
   const id = useId();
   const maskId = `${prefixCls}-mask-${id}`;
+  const posRef = useRef(pos);
+
+  useEffect(() => {
+    posRef.current = pos;
+    document.querySelectorAll('animate').forEach(element => {
+      element.beginElement();
+    });
+  }, [pos]);
 
   return (
     <Portal open={open} autoLock>
@@ -56,7 +64,26 @@ const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
                     width={pos.width}
                     height={pos.height}
                     fill="black"
-                  />
+                  >
+                    <animate
+                      xmlns="http://www.w3.org/2000/svg"
+                      attributeName="x"
+                      attributeType="XML"
+                      dur="0.15s"
+                      from={posRef.current.left}
+                      to={pos.left}
+                      restart="always"
+                    />
+                    <animate
+                      xmlns="http://www.w3.org/2000/svg"
+                      attributeName="y"
+                      attributeType="XML"
+                      dur="0.15s"
+                      from={posRef.current.top}
+                      to={pos.top}
+                      restart="always"
+                    />
+                  </rect>
                 )}
               </mask>
             </defs>
