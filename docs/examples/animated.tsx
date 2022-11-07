@@ -29,7 +29,7 @@ const App = () => {
 
       <Tour
         defaultCurrent={2}
-        animate={true}
+        animated={true}
         steps={[
           {
             title: '创建',

@@ -65,6 +65,7 @@ const Tour = (props: TourProps) => {
     ...restProps
   } = props;
 
+  const maskRef = React.useRef(null);
   const [mergedCurrent, setMergedCurrent] = useMergedState(0, {
     value: current,
     defaultValue: defaultCurrent,
@@ -198,6 +199,7 @@ const Tour = (props: TourProps) => {
         mask={mergedMask}
         open={mergedOpen}
         animated={animated}
+        ref={maskRef}
         rootClassName={rootClassName}
       />
     </>
