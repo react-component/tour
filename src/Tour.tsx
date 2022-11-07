@@ -36,13 +36,13 @@ export interface TourProps {
   onClose?: (current: number) => void;
   onFinish?: () => void;
   mask?: boolean;
-  animate?: boolean;
   arrow?: boolean | { pointAtCenter: boolean };
   rootClassName?: string;
   placement?: PlacementType;
   prefixCls?: string;
   renderPanel?: (props: TourStepProps, current: number) => ReactNode;
   gap?: Gap;
+  animated?: boolean | { placeholder: true };
 }
 
 const Tour = (props: TourProps) => {
@@ -61,7 +61,7 @@ const Tour = (props: TourProps) => {
     placement = 'bottom',
     renderPanel,
     gap,
-    animate,
+    animated,
     ...restProps
   } = props;
 
@@ -197,7 +197,7 @@ const Tour = (props: TourProps) => {
         pos={posInfo}
         mask={mergedMask}
         open={mergedOpen}
-        animate={animate}
+        animated={animated}
         rootClassName={rootClassName}
       />
     </>

@@ -15,23 +15,25 @@ export interface MaskProps {
   rootClassName?: string;
   mask?: boolean;
   open?: boolean;
-  animate?: boolean;
+  animated?: boolean | { placeholder: true };
 }
 
 const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
-  const { prefixCls, rootClassName, pos, mask, open, animate } = props;
+  const { prefixCls, rootClassName, pos, mask, open, animated } = props;
+
+  const xAnimateRef = useRef<SVGAnimateElement>(null);
+  const yAnimateRef = useRef<SVGAnimateElement>(null);
 
   const id = useId();
   const maskId = `${prefixCls}-mask-${id}`;
   const posRef = useRef(pos);
+  const placeholderAnimated =
+    typeof animated === 'object' ? animated?.placeholder : animated;
 
   useEffect(() => {
     posRef.current = pos;
-    document
-      .querySelectorAll(`.${prefixCls}-mask animate`)
-      .forEach((element: SVGAnimateElement) => {
-        element?.beginElement?.();
-      });
+    xAnimateRef?.current?.beginElement?.();
+    yAnimateRef?.current?.beginElement?.();
   }, [pos]);
 
   return (
@@ -68,7 +70,7 @@ const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
                     height={pos.height}
                     fill="black"
                   >
-                    {animate && (
+                    {placeholderAnimated && (
                       <>
                         <animate
                           xmlns="http://www.w3.org/2000/svg"
@@ -78,6 +80,7 @@ const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
                           from={posRef.current?.left}
                           to={pos?.left}
                           restart="always"
+                          ref={xAnimateRef}
                         />
                         <animate
                           xmlns="http://www.w3.org/2000/svg"
@@ -87,6 +90,7 @@ const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
                           from={posRef.current?.top}
                           to={pos?.top}
                           restart="always"
+                          ref={yAnimateRef}
                         />
                       </>
                     )}
