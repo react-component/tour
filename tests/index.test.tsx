@@ -118,7 +118,7 @@ describe('Tour', () => {
     expect(document.querySelector('.rc-tour')).toBeFalsy();
   });
 
-  it('animate', () => {
+  it('animated', () => {
     const Demo = () => {
       const createBtnRef = useRef<HTMLButtonElement>(null);
       const updateBtnRef = useRef<HTMLButtonElement>(null);
@@ -135,7 +135,7 @@ describe('Tour', () => {
 
           <Tour
             defaultCurrent={1}
-            animate={true}
+            animated={true}
             steps={[
               {
                 title: '创建',

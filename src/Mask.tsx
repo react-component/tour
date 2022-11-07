@@ -33,7 +33,7 @@ const Mask: FC<MaskProps> = forwardRef<HTMLDivElement, MaskProps>(
     useEffect(() => {
       posRef.current = pos;
       if (ref != null && typeof ref !== 'function') {
-        Array.from(ref?.current?.getElementsByTagName('animate')).forEach(
+        Array.from(ref?.current?.getElementsByTagName('animate') ?? []).forEach(
           (element: SVGAnimateElement | null) => {
             element?.beginElement?.();
           },
