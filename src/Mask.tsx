@@ -39,7 +39,7 @@ const Mask: FC<MaskProps> = forwardRef<HTMLDivElement, MaskProps>(
           },
         );
       }
-    }, [pos]);
+    }, [pos, ref]);
 
     return (
       <Portal open={open} autoLock>
