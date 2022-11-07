@@ -118,7 +118,7 @@ describe('Tour', () => {
     expect(document.querySelector('.rc-tour')).toBeFalsy();
   });
 
-  it('animated', () => {
+  it('animated boolean', () => {
     const Demo = () => {
       const createBtnRef = useRef<HTMLButtonElement>(null);
       const updateBtnRef = useRef<HTMLButtonElement>(null);
@@ -177,7 +177,7 @@ describe('Tour', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
   });
 
-  it('animated', () => {
+  it('animated placeholder true ', () => {
     const Demo = () => {
       const createBtnRef = useRef<HTMLButtonElement>(null);
       const updateBtnRef = useRef<HTMLButtonElement>(null);
