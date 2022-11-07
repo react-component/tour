@@ -118,6 +118,65 @@ describe('Tour', () => {
     expect(document.querySelector('.rc-tour')).toBeFalsy();
   });
 
+  it('animate', () => {
+    const Demo = () => {
+      const createBtnRef = useRef<HTMLButtonElement>(null);
+      const updateBtnRef = useRef<HTMLButtonElement>(null);
+      const deleteBtnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <div>
+            <button ref={createBtnRef}>Create</button>
+            <div style={{ height: 200 }} />
+            <button ref={updateBtnRef}>Update</button>
+            <button ref={deleteBtnRef}>Delete</button>
+          </div>
+          <div style={{ height: 200 }} />
+
+          <Tour
+            defaultCurrent={1}
+            animate={true}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => createBtnRef.current,
+                mask: true,
+              },
+              {
+                title: '更新',
+                description: (
+                  <div>
+                    <span>更新一条数据</span>
+                    <button>帮助文档</button>
+                  </div>
+                ),
+                target: () => updateBtnRef.current,
+              },
+              {
+                title: '删除',
+                description: (
+                  <div>
+                    <span>危险操作:删除一条数据</span>
+                    <button>帮助文档</button>
+                  </div>
+                ),
+                target: () => deleteBtnRef.current,
+                mask: true,
+                style: { color: 'red' },
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+    render(<Demo />);
+    fireEvent.click(screen.getByRole('button', { name: 'Prev' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
+  });
+
   it('rootClassName', () => {
     const Demo = () => {
       const btnRef = useRef<HTMLButtonElement>(null);
@@ -317,7 +376,9 @@ describe('Tour', () => {
       const [open, setOpen] = useState(false);
       return (
         <>
-          <button className="open-tour" onClick={() => setOpen(true)}>open</button>
+          <button className="open-tour" onClick={() => setOpen(true)}>
+            open
+          </button>
           <Tour
             open={open}
             onClose={() => setOpen(false)}
@@ -333,8 +394,8 @@ describe('Tour', () => {
             ]}
           />
         </>
-      )
-    }
+      );
+    };
 
     render(<Demo />);
 
@@ -352,7 +413,9 @@ describe('Tour', () => {
       const [current, setCurrent] = useState(0);
       return (
         <>
-          <button className="open-tour" onClick={() => setOpen(true)}>open</button>
+          <button className="open-tour" onClick={() => setOpen(true)}>
+            open
+          </button>
           <Tour
             current={current}
             onChange={setCurrent}
@@ -370,8 +433,8 @@ describe('Tour', () => {
             ]}
           />
         </>
-      )
-    }
+      );
+    };
 
     render(<Demo />);
 

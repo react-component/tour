@@ -30,7 +30,7 @@ const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
     document
       .querySelectorAll(`.${prefixCls}-mask animate`)
       .forEach((element: SVGAnimateElement) => {
-        element.beginElement();
+        element?.beginElement?.();
       });
   }, [pos]);
 
