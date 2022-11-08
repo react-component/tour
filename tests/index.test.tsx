@@ -152,7 +152,7 @@ describe('Tour', () => {
     const { rerender } = render(<Demo />);
     doAsync(() => {
       expect(
-        document.querySelector('.rc-tour-maskPlaceholder-animated'),
+        document.querySelector('.rc-tour-placeholder-animated'),
       ).toBeFalsy();
     });
 
@@ -160,7 +160,7 @@ describe('Tour', () => {
     rerender(<Demo />);
     doAsync(() => {
       expect(
-        document.querySelector('.rc-tour-maskPlaceholder-animated'),
+        document.querySelector('.rc-tour-placeholder-animated'),
       ).toBeTruthy();
     });
 
@@ -168,7 +168,7 @@ describe('Tour', () => {
     rerender(<Demo />);
     doAsync(() => {
       expect(
-        document.querySelector('.rc-tour-maskPlaceholder-animated'),
+        document.querySelector('.rc-tour-placeholder-animated'),
       ).toBeFalsy();
     });
 
@@ -176,7 +176,7 @@ describe('Tour', () => {
     rerender(<Demo />);
     doAsync(() => {
       expect(
-        document.querySelector('.rc-tour-maskPlaceholder-animated'),
+        document.querySelector('.rc-tour-placeholder-animated'),
       ).toBeTruthy();
     });
   });

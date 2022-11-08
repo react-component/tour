@@ -23,7 +23,7 @@ const Mask = (props: MaskProps) => {
 
   const id = useId();
   const maskId = `${prefixCls}-mask-${id}`;
-  const placeholderAnimated =
+  const mergedAnimated =
     typeof animated === 'object' ? animated?.placeholder : animated;
 
   return (
@@ -59,9 +59,7 @@ const Mask = (props: MaskProps) => {
                     height={pos.height}
                     fill="black"
                     className={
-                      placeholderAnimated
-                        ? `${prefixCls}-maskPlaceholder-animated`
-                        : ''
+                      mergedAnimated ? `${prefixCls}-placeholder-animated` : ''
                     }
                   />
                 )}
