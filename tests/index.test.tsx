@@ -1,14 +1,9 @@
 import React, { useState, useRef } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Tour from '../src/index';
 import placements from '../src/placements';
 import type { PlacementType } from '../src/placements';
-
-function doAsync(cb) {
-  setTimeout(() => {
-    cb();
-  }, 1000);
-}
+import { sleep, waitFakeTimer } from './utils';
 
 describe('Tour', () => {
   beforeEach(() => {
@@ -51,6 +46,7 @@ describe('Tour', () => {
     };
     const { getByText, container } = render(<Demo />);
     expect(getByText('创建一条数据')).toBeTruthy();
+    expect(document.querySelector('.rc-tour-placeholder-animated')).toBeFalsy();
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -118,70 +114,48 @@ describe('Tour', () => {
     expect(document.querySelector('.rc-tour')).toBeFalsy();
   });
 
-  it('placeholder animated ', () => {
-    let animated: boolean | { placeholder: true };
-    const Demo = () => {
-      const createBtnRef = useRef<HTMLButtonElement>(null);
-      const updateBtnRef = useRef<HTMLButtonElement>(null);
-      const deleteBtnRef = useRef<HTMLButtonElement>(null);
+  describe('animated', () => {
+    const Demo = ({ animated }) => {
+      const btnRef = useRef<HTMLButtonElement>(null);
       return (
         <div style={{ margin: 20 }}>
-          <div>
-            <button ref={createBtnRef}>Create</button>
-            <div style={{ height: 200 }} />
-            <button ref={updateBtnRef}>Update</button>
-            <button ref={deleteBtnRef}>Delete</button>
-          </div>
-          <div style={{ height: 200 }} />
-
+          <button ref={btnRef}>按钮</button>
           <Tour
-            defaultCurrent={1}
+            placement={'bottom'}
+            rootClassName={'customClassName'}
             animated={animated}
             steps={[
               {
                 title: '创建',
                 description: '创建一条数据',
-                target: () => createBtnRef.current,
-                mask: true,
+                target: () => btnRef.current,
               },
             ]}
           />
         </div>
       );
     };
-    const { rerender } = render(<Demo />);
-    doAsync(() => {
+    it('false', () => {
+      render(<Demo animated={false} />);
       expect(
         document.querySelector('.rc-tour-placeholder-animated'),
       ).toBeFalsy();
     });
-
-    animated = true;
-    rerender(<Demo />);
-    doAsync(() => {
+    it('true', () => {
+      render(<Demo animated={true} />);
       expect(
         document.querySelector('.rc-tour-placeholder-animated'),
       ).toBeTruthy();
     });
-
-    animated = false;
-    rerender(<Demo />);
-    doAsync(() => {
-      expect(
-        document.querySelector('.rc-tour-placeholder-animated'),
-      ).toBeFalsy();
-    });
-
-    animated = { placeholder: true };
-    rerender(<Demo />);
-    doAsync(() => {
+    it('placeholder true ', () => {
+      render(<Demo animated={{ placeholder: true }} />);
       expect(
         document.querySelector('.rc-tour-placeholder-animated'),
       ).toBeTruthy();
     });
   });
 
-  it('rootClassName', () => {
+  it('rootClassName', async () => {
     const Demo = () => {
       const btnRef = useRef<HTMLButtonElement>(null);
       return (
@@ -201,19 +175,15 @@ describe('Tour', () => {
         </div>
       );
     };
-    const { container } = render(<Demo />);
+    render(<Demo />);
 
-    doAsync(() => {
-      expect(container.querySelector('.rc-tour')).toHaveClass(
-        'customClassName',
-      );
-      expect(container.querySelector('.rc-tour-mask')).toHaveClass(
-        'customClassName',
-      );
-      expect(
-        container.querySelector('.rc-tour-target-placeholder'),
-      ).toHaveClass('customClassName');
-    });
+    expect(document.querySelector('.rc-tour.customClassName')).toBeTruthy();
+    expect(
+      document.querySelector('.rc-tour-mask.customClassName'),
+    ).toBeTruthy();
+    expect(
+      document.querySelector('.rc-tour-target-placeholder.customClassName'),
+    ).toBeTruthy();
   });
 
   it('open', () => {
@@ -253,6 +223,39 @@ describe('Tour', () => {
 
   describe('placement', () => {
     it('placements', async () => {
+      // const Demo = props => {
+      //   const btnRef = useRef<HTMLButtonElement>(null);
+      //   return (
+      //     <div style={{ margin: 20 }}>
+      //       <button ref={btnRef}>按钮</button>
+      //       <Tour
+      //         placement={props.placement}
+      //         steps={[
+      //           {
+      //             title: '创建',
+      //             description: '创建一条数据',
+      //             target: () => btnRef.current,
+      //           },
+      //         ]}
+      //       />
+      //     </div>
+      //   );
+      // };
+      // for (const item of Object.keys(placements)) {
+      //   const { unmount } = render(<Demo placement={item} />);
+      //   await sleep(500);
+      //   // await waitFakeTimer()
+      //   // await sleep(500);
+      //   await waitFor(() => {
+      //     expect(
+      //       document.querySelector(`.rc-tour-placement-${item}`),
+      //     ).toBeTruthy();
+      //   });
+      //   unmount();
+      // }
+    });
+
+    it('change placement', async () => {
       const Demo = props => {
         const btnRef = useRef<HTMLButtonElement>(null);
         return (
@@ -262,6 +265,7 @@ describe('Tour', () => {
               placement={props.placement}
               steps={[
                 {
+                  placement: props.placement,
                   title: '创建',
                   description: '创建一条数据',
                   target: () => btnRef.current,
@@ -272,55 +276,23 @@ describe('Tour', () => {
         );
       };
 
-      Object.keys(placements).forEach(item => {
-        const { unmount } = render(<Demo placement={item} />);
-        doAsync(() =>
-          expect(
-            document.querySelector(`.rc-tour-placement-${item}`),
-          ).toBeTruthy(),
-        );
-        unmount();
-      });
-    });
-
-    it('change placement', async () => {
-      const Demo = () => {
-        const [placement, setPlacement] = useState<PlacementType>('left');
-        return (
-          <div style={{ margin: 20 }}>
-            <button
-              onClick={() => {
-                setPlacement('bottom');
-              }}
-            >
-              bottom
-            </button>
-
-            <Tour
-              placement={placement}
-              steps={[
-                {
-                  title: '创建',
-                  description: '创建一条数据',
-                  target: undefined,
-                },
-              ]}
-            />
-          </div>
-        );
-      };
-
-      render(<Demo />);
-      doAsync(() =>
-        expect(document.querySelector(`.rc-tour-placement-left`)).toBeTruthy(),
-      );
-
-      fireEvent.click(screen.getByRole('button', { name: 'bottom' }));
-      doAsync(() =>
+      const { rerender } = render(<Demo placement={'bottom'} />);
+      await sleep(1000);
+      await waitFakeTimer();
+      await sleep(1000);
+      await waitFor(() => {
         expect(
           document.querySelector(`.rc-tour-placement-bottom`),
-        ).toBeTruthy(),
-      );
+        ).toBeTruthy();
+      });
+
+      rerender(<Demo placement={'top'} />);
+      await sleep(1000);
+      await waitFakeTimer();
+      await sleep(1000);
+      await waitFor(() => {
+        expect(document.querySelector(`.rc-tour-placement-top`)).toBeTruthy();
+      });
     });
   });
 
