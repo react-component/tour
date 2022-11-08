@@ -118,7 +118,8 @@ describe('Tour', () => {
     expect(document.querySelector('.rc-tour')).toBeFalsy();
   });
 
-  it('animated boolean', () => {
+  it('placeholder animated ', () => {
+    let animated: boolean | { placeholder: true } = true;
     const Demo = () => {
       const createBtnRef = useRef<HTMLButtonElement>(null);
       const updateBtnRef = useRef<HTMLButtonElement>(null);
@@ -135,7 +136,7 @@ describe('Tour', () => {
 
           <Tour
             defaultCurrent={1}
-            animated={true}
+            animated={animated}
             steps={[
               {
                 title: '创建',
@@ -143,97 +144,32 @@ describe('Tour', () => {
                 target: () => createBtnRef.current,
                 mask: true,
               },
-              {
-                title: '更新',
-                description: (
-                  <div>
-                    <span>更新一条数据</span>
-                    <button>帮助文档</button>
-                  </div>
-                ),
-                target: () => updateBtnRef.current,
-              },
-              {
-                title: '删除',
-                description: (
-                  <div>
-                    <span>危险操作:删除一条数据</span>
-                    <button>帮助文档</button>
-                  </div>
-                ),
-                target: () => deleteBtnRef.current,
-                mask: true,
-                style: { color: 'red' },
-              },
             ]}
           />
         </div>
       );
     };
-    render(<Demo />);
-    fireEvent.click(screen.getByRole('button', { name: 'Prev' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
-  });
 
-  it('animated placeholder true ', () => {
-    const Demo = () => {
-      const createBtnRef = useRef<HTMLButtonElement>(null);
-      const updateBtnRef = useRef<HTMLButtonElement>(null);
-      const deleteBtnRef = useRef<HTMLButtonElement>(null);
-      return (
-        <div style={{ margin: 20 }}>
-          <div>
-            <button ref={createBtnRef}>Create</button>
-            <div style={{ height: 200 }} />
-            <button ref={updateBtnRef}>Update</button>
-            <button ref={deleteBtnRef}>Delete</button>
-          </div>
-          <div style={{ height: 200 }} />
-
-          <Tour
-            defaultCurrent={1}
-            animated={{ placeholder: true }}
-            steps={[
-              {
-                title: '创建',
-                description: '创建一条数据',
-                target: () => createBtnRef.current,
-                mask: true,
-              },
-              {
-                title: '更新',
-                description: (
-                  <div>
-                    <span>更新一条数据</span>
-                    <button>帮助文档</button>
-                  </div>
-                ),
-                target: () => updateBtnRef.current,
-              },
-              {
-                title: '删除',
-                description: (
-                  <div>
-                    <span>危险操作:删除一条数据</span>
-                    <button>帮助文档</button>
-                  </div>
-                ),
-                target: () => deleteBtnRef.current,
-                mask: true,
-                style: { color: 'red' },
-              },
-            ]}
-          />
-        </div>
-      );
-    };
-    render(<Demo />);
-    fireEvent.click(screen.getByRole('button', { name: 'Prev' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
+    doAsync(() => {
+      expect(
+        document.querySelector('.rc-tour-maskPlaceholder-animated'),
+      ).toBeTruthy();
+    });
+    const { rerender } = render(<Demo />);
+    animated = false;
+    rerender(<Demo />);
+    doAsync(() => {
+      expect(
+        document.querySelector('.rc-tour-maskPlaceholder-animated'),
+      ).toBeFalsy();
+    });
+    animated = { placeholder: true };
+    rerender(<Demo />);
+    doAsync(() => {
+      expect(
+        document.querySelector('.rc-tour-maskPlaceholder-animated'),
+      ).toBeTruthy();
+    });
   });
 
   it('rootClassName', () => {
