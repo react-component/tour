@@ -119,7 +119,7 @@ describe('Tour', () => {
   });
 
   it('placeholder animated ', () => {
-    let animated: boolean | { placeholder: true } = true;
+    let animated: boolean | { placeholder: true };
     const Demo = () => {
       const createBtnRef = useRef<HTMLButtonElement>(null);
       const updateBtnRef = useRef<HTMLButtonElement>(null);
@@ -149,13 +149,21 @@ describe('Tour', () => {
         </div>
       );
     };
+    const { rerender } = render(<Demo />);
+    doAsync(() => {
+      expect(
+        document.querySelector('.rc-tour-maskPlaceholder-animated'),
+      ).toBeFalsy();
+    });
 
+    animated = true;
+    rerender(<Demo />);
     doAsync(() => {
       expect(
         document.querySelector('.rc-tour-maskPlaceholder-animated'),
       ).toBeTruthy();
     });
-    const { rerender } = render(<Demo />);
+
     animated = false;
     rerender(<Demo />);
     doAsync(() => {
@@ -163,6 +171,7 @@ describe('Tour', () => {
         document.querySelector('.rc-tour-maskPlaceholder-animated'),
       ).toBeFalsy();
     });
+
     animated = { placeholder: true };
     rerender(<Demo />);
     doAsync(() => {
