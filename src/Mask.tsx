@@ -1,5 +1,5 @@
-import React, { forwardRef, useRef, useEffect } from 'react';
-import type { FC, Ref } from 'react';
+import React, { forwardRef } from 'react';
+import type { FC } from 'react';
 import classNames from 'classnames';
 import Portal from '@rc-component/portal';
 import type { PosInfo } from './hooks/useTarget';
@@ -17,7 +17,6 @@ export interface MaskProps {
   mask?: boolean;
   open?: boolean;
   animated?: boolean | { placeholder: true };
-  ref?: Ref<HTMLDivElement>;
 }
 
 const Mask: FC<MaskProps> = forwardRef<HTMLDivElement, MaskProps>(
@@ -26,20 +25,8 @@ const Mask: FC<MaskProps> = forwardRef<HTMLDivElement, MaskProps>(
 
     const id = useId();
     const maskId = `${prefixCls}-mask-${id}`;
-    const posRef = useRef(pos);
     const placeholderAnimated =
       typeof animated === 'object' ? animated?.placeholder : animated;
-
-    useEffect(() => {
-      posRef.current = pos;
-      if (ref != null && typeof ref !== 'function') {
-        Array.from(ref?.current?.getElementsByTagName('animate') ?? []).forEach(
-          (element: SVGAnimateElement | null) => {
-            element?.beginElement?.();
-          },
-        );
-      }
-    }, [pos, ref]);
 
     return (
       <Portal open={open} autoLock>
@@ -74,30 +61,8 @@ const Mask: FC<MaskProps> = forwardRef<HTMLDivElement, MaskProps>(
                       width={pos.width}
                       height={pos.height}
                       fill="black"
-                    >
-                      {placeholderAnimated && (
-                        <>
-                          <animate
-                            xmlns="http://www.w3.org/2000/svg"
-                            attributeName="x"
-                            attributeType="XML"
-                            dur="0.15s"
-                            from={posRef.current?.left}
-                            to={pos?.left}
-                            restart="always"
-                          />
-                          <animate
-                            xmlns="http://www.w3.org/2000/svg"
-                            attributeName="y"
-                            attributeType="XML"
-                            dur="0.15s"
-                            from={posRef.current?.top}
-                            to={pos?.top}
-                            restart="always"
-                          />
-                        </>
-                      )}
-                    </rect>
+                      className={placeholderAnimated ? 'maskAnimated' : ''}
+                    />
                   )}
                 </mask>
               </defs>
