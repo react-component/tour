@@ -60,7 +60,7 @@ const Mask = (props: MaskProps) => {
                     fill="black"
                     className={
                       placeholderAnimated
-                        ? `${prefixCls}-mask-placeholder-animated`
+                        ? `${prefixCls}-maskPlaceholder-animated`
                         : ''
                     }
                   />
