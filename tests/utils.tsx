@@ -23,6 +23,8 @@ const customRender = (
   options?: Omit<RenderOptions, 'wrapper'>,
 ) => render(ui, { wrapper: StrictMode, ...options });
 
+export * from '@testing-library/react';
+
 export function renderHook<T>(func: () => T): { result: React.RefObject<T> } {
   const result = React.createRef<T>();
 
@@ -36,6 +38,16 @@ export function renderHook<T>(func: () => T): { result: React.RefObject<T> } {
 
   return { result };
 }
+
+/**
+ * Pure render like `@testing-lib` render which will not wrap with StrictMode.
+ *
+ * Please only use with render times times of memo usage case.
+ */
+const pureRender = render;
+
+export { customRender as render, pureRender };
+
 /**
  * Wait for a time delay. Will wait `advanceTime * times` ms.
  *
