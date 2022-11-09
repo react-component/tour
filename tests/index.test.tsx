@@ -1,15 +1,6 @@
 import React, { useState, useRef } from 'react';
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  sleep,
-  waitFakeTimer,
-} from './utils';
+import { fireEvent, render, screen } from '@testing-library/react';
 import Tour from '../src/index';
-import placements from '../src/placements';
-import type { PlacementType } from '../src/placements';
 
 describe('Tour', () => {
   beforeEach(() => {
@@ -225,81 +216,6 @@ describe('Tour', () => {
     fireEvent.click(screen.getByRole('button', { name: 'open' }));
     expect(document.querySelector(`.rc-tour`)).toBeTruthy();
     expect(getByText('创建一条数据')).toBeTruthy();
-  });
-
-  describe('placement', () => {
-    it('placements', async () => {
-      const Demo = props => {
-        const btnRef = useRef<HTMLButtonElement>(null);
-        return (
-          <div style={{ margin: 20 }}>
-            <button ref={btnRef}>按钮</button>
-            <Tour
-              placement={props.placement}
-              steps={[
-                {
-                  title: '创建',
-                  description: '创建一条数据',
-                  target: () => btnRef.current,
-                },
-              ]}
-            />
-          </div>
-        );
-      };
-      for (const item of Object.keys(placements)) {
-        const { unmount } = render(<Demo placement={item} />);
-        await sleep(500);
-        // await waitFakeTimer()
-        // await sleep(500);
-        await waitFor(() => {
-          expect(
-            document.querySelector(`.rc-tour-placement-${item}`),
-          ).toBeTruthy();
-        });
-        unmount();
-      }
-    });
-
-    it('change placement', async () => {
-      const Demo = props => {
-        const btnRef = useRef<HTMLButtonElement>(null);
-        return (
-          <div style={{ margin: 20 }}>
-            <button ref={btnRef}>按钮</button>
-            <Tour
-              placement={props.placement}
-              steps={[
-                {
-                  placement: props.placement,
-                  title: '创建',
-                  description: '创建一条数据',
-                  target: () => btnRef.current,
-                },
-              ]}
-            />
-          </div>
-        );
-      };
-
-      const { rerender } = render(<Demo placement={'bottom'} />);
-      await sleep(1000);
-      // await waitFakeTimer();
-      // await sleep(1000);
-      await waitFor(() => {
-        expect(
-          document.querySelector(`.rc-tour-placement-bottom`),
-        ).toBeTruthy();
-      });
-
-      rerender(<Demo placement={'top'} />);
-      await sleep(1000);
-      // await waitFakeTimer();
-      // await sleep(1000);
-      await waitFor(() => {
-        expect(document.querySelector(`.rc-tour-placement-top`)).toBeTruthy();
-      });
-    });
   });
 
   describe('showArrow', () => {
