@@ -114,7 +114,7 @@ We use typescript to create the Type definition. You can view directly in IDE. B
 | onClose | `(current: number) => void` | - | 关闭引导时的回调 |
 | onFinish | `() => void` | - | 完成引导时的回调 |
 | mask | `boolean` | `true` | 整体是否启用蒙层 |
-| animated | `boolean \| { placeholder: true }` | `false` | 是否启用目标遮罩动画 |
+| animated | `boolean \| { placeholder: boolean }` | `false` | 是否启用目标遮罩动画 |
 | arrow | `boolean \| { pointAtCenter: boolean}` | `true` | 整体是否显示箭头，包含是否指向元素中心的配置 |
 
 ### TourStep
