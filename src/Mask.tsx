@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import Portal from '@rc-component/portal';
 import type { PosInfo } from './hooks/useTarget';
@@ -15,19 +15,21 @@ export interface MaskProps {
   rootClassName?: string;
   mask?: boolean;
   open?: boolean;
+  animated?: boolean | { placeholder: true };
 }
 
-const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
-  const { prefixCls, rootClassName, pos, mask, open } = props;
+const Mask = (props: MaskProps) => {
+  const { prefixCls, rootClassName, pos, mask, open, animated } = props;
 
   const id = useId();
   const maskId = `${prefixCls}-mask-${id}`;
+  const mergedAnimated =
+    typeof animated === 'object' ? animated?.placeholder : animated;
 
   return (
     <Portal open={open} autoLock>
       <div
         className={classNames(`${prefixCls}-mask`, rootClassName)}
-        ref={ref}
         style={{
           position: 'fixed',
           left: 0,
@@ -56,6 +58,9 @@ const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
                     width={pos.width}
                     height={pos.height}
                     fill="black"
+                    className={
+                      mergedAnimated ? `${prefixCls}-placeholder-animated` : ''
+                    }
                   />
                 )}
               </mask>
@@ -107,6 +112,6 @@ const Mask = forwardRef<HTMLDivElement, MaskProps>((props, ref) => {
       </div>
     </Portal>
   );
-});
+};
 
 export default Mask;

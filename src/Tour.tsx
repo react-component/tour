@@ -42,6 +42,7 @@ export interface TourProps {
   prefixCls?: string;
   renderPanel?: (props: TourStepProps, current: number) => ReactNode;
   gap?: Gap;
+  animated?: boolean | { placeholder: true };
 }
 
 const Tour = (props: TourProps) => {
@@ -60,6 +61,7 @@ const Tour = (props: TourProps) => {
     placement = 'bottom',
     renderPanel,
     gap,
+    animated,
     ...restProps
   } = props;
 
@@ -82,7 +84,7 @@ const Tour = (props: TourProps) => {
       setMergedCurrent(0);
     }
     openRef.current = mergedOpen;
-  }, [mergedOpen])
+  }, [mergedOpen]);
 
   const {
     target,
@@ -131,7 +133,7 @@ const Tour = (props: TourProps) => {
   const handleClose = () => {
     setMergedOpen(false);
     onClose?.(mergedCurrent);
-  }
+  };
 
   const getPopupElement = () => {
     return (
@@ -195,6 +197,7 @@ const Tour = (props: TourProps) => {
         pos={posInfo}
         mask={mergedMask}
         open={mergedOpen}
+        animated={animated}
         rootClassName={rootClassName}
       />
     </>
