@@ -42,7 +42,7 @@ export interface TourProps {
   prefixCls?: string;
   renderPanel?: (props: TourStepProps, current: number) => ReactNode;
   gap?: Gap;
-  animated?: boolean | { placeholder: true };
+  animated?: boolean | { placeholder: boolean };
 }
 
 const Tour = (props: TourProps) => {
