@@ -15,7 +15,7 @@ export interface MaskProps {
   rootClassName?: string;
   mask?: boolean;
   open?: boolean;
-  animated?: boolean | { placeholder: true };
+  animated?: boolean | { placeholder: boolean };
 }
 
 const Mask = (props: MaskProps) => {
