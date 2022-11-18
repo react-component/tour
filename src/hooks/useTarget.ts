@@ -37,28 +37,35 @@ export default function useTarget(
   // ========================= Align ==========================
   const [posInfo, setPosInfo] = useState<PosInfo>(null);
 
+
+
   useLayoutEffect(() => {
-    if (targetElement) {
-      // Exist target element. We should scroll and get target position
-      if (!isInViewPort(targetElement)) {
-        targetElement.scrollIntoView(true);
-      }
-
-      const { left, top, width, height } =
-        targetElement.getBoundingClientRect();
-      const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 };
-
-      setPosInfo(origin => {
-        if (JSON.stringify(origin) !== JSON.stringify(nextPosInfo)) {
-          return nextPosInfo;
+    const updatePos = () => {
+      if (targetElement) {
+        // Exist target element. We should scroll and get target position
+        if (!isInViewPort(targetElement)) {
+          targetElement.scrollIntoView(true);
         }
-
-        return origin;
-      });
-    } else {
-      // Not exist target which means we just show in center
-      setPosInfo(null);
+  
+        const { left, top, width, height } =
+          targetElement.getBoundingClientRect();
+        const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 };
+  
+        setPosInfo(origin => {
+          if (JSON.stringify(origin) !== JSON.stringify(nextPosInfo)) {
+            return nextPosInfo;
+          }
+  
+          return origin;
+        });
+      } else {
+        // Not exist target which means we just show in center
+        setPosInfo(null);
+      }
     }
+    updatePos();
+    // update when window resize
+    (window).addEventListener('resize', updatePos);
   }, [targetElement, open]);
 
   // ======================== PosInfo =========================
