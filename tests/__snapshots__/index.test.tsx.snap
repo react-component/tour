@@ -1,5 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Tour should update position when window resize 1`] = `
+<body>
+  <div>
+    <div
+      style="width: 100%;"
+    >
+      <button
+        class="btn2"
+      >
+        2000X700
+      </button>
+    </div>
+  </div>
+</body>
+`;
+
 exports[`Tour single 1`] = `
 <div
   style="margin: 20px;"

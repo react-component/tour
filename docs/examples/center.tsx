@@ -38,8 +38,8 @@ const App = () => {
       <Tour
         current={current}
         onChange={next => {
-          console.log('next:', next)
-          setCurrent(next)
+          console.log('next:', next);
+          setCurrent(next);
         }}
         mask={false}
         onClose={() => setOpen(false)}

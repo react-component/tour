@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { isInViewPort } from '../util';
 import type { TourStepInfo } from '..';
@@ -14,6 +14,7 @@ export interface PosInfo {
   height: number;
   width: number;
   radius: number;
+  __testFlag__?: string;
 }
 
 export default function useTarget(
@@ -37,36 +38,48 @@ export default function useTarget(
   // ========================= Align ==========================
   const [posInfo, setPosInfo] = useState<PosInfo>(null);
 
+  const updatePos = useCallback(() => {
+    if (targetElement) {
+      // Exist target element. We should scroll and get target position
+      if (!isInViewPort(targetElement)) {
+        targetElement.scrollIntoView(true);
+      }
 
+      const { left, top, width, height } =
+        targetElement.getBoundingClientRect();
+      const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 };
+
+      setPosInfo(origin => {
+        if (JSON.stringify(origin) !== JSON.stringify(nextPosInfo)) {
+          if (typeof jest !== 'undefined') {
+            nextPosInfo.__testFlag__ = `${window.innerWidth}X${window.innerHeight}`;
+          }
+          return nextPosInfo;
+        }
+
+        if (typeof jest !== 'undefined') {
+          origin.__testFlag__ = `${window.innerWidth}X${window.innerHeight}`;
+        }
+        return origin;
+      });
+    } else {
+      // Not exist target which means we just show in center
+      setPosInfo(null);
+    }
+  }, [targetElement]);
 
   useLayoutEffect(() => {
-    const updatePos = () => {
-      if (targetElement) {
-        // Exist target element. We should scroll and get target position
-        if (!isInViewPort(targetElement)) {
-          targetElement.scrollIntoView(true);
-        }
-  
-        const { left, top, width, height } =
-          targetElement.getBoundingClientRect();
-        const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 };
-  
-        setPosInfo(origin => {
-          if (JSON.stringify(origin) !== JSON.stringify(nextPosInfo)) {
-            return nextPosInfo;
-          }
-  
-          return origin;
-        });
-      } else {
-        // Not exist target which means we just show in center
-        setPosInfo(null);
-      }
-    }
     updatePos();
     // update when window resize
-    (window).addEventListener('resize', updatePos);
-  }, [targetElement, open]);
+    window.addEventListener('resize', updatePos);
+  }, [targetElement, open, updatePos]);
+
+  useEffect(
+    () => () => {
+      window.removeEventListener('resize', updatePos);
+    },
+    [updatePos],
+  );
 
   // ======================== PosInfo =========================
   const mergedPosInfo = useMemo(() => {
@@ -83,6 +96,7 @@ export default function useTarget(
       width: posInfo.width + gapOffset * 2,
       height: posInfo.height + gapOffset * 2,
       radius: gapRadius,
+      __testFlag__: posInfo.__testFlag__,
     };
   }, [posInfo, gap]);
 

@@ -35,65 +35,65 @@ open http://localhost:8000
 import Tour from '@rc-component/tour';
 
 const Demo = () => {
-    const createBtnRef = useRef<HTMLButtonElement>(null);
-    const updateBtnRef = useRef<HTMLButtonElement>(null);
-    const deleteBtnRef = useRef<HTMLButtonElement>(null);
-    return (
-        <div style={{ margin: 20 }}>
-            <div>
-                <button
-                    className="ant-target"
-                    ref={createBtnRef}
-                    style={{ marginLeft: 100 }}
-                >
-                    Create
-                </button>
-                <div style={{ height: 200 }} />
-                <button className="ant-target" ref={updateBtnRef}>
-                    Update
-                </button>
-                <button className="ant-target" ref={deleteBtnRef}>
-                    Delete
-                </button>
-            </div>
+  const createBtnRef = useRef < HTMLButtonElement > null;
+  const updateBtnRef = useRef < HTMLButtonElement > null;
+  const deleteBtnRef = useRef < HTMLButtonElement > null;
+  return (
+    <div style={{ margin: 20 }}>
+      <div>
+        <button
+          className="ant-target"
+          ref={createBtnRef}
+          style={{ marginLeft: 100 }}
+        >
+          Create
+        </button>
+        <div style={{ height: 200 }} />
+        <button className="ant-target" ref={updateBtnRef}>
+          Update
+        </button>
+        <button className="ant-target" ref={deleteBtnRef}>
+          Delete
+        </button>
+      </div>
 
-            <div style={{ height: 200 }} />
+      <div style={{ height: 200 }} />
 
-            <Tour
-                defaultCurrent={0}
-                steps={[
-                    {
-                        title: '创建',
-                        description: '创建一条数据',
-                        target: () => createBtnRef.current,
-                        mask: true,
-                    },
-                    {
-                        title: '更新',
-                        description: (
-                            <div>
-                                <span>更新一条数据</span>
-                                <button>帮助文档</button>
-                            </div>
-                        ),
-                        target: () => updateBtnRef.current,
-                    },
-                    {
-                        title: '删除',
-                        description: (
-                            <div>
-                                <span>危险操作：删除一条数据</span>
-                                <button>帮助文档</button>
-                            </div>
-                        ),
-                        target: () => deleteBtnRef.current,
-                        mask: true,
-                        style: { color: 'red' },
-                    },
-                ]}
-            />
-        </div>
-    );
+      <Tour
+        defaultCurrent={0}
+        steps={[
+          {
+            title: '创建',
+            description: '创建一条数据',
+            target: () => createBtnRef.current,
+            mask: true,
+          },
+          {
+            title: '更新',
+            description: (
+              <div>
+                <span>更新一条数据</span>
+                <button>帮助文档</button>
+              </div>
+            ),
+            target: () => updateBtnRef.current,
+          },
+          {
+            title: '删除',
+            description: (
+              <div>
+                <span>危险操作：删除一条数据</span>
+                <button>帮助文档</button>
+              </div>
+            ),
+            target: () => deleteBtnRef.current,
+            mask: true,
+            style: { color: 'red' },
+          },
+        ]}
+      />
+    </div>
+  );
 };
 
 export default Demo;
@@ -102,30 +102,31 @@ export default Demo;
 ## 🔥 API
 
 We use typescript to create the Type definition. You can view directly in IDE. But you can still check the type definition [here](https://github.com/react-component/tour/blob/master/src/interface.ts).
+
 ### Tour
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| steps | `TourStepProps[]` | - | 引导步骤 |
-| open | `boolean` | `true` | 受控打开引导（与 `current` 受控分开） |
-| current | `number` | 0 | 受控当前处于哪一步 |
-| defaultCurrent | `number` | 0 | 默认处于哪一步 |
-| onChange | `(current: number) => void` | - | 步骤改变时的回调，`current`为改变前的步骤，`next`为改变后的步骤 |
-| onClose | `(current: number) => void` | - | 关闭引导时的回调 |
-| onFinish | `() => void` | - | 完成引导时的回调 |
-| mask | `boolean` | `true` | 整体是否启用蒙层 |
-| animated | `boolean \| { placeholder: boolean }` | `false` | 是否启用目标遮罩动画 |
-| arrow | `boolean \| { pointAtCenter: boolean}` | `true` | 整体是否显示箭头，包含是否指向元素中心的配置 |
+| 属性           | 类型                                   | 默认值  | 说明                                                            |
+| -------------- | -------------------------------------- | ------- | --------------------------------------------------------------- |
+| steps          | `TourStepProps[]`                      | -       | 引导步骤                                                        |
+| open           | `boolean`                              | `true`  | 受控打开引导（与 `current` 受控分开）                           |
+| current        | `number`                               | 0       | 受控当前处于哪一步                                              |
+| defaultCurrent | `number`                               | 0       | 默认处于哪一步                                                  |
+| onChange       | `(current: number) => void`            | -       | 步骤改变时的回调，`current`为改变前的步骤，`next`为改变后的步骤 |
+| onClose        | `(current: number) => void`            | -       | 关闭引导时的回调                                                |
+| onFinish       | `() => void`                           | -       | 完成引导时的回调                                                |
+| mask           | `boolean`                              | `true`  | 整体是否启用蒙层                                                |
+| animated       | `boolean \| { placeholder: boolean }`  | `false` | 是否启用目标遮罩动画                                            |
+| arrow          | `boolean \| { pointAtCenter: boolean}` | `true`  | 整体是否显示箭头，包含是否指向元素中心的配置                    |
 
 ### TourStep
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| target | `() => HTMLElement` \|  `HTMLElement` | - | 获取引导卡片指向的元素 |
-| arrow | `boolean` \| `{ pointAtCenter: boolean}` | `true` | 是否显示箭头，包含是否指向元素中心的配置 |
-| placement | `left` \| `leftTop` \| `leftBottom` \| `right` \| `rightTop` \| `rightBottom` \| `top` \| `topLeft` \| `topRight` \| `bottom`  \| `bottomLeft` \| `bottomRight` | `bottom` | 引导卡片相对于目标元素的位置 |
-| onClose | `() => void` | - | 关闭引导时的回调函数 |
-| mask | `boolean` | `true` | 是否启用蒙层，默认跟随 Tour 的 `mask` 属性 |
-| renderPanel | `(props: TourStepProps, current: number) => ReactNode;` |  | 渲染 popoup 弹窗方法 |
-| className | `string` | - | - |
-| style | `React.CSSProperties` | - | - |
+| 属性        | 类型                                                                                                                                                           | 默认值   | 说明                                       |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------------ |
+| target      | `() => HTMLElement` \| `HTMLElement`                                                                                                                           | -        | 获取引导卡片指向的元素                     |
+| arrow       | `boolean` \| `{ pointAtCenter: boolean}`                                                                                                                       | `true`   | 是否显示箭头，包含是否指向元素中心的配置   |
+| placement   | `left` \| `leftTop` \| `leftBottom` \| `right` \| `rightTop` \| `rightBottom` \| `top` \| `topLeft` \| `topRight` \| `bottom` \| `bottomLeft` \| `bottomRight` | `bottom` | 引导卡片相对于目标元素的位置               |
+| onClose     | `() => void`                                                                                                                                                   | -        | 关闭引导时的回调函数                       |
+| mask        | `boolean`                                                                                                                                                      | `true`   | 是否启用蒙层，默认跟随 Tour 的 `mask` 属性 |
+| renderPanel | `(props: TourStepProps, current: number) => ReactNode;`                                                                                                        |          | 渲染 popoup 弹窗方法                       |
+| className   | `string`                                                                                                                                                       | -        | -                                          |
+| style       | `React.CSSProperties`                                                                                                                                          | -        | -                                          |

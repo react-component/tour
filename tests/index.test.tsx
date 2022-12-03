@@ -1,6 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Tour from '../src/index';
+import useTarget from '../src/hooks/useTarget';
+import { act } from 'react-dom/test-utils';
+
+const resizeWindow = (x: number, y: number) => {
+  window.innerWidth = x;
+  window.innerHeight = y;
+  window.dispatchEvent(new Event('resize'));
+};
 
 describe('Tour', () => {
   beforeEach(() => {
@@ -341,5 +349,38 @@ describe('Tour', () => {
     fireEvent.click(document.querySelector('.rc-tour-close-x'));
     fireEvent.click(document.querySelector('.open-tour'));
     expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 2');
+  });
+  it('should update position when window resize', async () => {
+    const fn = jest.fn();
+    const Demo = () => {
+      const btnRef = useRef<HTMLButtonElement>(null);
+      const [posInfo] = useTarget(() => btnRef.current, true);
+      useEffect(() => {
+        fn(posInfo?.__testFlag__);
+      }, [posInfo?.__testFlag__]);
+      return (
+        <div style={{ width: '100%' }}>
+          <button className="btn2" ref={btnRef}>
+            {posInfo?.__testFlag__}
+          </button>
+        </div>
+      );
+    };
+    const { baseElement, unmount } = render(<Demo />);
+    expect(fn).toBeCalledWith('1024X768');
+    await act(() => {
+      resizeWindow(100, 100);
+    });
+    expect(fn).toBeCalledWith('100X100');
+    await act(() => {
+      resizeWindow(2000, 700);
+    });
+    expect(fn).toBeCalledWith('2000X700');
+    expect(baseElement).toMatchSnapshot();
+    unmount();
+    await act(() => {
+      resizeWindow(333, 333);
+    });
+    expect(fn).not.toBeCalledWith('333X333');
   });
 });
