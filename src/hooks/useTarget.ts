@@ -14,7 +14,6 @@ export interface PosInfo {
   height: number;
   width: number;
   radius: number;
-  __testFlag__?: string;
 }
 
 export default function useTarget(
@@ -47,18 +46,11 @@ export default function useTarget(
 
       const { left, top, width, height } =
         targetElement.getBoundingClientRect();
-      const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 };
+      const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 }
 
       setPosInfo(origin => {
         if (JSON.stringify(origin) !== JSON.stringify(nextPosInfo)) {
-          if (typeof jest !== 'undefined') {
-            nextPosInfo.__testFlag__ = `${window.innerWidth}X${window.innerHeight}`;
-          }
           return nextPosInfo;
-        }
-
-        if (typeof jest !== 'undefined') {
-          origin.__testFlag__ = `${window.innerWidth}X${window.innerHeight}`;
         }
         return origin;
       });
@@ -95,8 +87,7 @@ export default function useTarget(
       top: posInfo.top - gapOffset,
       width: posInfo.width + gapOffset * 2,
       height: posInfo.height + gapOffset * 2,
-      radius: gapRadius,
-      __testFlag__: posInfo.__testFlag__,
+      radius: gapRadius
     };
   }, [posInfo, gap]);
 
