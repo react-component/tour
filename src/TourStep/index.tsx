@@ -28,10 +28,14 @@ export interface TourStepProps extends TourStepInfo {
 const TourStep = (props: TourStepProps) => {
   const { current, renderPanel } = props;
 
-  return typeof renderPanel === 'function' ? (
-    renderPanel(props, current)
-  ) : (
-    <DefaultPanel {...props} />
+  return (
+    <>
+      {typeof renderPanel === 'function' ? (
+        renderPanel(props, current)
+      ) : (
+        <DefaultPanel {...props} />
+      )}
+    </>
   );
 };
 
