@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { isInViewPort } from '../util';
 import type { TourStepInfo } from '..';
