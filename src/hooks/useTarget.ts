@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { isInViewPort } from '../util';
 import type { TourStepInfo } from '..';
+import useEvent from "rc-util/lib/hooks/useEvent";
 
 export interface Gap {
   offset?: number;
@@ -37,7 +38,7 @@ export default function useTarget(
   // ========================= Align ==========================
   const [posInfo, setPosInfo] = useState<PosInfo>(null);
 
-  const updatePos = useCallback(() => {
+  const updatePos = useEvent(() => {
     if (targetElement) {
       // Exist target element. We should scroll and get target position
       if (!isInViewPort(targetElement)) {
@@ -46,7 +47,7 @@ export default function useTarget(
 
       const { left, top, width, height } =
         targetElement.getBoundingClientRect();
-      const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 }
+      const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 };
 
       setPosInfo(origin => {
         if (JSON.stringify(origin) !== JSON.stringify(nextPosInfo)) {
@@ -58,20 +59,16 @@ export default function useTarget(
       // Not exist target which means we just show in center
       setPosInfo(null);
     }
-  }, [targetElement]);
+  });
 
   useLayoutEffect(() => {
     updatePos();
     // update when window resize
     window.addEventListener('resize', updatePos);
-  }, [targetElement, open, updatePos]);
-
-  useEffect(
-    () => () => {
+    return () => {
       window.removeEventListener('resize', updatePos);
-    },
-    [updatePos],
-  );
+    }
+  }, [targetElement, open, updatePos]);
 
   // ======================== PosInfo =========================
   const mergedPosInfo = useMemo(() => {
@@ -87,7 +84,7 @@ export default function useTarget(
       top: posInfo.top - gapOffset,
       width: posInfo.width + gapOffset * 2,
       height: posInfo.height + gapOffset * 2,
-      radius: gapRadius
+      radius: gapRadius,
     };
   }, [posInfo, gap]);
 
