@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { isInViewPort } from '../util';
 import type { TourStepInfo } from '..';
+import useEvent from "rc-util/lib/hooks/useEvent";
 
 export interface Gap {
   offset?: number;
@@ -37,7 +38,7 @@ export default function useTarget(
   // ========================= Align ==========================
   const [posInfo, setPosInfo] = useState<PosInfo>(null);
 
-  useLayoutEffect(() => {
+  const updatePos = useEvent(() => {
     if (targetElement) {
       // Exist target element. We should scroll and get target position
       if (!isInViewPort(targetElement)) {
@@ -52,14 +53,22 @@ export default function useTarget(
         if (JSON.stringify(origin) !== JSON.stringify(nextPosInfo)) {
           return nextPosInfo;
         }
-
         return origin;
       });
     } else {
       // Not exist target which means we just show in center
       setPosInfo(null);
     }
-  }, [targetElement, open]);
+  });
+
+  useLayoutEffect(() => {
+    updatePos();
+    // update when window resize
+    window.addEventListener('resize', updatePos);
+    return () => {
+      window.removeEventListener('resize', updatePos);
+    }
+  }, [targetElement, open, updatePos]);
 
   // ======================== PosInfo =========================
   const mergedPosInfo = useMemo(() => {

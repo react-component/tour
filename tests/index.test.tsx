@@ -1,6 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Tour from '../src/index';
+import {spyElementPrototypes} from "rc-util/lib/test/domHook";
+import {act} from "react-dom/test-utils";
+import {resizeWindow} from "./utils";
 
 describe('Tour', () => {
   beforeEach(() => {
@@ -342,4 +345,77 @@ describe('Tour', () => {
     fireEvent.click(document.querySelector('.open-tour'));
     expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 2');
   });
+
+  const mockBtnRect = (rect: { x: number, y: number, width: number, height: number }) => {
+        spyElementPrototypes(HTMLButtonElement, {
+            getBoundingClientRect: {
+                get(): any {
+                    return () => ({...rect, left: rect.x, top: rect.y});
+                }
+            },
+            scrollIntoView: {
+                get(): any {
+                    return (val) => val
+                }
+            }
+
+        });
+    }
+
+  it('should update position when window resize', async () => {
+        mockBtnRect({
+            x: 800,
+            y: 333,
+            width: 230,
+            height: 180
+        });
+        const Demo = () => {
+            const btnRef = useRef<HTMLButtonElement>(null);
+
+            return (
+                <div style={{width: '100%'}}>
+                    <button className="btn2" ref={btnRef} onClick={() => {
+                        mockBtnRect({
+                            x: 15,
+                            y: 10,
+                            width: 230,
+                            height: 180
+                        });
+                        resizeWindow(300, 200);
+                    }}>
+                        按钮
+                    </button>
+                    <Tour
+                        open
+                        placement={'bottom'}
+                        steps={[
+                            {
+                                title: '创建',
+                                description: '创建一条数据',
+                                target: () => btnRef.current,
+                            },
+                        ]}
+                    />
+                </div>
+            );
+        };
+        const {baseElement, unmount} = render(<Demo/>);
+        expect(baseElement.querySelector('.rc-tour-target-placeholder')).toHaveStyle('left: 794px; top: 327px; width: 242px; height: 192px;');
+        fireEvent.click(baseElement.querySelector('.btn2'));
+        await act(() => {
+            jest.runAllTimers();
+        });
+        expect(baseElement.querySelector('.rc-tour-target-placeholder')).toHaveStyle('left: 9px; top: 4px; width: 242px; height: 192px;');
+
+        expect(baseElement).toMatchSnapshot();
+
+        unmount();
+        mockBtnRect({
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0
+        });
+
+    });
 });
