@@ -18,9 +18,9 @@ export default function DefaultPanel(props: TourStepProps) {
   } = props;
 
   return (
-    <div className={classNames(`${prefixCls}-content`)}>
+    <div className={classNames(`${prefixCls}-content`, className)}>
       {arrow && <div className={`${prefixCls}-arrow`} key="arrow" />}
-      <div className={classNames(`${prefixCls}-inner`, className)}>
+      <div className={`${prefixCls}-inner`}>
         <button
           type="button"
           onClick={onClose}
