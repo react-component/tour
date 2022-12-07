@@ -1,6 +1,5 @@
 import * as React from 'react';
 import type { ReactNode, CSSProperties } from 'react';
-import classNames from 'classnames';
 import type { PlacementType } from '../placements';
 import DefaultPanel from './DefaultPanel';
 
@@ -27,18 +26,12 @@ export interface TourStepProps extends TourStepInfo {
 }
 
 const TourStep = (props: TourStepProps) => {
-  const { className, prefixCls, current, renderPanel } = props;
+  const { current, renderPanel } = props;
 
-  const mergedClassName = classNames(`${prefixCls}-inner`, className);
-
-  return (
-    <div className={mergedClassName}>
-      {typeof renderPanel === 'function' ? (
-        renderPanel(props, current)
-      ) : (
-        <DefaultPanel {...props} />
-      )}
-    </div>
+  return typeof renderPanel === 'function' ? (
+    renderPanel(props, current)
+  ) : (
+    <DefaultPanel {...props} />
   );
 };
 
