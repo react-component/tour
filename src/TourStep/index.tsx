@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { ReactNode, CSSProperties } from 'react';
 import type { PlacementType } from '../placements';
-import DefaultPanel from './DefaultPanel';
+import PanelContainer from './PanelContainer';
 
 export interface TourStepInfo {
   arrow?: boolean | { pointAtCenter: boolean };
@@ -33,7 +33,7 @@ const TourStep = (props: TourStepProps) => {
       {typeof renderPanel === 'function' ? (
         renderPanel(props, current)
       ) : (
-        <DefaultPanel {...props} />
+        <PanelContainer {...props} />
       )}
     </>
   );

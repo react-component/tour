@@ -1,6 +1,5 @@
 import * as React from 'react';
 import type { TourStepProps } from '.';
-import classNames from 'classnames';
 
 export default function DefaultPanel(props: TourStepProps) {
   const {
@@ -13,14 +12,10 @@ export default function DefaultPanel(props: TourStepProps) {
     onPrev,
     onNext,
     onFinish,
-    arrow,
-    className,
   } = props;
 
   return (
-    <div className={classNames(`${prefixCls}-content`, className)}>
-      {arrow && <div className={`${prefixCls}-arrow`} key="arrow" />}
-      <div className={`${prefixCls}-inner`}>
+    <>
         <button
           type="button"
           onClick={onClose}
@@ -63,7 +58,6 @@ export default function DefaultPanel(props: TourStepProps) {
             )}
           </div>
         </div>
-      </div>
-    </div>
+    </>
   );
 }
