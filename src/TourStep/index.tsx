@@ -2,11 +2,12 @@ import * as React from 'react';
 import type { ReactNode, CSSProperties } from 'react';
 import type { PlacementType } from '../placements';
 import PanelContainer from './PanelContainer';
+import DefaultPanel from './DefaultPanel'
 
 export interface TourStepInfo {
   arrow?: boolean | { pointAtCenter: boolean };
   target?: HTMLElement | (() => HTMLElement) | null | (() => null);
-  title: ReactNode;
+  title?: ReactNode;
   description?: ReactNode;
   placement?: PlacementType;
   mask?: boolean;
@@ -33,7 +34,9 @@ const TourStep = (props: TourStepProps) => {
       {typeof renderPanel === 'function' ? (
         renderPanel(props, current)
       ) : (
-        <PanelContainer {...props} />
+        <PanelContainer {...props} >
+          <DefaultPanel/>
+        </PanelContainer>
       )}
     </>
   );
