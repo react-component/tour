@@ -25,17 +25,6 @@ describe('Tour', () => {
     render(<Demo />);
   });
 
-  it('renderPanel ', async () => {
-    const Demo = () => {
-      return (
-        <div style={{ margin: 20 }}>
-          <Tour renderPanel={() => <div>test</div>} />
-        </div>
-      );
-    };
-    render(<Demo />);
-  });
-
   it('single', async () => {
     const Demo = () => {
       const btnRef = useRef<HTMLButtonElement>(null);
@@ -58,6 +47,35 @@ describe('Tour', () => {
     const { getByText, container } = render(<Demo />);
     expect(getByText('创建一条数据')).toBeTruthy();
     expect(document.querySelector('.rc-tour-placeholder-animated')).toBeFalsy();
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('renderPanel', async () => {
+    const Demo = () => {
+      const btnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <button ref={btnRef}>按钮</button>
+          <Tour
+            placement={'bottom'}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+            renderPanel={(props, current) => (
+              <div>
+                {props.title},当前在第{current}步,描述为{props.description}
+              </div>
+            )}
+          />
+        </div>
+      );
+    };
+    const { getByText, container } = render(<Demo />);
+    expect(getByText('创建,当前在第0步,描述为创建一条数据')).toBeTruthy();
     expect(container.firstChild).toMatchSnapshot();
   });
 
