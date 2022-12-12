@@ -107,6 +107,9 @@ const Tour = (props: TourProps) => {
     : false;
   const arrowPointAtCenter =
     typeof mergedArrow === 'object' ? mergedArrow.pointAtCenter : false;
+  const arrowClassName = classNames(`${prefixCls}-arrow`, {
+    [`${prefixCls}-arrowPointAtCenter`]: arrowPointAtCenter,
+  });
 
   // ========================= Change =========================
   const onInternalChange = (nextCurrent: number) => {
@@ -132,28 +135,32 @@ const Tour = (props: TourProps) => {
     onClose?.(mergedCurrent);
   };
 
-  const getPopupElement = () => (
-    <TourStep
-      arrow={mergedArrow}
-      key="content"
-      prefixCls={prefixCls}
-      total={steps.length}
-      renderPanel={renderPanel}
-      onPrev={() => {
-        onInternalChange(mergedCurrent - 1);
-      }}
-      onNext={() => {
-        onInternalChange(mergedCurrent + 1);
-      }}
-      onClose={handleClose}
-      current={mergedCurrent}
-      onFinish={() => {
-        handleClose();
-        onFinish?.();
-      }}
-      {...steps[mergedCurrent]}
-    />
-  );
+  const getPopupElement = () => {
+    return (
+      <div className={`${prefixCls}-content`}>
+        {mergedArrow && <div className={arrowClassName} key="arrow" />}
+        <TourStep
+          key="content"
+          prefixCls={prefixCls}
+          total={steps.length}
+          renderPanel={renderPanel}
+          onPrev={() => {
+            onInternalChange(mergedCurrent - 1);
+          }}
+          onNext={() => {
+            onInternalChange(mergedCurrent + 1);
+          }}
+          onClose={handleClose}
+          current={mergedCurrent}
+          onFinish={() => {
+            handleClose();
+            onFinish?.();
+          }}
+          {...steps[mergedCurrent]}
+        />
+      </div>
+    );
+  };
 
   return (
     <>
