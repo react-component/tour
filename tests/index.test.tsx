@@ -44,10 +44,10 @@ describe('Tour', () => {
         </div>
       );
     };
-    const { getByText, container } = render(<Demo />);
+    const { getByText, baseElement } = render(<Demo />);
     expect(getByText('创建一条数据')).toBeTruthy();
     expect(document.querySelector('.rc-tour-placeholder-animated')).toBeFalsy();
-    expect(container.firstChild).toMatchSnapshot();
+    expect(baseElement).toMatchSnapshot();
   });
 
   it('renderPanel', async () => {
@@ -74,9 +74,9 @@ describe('Tour', () => {
         </div>
       );
     };
-    const { getByText, container } = render(<Demo />);
+    const { getByText, baseElement } = render(<Demo />);
     expect(getByText('创建,当前在第0步,描述为创建一条数据')).toBeTruthy();
-    expect(container.firstChild).toMatchSnapshot();
+    expect(baseElement).toMatchSnapshot();
   });
 
   it('basic', () => {
@@ -130,7 +130,7 @@ describe('Tour', () => {
         </div>
       );
     };
-    const { getByText } = render(<Demo />);
+    const { getByText, baseElement } = render(<Demo />);
     expect(getByText('更新一条数据')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Prev' }));
     expect(getByText('创建一条数据')).toBeTruthy();
@@ -141,6 +141,7 @@ describe('Tour', () => {
     expect(document.querySelector('.rc-tour')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
     expect(document.querySelector('.rc-tour')).toBeFalsy();
+    expect(baseElement).toMatchSnapshot();
   });
 
   describe('animated', () => {
@@ -171,16 +172,18 @@ describe('Tour', () => {
       ).toBeFalsy();
     });
     it('true', () => {
-      render(<Demo animated={true} />);
+      const { baseElement } = render(<Demo animated={true} />);
       expect(
         document.querySelector('.rc-tour-placeholder-animated'),
       ).toBeTruthy();
+      expect(baseElement).toMatchSnapshot();
     });
-    it('placeholder true ', () => {
-      render(<Demo animated={{ placeholder: true }} />);
+    it('placeholder true', () => {
+      const { baseElement } = render(<Demo animated={{ placeholder: true }} />);
       expect(
         document.querySelector('.rc-tour-placeholder-animated'),
       ).toBeTruthy();
+      expect(baseElement).toMatchSnapshot();
     });
   });
 
@@ -204,7 +207,7 @@ describe('Tour', () => {
         </div>
       );
     };
-    render(<Demo />);
+    const { baseElement } = render(<Demo />);
 
     expect(document.querySelector('.rc-tour.customClassName')).toBeTruthy();
     expect(
@@ -213,6 +216,7 @@ describe('Tour', () => {
     expect(
       document.querySelector('.rc-tour-target-placeholder.customClassName'),
     ).toBeTruthy();
+    expect(baseElement).toMatchSnapshot();
   });
 
   it('open', () => {
@@ -273,12 +277,13 @@ describe('Tour', () => {
         );
       };
 
-      const { rerender } = render(<Demo />);
+      const { rerender,baseElement } = render(<Demo />);
       expect(document.querySelector(`.rc-tour-arrow`)).toBeTruthy();
 
       arrow = false;
       rerender(<Demo />);
       expect(document.querySelector(`.rc-tour-arrow`)).toBeFalsy();
+      expect(baseElement).toMatchSnapshot();
     });
   });
 
@@ -326,7 +331,7 @@ describe('Tour', () => {
       );
     };
 
-    render(<Demo />);
+    const { baseElement } = render(<Demo />);
 
     fireEvent.click(document.querySelector('.open-tour'));
     fireEvent.click(document.querySelector('.rc-tour-next-btn'));
@@ -334,6 +339,7 @@ describe('Tour', () => {
     fireEvent.click(document.querySelector('.rc-tour-close-x'));
     fireEvent.click(document.querySelector('.open-tour'));
     expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 1');
+    expect(baseElement).toMatchSnapshot();
   });
 
   it('should keep current when controlled', () => {
@@ -365,7 +371,7 @@ describe('Tour', () => {
       );
     };
 
-    render(<Demo />);
+    const { baseElement } = render(<Demo />);
 
     fireEvent.click(document.querySelector('.open-tour'));
     fireEvent.click(document.querySelector('.rc-tour-next-btn'));
@@ -373,6 +379,7 @@ describe('Tour', () => {
     fireEvent.click(document.querySelector('.rc-tour-close-x'));
     fireEvent.click(document.querySelector('.open-tour'));
     expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 2');
+    expect(baseElement).toMatchSnapshot();
   });
 
   const mockBtnRect = (rect: {
