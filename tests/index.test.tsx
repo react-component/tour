@@ -468,37 +468,38 @@ describe('Tour', () => {
 
   it("should support customStyle to change mask's style", () => {
     const Demo = () => {
-      const btnRef = useRef<HTMLButtonElement>(null);
+      const btn1Ref = useRef<HTMLButtonElement>(null);
+      const btn2Ref = useRef<HTMLButtonElement>(null);
 
       return (
         <div style={{ width: '100%' }}>
-          <button
-            className="btn2"
-            ref={btnRef}
-            onClick={() => {
-              mockBtnRect({
-                x: 15,
-                y: 10,
-                width: 230,
-                height: 180,
-              });
-              resizeWindow(300, 200);
-            }}
-          >
-            按钮
-          </button>
+          <button className="btn1" ref={btn1Ref}>按钮1</button>
+          <button className="btn2" ref={btn2Ref}>按钮2</button>
           <Tour
             open
             placement={'bottom'}
-            maskFillColor='rgba(255,0,0,0.5)'
-            customMaskStyle={{
-              boxShadow: 'inset 0 0 80px #333'
+            mask={{
+              style: {
+                boxShadow: 'inset 0 0 80px #333'
+              },
+              fill: 'rgba(255,0,0,0.5)'
             }}
             steps={[
               {
                 title: '创建',
                 description: '创建一条数据',
-                target: () => btnRef.current,
+                target: () => btn1Ref.current,
+              },
+              {
+                title: '创建2',
+                description: '创建一条数据2',
+                target: () => btn2Ref.current,
+                mask: {
+                  style: {
+                    boxShadow: 'inset 0 0 30px green'
+                  },
+                  fill: 'rgba(80,0,0,0.5)'
+                }
               },
             ]}
           />
@@ -509,5 +510,8 @@ describe('Tour', () => {
 
     expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle('box-shadow: inset 0 0 80px #333');
     expect(baseElement.querySelector('.fill-rect')).toHaveAttribute('fill', 'rgba(255,0,0,0.5)');
+    fireEvent.click(document.querySelector('.rc-tour-next-btn'));
+    expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle('box-shadow: inset 0 0 30px green');
+    expect(baseElement.querySelector('.fill-rect')).toHaveAttribute('fill', 'rgba(80,0,0,0.5)');
   });
 });

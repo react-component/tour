@@ -13,11 +13,13 @@ export interface MaskProps {
   prefixCls?: string;
   pos: PosInfo; //	获取引导卡片指向的元素
   rootClassName?: string;
-  mask?: boolean;
+  mask?: boolean | {
+    style?: React.CSSProperties;
+    // to fill mark color, e.g. rgba(80,0,0,0.5)
+    fill?: string;
+  };
   open?: boolean;
   animated?: boolean | { placeholder: boolean };
-  customMaskStyle?: React.CSSProperties;
-  maskFillColor?: string;
 }
 
 const Mask = (props: MaskProps) => {
@@ -28,14 +30,32 @@ const Mask = (props: MaskProps) => {
     mask,
     open,
     animated,
-    customMaskStyle,
-    maskFillColor,
   } = props;
 
   const id = useId();
   const maskId = `${prefixCls}-mask-${id}`;
   const mergedAnimated =
     typeof animated === 'object' ? animated?.placeholder : animated;
+
+  const {
+    style,
+    fill,
+    showMask
+  } = React.useMemo(() => {
+    if(typeof mask !== "boolean") {
+      return {
+        showMask: true,
+        ...mask
+      };
+    }
+    return {
+      showMask: mask,
+      style: {},
+      fill: 'rgba(0,0,0,0.5)'
+    }
+  }, [mask]);
+
+  console.log(mask, style, fill, showMask);
 
   return (
     <Portal open={open} autoLock>
@@ -49,10 +69,10 @@ const Mask = (props: MaskProps) => {
           bottom: 0,
           zIndex: 900,
           pointerEvents: 'none',
-          ...customMaskStyle,
+          ...style
         }}
       >
-        {mask ? (
+        {showMask ? (
           <svg
             style={{
               width: '100%',
@@ -82,7 +102,7 @@ const Mask = (props: MaskProps) => {
               y="0"
               width="100%"
               height="100%"
-              fill={maskFillColor}
+              fill={fill}
               mask={`url(#${maskId})`}
               className="fill-rect"
             />

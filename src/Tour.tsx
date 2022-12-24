@@ -9,7 +9,7 @@ import useTarget from './hooks/useTarget';
 import type { Gap } from './hooks/useTarget';
 import TourStep from './TourStep';
 import type { TourStepInfo } from './TourStep';
-import Mask from './Mask';
+import Mask, { MaskProps } from './Mask';
 import placements, { getCenterPlacements } from './placements';
 import type { TourStepProps } from './TourStep';
 import type { PlacementType } from './placements';
@@ -35,7 +35,7 @@ export interface TourProps {
   onChange?: (current: number) => void;
   onClose?: (current: number) => void;
   onFinish?: () => void;
-  mask?: boolean;
+  mask?: MaskProps["mask"];
   arrow?: boolean | { pointAtCenter: boolean };
   rootClassName?: string;
   placement?: PlacementType;
@@ -64,8 +64,6 @@ const Tour = (props: TourProps) => {
     renderPanel,
     gap,
     animated,
-    customMaskStyle = {},
-    maskFillColor = 'rgba(0,0,0,0.5)',
     ...restProps
   } = props;
 
@@ -196,8 +194,6 @@ const Tour = (props: TourProps) => {
         open={mergedOpen}
         animated={animated}
         rootClassName={rootClassName}
-        customMaskStyle={customMaskStyle}
-        maskFillColor={maskFillColor}
       />
     </>
   );

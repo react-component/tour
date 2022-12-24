@@ -29,10 +29,12 @@ const App = () => {
 
       <Tour
         defaultCurrent={2}
-        customMaskStyle={{
-          boxShadow: 'inset 0 0 80px #333'
+        mask={{
+          style: {
+            boxShadow: 'inset 0 0 80px #333'
+          },
+          fill: 'rgba(255,0,0,0.5)'
         }}
-        maskFillColor="rgba(255,0,0,0.5)"
         animated={true}
         steps={[
           {
@@ -60,7 +62,12 @@ const App = () => {
               </div>
             ),
             target: () => deleteBtnRef.current,
-            mask: true,
+            mask: {
+              style: {
+                boxShadow: 'inset 0 0 80px #333'
+              },
+              fill: 'rgba(80,0,0,0.5)'
+            },
             style: { color: 'red' },
           },
         ]}
