@@ -102,7 +102,6 @@ const Mask = (props: MaskProps) => {
               height="100%"
               fill={fill}
               mask={`url(#${maskId})`}
-              className="fill-rect"
             />
 
             {/* Block click region */}

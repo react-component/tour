@@ -509,9 +509,9 @@ describe('Tour', () => {
     const { baseElement } = render(<Demo />);
 
     expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle('box-shadow: inset 0 0 80px #333');
-    expect(baseElement.querySelector('.fill-rect')).toHaveAttribute('fill', 'rgba(255,0,0,0.5)');
+    expect(baseElement.querySelectorAll('rect')[2]).toHaveAttribute('fill', 'rgba(255,0,0,0.5)');
     fireEvent.click(document.querySelector('.rc-tour-next-btn'));
     expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle('box-shadow: inset 0 0 30px green');
-    expect(baseElement.querySelector('.fill-rect')).toHaveAttribute('fill', 'rgba(80,0,0,0.5)');
+    expect(baseElement.querySelectorAll('rect')[2]).toHaveAttribute('fill', 'rgba(80,0,0,0.5)');
   });
 });

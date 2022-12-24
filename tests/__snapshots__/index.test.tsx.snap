@@ -111,7 +111,6 @@ exports[`Tour animated placeholder true 1`] = `
           </mask>
         </defs>
         <rect
-          class="fill-rect"
           fill="rgba(0,0,0,0.5)"
           height="100%"
           mask="url(#rc-tour-mask-test-id)"
@@ -268,7 +267,6 @@ exports[`Tour animated true 1`] = `
           </mask>
         </defs>
         <rect
-          class="fill-rect"
           fill="rgba(0,0,0,0.5)"
           height="100%"
           mask="url(#rc-tour-mask-test-id)"
@@ -413,7 +411,6 @@ exports[`Tour renderPanel 1`] = `
           </mask>
         </defs>
         <rect
-          class="fill-rect"
           fill="rgba(0,0,0,0.5)"
           height="100%"
           mask="url(#rc-tour-mask-test-id)"
@@ -570,7 +567,6 @@ exports[`Tour rootClassName 1`] = `
           </mask>
         </defs>
         <rect
-          class="fill-rect"
           fill="rgba(0,0,0,0.5)"
           height="100%"
           mask="url(#rc-tour-mask-test-id)"
@@ -725,7 +721,6 @@ exports[`Tour should keep current when controlled 1`] = `
           </mask>
         </defs>
         <rect
-          class="fill-rect"
           fill="rgba(0,0,0,0.5)"
           height="100%"
           mask="url(#rc-tour-mask-test-id)"
@@ -843,7 +838,6 @@ exports[`Tour should return step 1 when reopen 1`] = `
           </mask>
         </defs>
         <rect
-          class="fill-rect"
           fill="rgba(0,0,0,0.5)"
           height="100%"
           mask="url(#rc-tour-mask-test-id)"
@@ -970,7 +964,6 @@ exports[`Tour should update position when window resize 1`] = `
           </mask>
         </defs>
         <rect
-          class="fill-rect"
           fill="rgba(0,0,0,0.5)"
           height="100%"
           mask="url(#rc-tour-mask-test-id)"
@@ -1124,7 +1117,6 @@ exports[`Tour showArrow should show tooltip arrow default 1`] = `
           </mask>
         </defs>
         <rect
-          class="fill-rect"
           fill="rgba(0,0,0,0.5)"
           height="100%"
           mask="url(#rc-tour-mask-test-id)"
@@ -1281,7 +1273,6 @@ exports[`Tour single 1`] = `
           </mask>
         </defs>
         <rect
-          class="fill-rect"
           fill="rgba(0,0,0,0.5)"
           height="100%"
           mask="url(#rc-tour-mask-test-id)"
