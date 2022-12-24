@@ -55,8 +55,6 @@ const Mask = (props: MaskProps) => {
     }
   }, [mask]);
 
-  console.log(mask, style, fill, showMask);
-
   return (
     <Portal open={open} autoLock>
       <div
