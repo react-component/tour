@@ -15,7 +15,7 @@ export interface MaskProps {
   rootClassName?: string;
   mask?: boolean | {
     style?: React.CSSProperties;
-    // to fill mark color, e.g. rgba(80,0,0,0.5)
+    // to fill mask color, e.g. rgba(80,0,0,0.5)
     fill?: string;
   };
   open?: boolean;
