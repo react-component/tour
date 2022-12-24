@@ -43,6 +43,8 @@ export interface TourProps {
   renderPanel?: (props: TourStepProps, current: number) => ReactNode;
   gap?: Gap;
   animated?: boolean | { placeholder: boolean };
+  customMaskStyle?: React.CSSProperties;
+  maskFillColor?: string;
 }
 
 const Tour = (props: TourProps) => {
@@ -62,6 +64,8 @@ const Tour = (props: TourProps) => {
     renderPanel,
     gap,
     animated,
+    customMaskStyle = {},
+    maskFillColor = 'rgba(0,0,0,0.5)',
     ...restProps
   } = props;
 
@@ -192,6 +196,8 @@ const Tour = (props: TourProps) => {
         open={mergedOpen}
         animated={animated}
         rootClassName={rootClassName}
+        customMaskStyle={customMaskStyle}
+        maskFillColor={maskFillColor}
       />
     </>
   );

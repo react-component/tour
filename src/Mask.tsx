@@ -16,10 +16,21 @@ export interface MaskProps {
   mask?: boolean;
   open?: boolean;
   animated?: boolean | { placeholder: boolean };
+  customMaskStyle?: React.CSSProperties;
+  maskFillColor?: string;
 }
 
 const Mask = (props: MaskProps) => {
-  const { prefixCls, rootClassName, pos, mask, open, animated } = props;
+  const {
+    prefixCls,
+    rootClassName,
+    pos,
+    mask,
+    open,
+    animated,
+    customMaskStyle = {},
+    maskFillColor = 'rgba(0,0,0,0.5)',
+  } = props;
 
   const id = useId();
   const maskId = `${prefixCls}-mask-${id}`;
@@ -38,6 +49,7 @@ const Mask = (props: MaskProps) => {
           bottom: 0,
           zIndex: 900,
           pointerEvents: 'none',
+          ...customMaskStyle,
         }}
       >
         {mask ? (
@@ -70,8 +82,9 @@ const Mask = (props: MaskProps) => {
               y="0"
               width="100%"
               height="100%"
-              fill="rgba(0,0,0,0.5)"
+              fill={maskFillColor}
               mask={`url(#${maskId})`}
+              className="fill-rect"
             />
 
             {/* Block click region */}

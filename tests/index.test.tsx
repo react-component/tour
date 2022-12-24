@@ -465,4 +465,49 @@ describe('Tour', () => {
       height: 0,
     });
   });
+
+  it("should support customStyle to change mask's style", () => {
+    const Demo = () => {
+      const btnRef = useRef<HTMLButtonElement>(null);
+
+      return (
+        <div style={{ width: '100%' }}>
+          <button
+            className="btn2"
+            ref={btnRef}
+            onClick={() => {
+              mockBtnRect({
+                x: 15,
+                y: 10,
+                width: 230,
+                height: 180,
+              });
+              resizeWindow(300, 200);
+            }}
+          >
+            按钮
+          </button>
+          <Tour
+            open
+            placement={'bottom'}
+            maskFillColor='rgba(255,0,0,0.5)'
+            customMaskStyle={{
+              boxShadow: 'inset 0 0 80px #333'
+            }}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+    const { baseElement } = render(<Demo />);
+
+    expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle('box-shadow: inset 0 0 80px #333');
+    expect(baseElement.querySelector('.fill-rect')).toHaveAttribute('fill', 'rgba(255,0,0,0.5)');
+  });
 });
