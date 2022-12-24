@@ -9,7 +9,7 @@ import useTarget from './hooks/useTarget';
 import type { Gap } from './hooks/useTarget';
 import TourStep from './TourStep';
 import type { TourStepInfo } from './TourStep';
-import Mask, { MaskProps } from './Mask';
+import Mask from './Mask';
 import placements, { getCenterPlacements } from './placements';
 import type { TourStepProps } from './TourStep';
 import type { PlacementType } from './placements';
@@ -35,7 +35,11 @@ export interface TourProps {
   onChange?: (current: number) => void;
   onClose?: (current: number) => void;
   onFinish?: () => void;
-  mask?: MaskProps["mask"];
+  mask?: boolean | {
+    style: React.CSSProperties;
+    // to fill mask color, e.g. rgba(80,0,0,0.5)
+    fill?: string;
+  };
   arrow?: boolean | { pointAtCenter: boolean };
   rootClassName?: string;
   placement?: PlacementType;
@@ -157,6 +161,9 @@ const Tour = (props: TourProps) => {
     />
   );
 
+  const mergedVisible = typeof mergedMask === "boolean" ? mergedMask : !!mergedMask;
+  const mergedMaskStyle = typeof mergedMask === "boolean" ? undefined : mergedMask;
+
   return (
     <>
       <Trigger
@@ -190,7 +197,8 @@ const Tour = (props: TourProps) => {
       <Mask
         prefixCls={prefixCls}
         pos={posInfo}
-        mask={mergedMask}
+        visible={mergedVisible}
+        customStyle={mergedMaskStyle}
         open={mergedOpen}
         animated={animated}
         rootClassName={rootClassName}

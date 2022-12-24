@@ -2,7 +2,6 @@ import * as React from 'react';
 import type { ReactNode, CSSProperties } from 'react';
 import type { PlacementType } from '../placements';
 import DefaultPanel from './DefaultPanel';
-import type { MaskProps } from '../Mask';
 
 export interface TourStepInfo {
   arrow?: boolean | { pointAtCenter: boolean };
@@ -10,7 +9,11 @@ export interface TourStepInfo {
   title: ReactNode;
   description?: ReactNode;
   placement?: PlacementType;
-  mask?: MaskProps["mask"];
+  mask?:  boolean | {
+    style: React.CSSProperties;
+    // to fill mask color, e.g. rgba(80,0,0,0.5)
+    fill?: string;
+  };
   className?: string;
   style?: CSSProperties;
 }
