@@ -28,8 +28,8 @@ const Mask = (props: MaskProps) => {
     mask,
     open,
     animated,
-    customMaskStyle = {},
-    maskFillColor = 'rgba(0,0,0,0.5)',
+    customMaskStyle,
+    maskFillColor,
   } = props;
 
   const id = useId();
