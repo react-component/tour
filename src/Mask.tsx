@@ -14,11 +14,9 @@ export interface MaskProps {
   pos: PosInfo; //	获取引导卡片指向的元素
   rootClassName?: string;
   visible?: boolean;
-  customStyle?: {
-    style?: React.CSSProperties;
-    // to fill mask color, e.g. rgba(80,0,0,0.5)
-    fill?: string;
-  };
+  style?: React.CSSProperties;
+  // to fill mask color, e.g. rgba(80,0,0,0.5)
+  fill?: string;
   open?: boolean;
   animated?: boolean | { placeholder: boolean };
 }
@@ -29,7 +27,8 @@ const Mask = (props: MaskProps) => {
     rootClassName,
     pos,
     visible,
-    customStyle,
+    style = {},
+    fill = "rgba(0,0,0,0.5)",
     open,
     animated,
   } = props;
@@ -51,7 +50,7 @@ const Mask = (props: MaskProps) => {
           bottom: 0,
           zIndex: 900,
           pointerEvents: 'none',
-          ...(customStyle?.style || {})
+          ...style
         }}
       >
         {visible ? (
@@ -84,7 +83,7 @@ const Mask = (props: MaskProps) => {
               y="0"
               width="100%"
               height="100%"
-              fill={customStyle?.fill || "rgba(0,0,0,0.5)"}
+              fill={fill}
               mask={`url(#${maskId})`}
             />
 

@@ -196,7 +196,8 @@ const Tour = (props: TourProps) => {
         prefixCls={prefixCls}
         pos={posInfo}
         visible={mergedVisible}
-        customStyle={mergedMaskStyle}
+        style={mergedMaskStyle?.style}
+        fill={mergedMaskStyle?.fill}
         open={mergedOpen}
         animated={animated}
         rootClassName={rootClassName}
