@@ -47,8 +47,6 @@ export interface TourProps {
   renderPanel?: (props: TourStepProps, current: number) => ReactNode;
   gap?: Gap;
   animated?: boolean | { placeholder: boolean };
-  customMaskStyle?: React.CSSProperties;
-  maskFillColor?: string;
 }
 
 const Tour = (props: TourProps) => {
