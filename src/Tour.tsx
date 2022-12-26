@@ -159,7 +159,7 @@ const Tour = (props: TourProps) => {
     />
   );
 
-  const mergedVisible = typeof mergedMask === "boolean" ? mergedMask : !!mergedMask;
+  const mergedShowMask = typeof mergedMask === "boolean" ? mergedMask : !!mergedMask;
   const mergedMaskStyle = typeof mergedMask === "boolean" ? undefined : mergedMask;
 
   return (
@@ -195,7 +195,7 @@ const Tour = (props: TourProps) => {
       <Mask
         prefixCls={prefixCls}
         pos={posInfo}
-        visible={mergedVisible}
+        showMask={mergedShowMask}
         style={mergedMaskStyle?.style}
         fill={mergedMaskStyle?.fill}
         open={mergedOpen}

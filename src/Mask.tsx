@@ -13,7 +13,7 @@ export interface MaskProps {
   prefixCls?: string;
   pos: PosInfo; //	获取引导卡片指向的元素
   rootClassName?: string;
-  visible?: boolean;
+  showMask?: boolean;
   style?: React.CSSProperties;
   // to fill mask color, e.g. rgba(80,0,0,0.5)
   fill?: string;
@@ -26,7 +26,7 @@ const Mask = (props: MaskProps) => {
     prefixCls,
     rootClassName,
     pos,
-    visible,
+    showMask,
     style = {},
     fill = "rgba(0,0,0,0.5)",
     open,
@@ -53,7 +53,7 @@ const Mask = (props: MaskProps) => {
           ...style
         }}
       >
-        {visible ? (
+        {showMask ? (
           <svg
             style={{
               width: '100%',
