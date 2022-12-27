@@ -47,6 +47,7 @@ export interface TourProps {
   renderPanel?: (props: TourStepProps, current: number) => ReactNode;
   gap?: Gap;
   animated?: boolean | { placeholder: boolean };
+  scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
 }
 
 const Tour = (props: TourProps) => {
@@ -66,6 +67,7 @@ const Tour = (props: TourProps) => {
     renderPanel,
     gap,
     animated,
+    scrollIntoViewOptions = true,
     ...restProps
   } = props;
 
@@ -101,7 +103,7 @@ const Tour = (props: TourProps) => {
 
   const mergedPlacement = stepPlacement ?? placement;
   const mergedMask = mergedOpen && (stepMask ?? mask);
-  const [posInfo, targetElement] = useTarget(target, open, gap);
+  const [posInfo, targetElement] = useTarget(target, open, gap, scrollIntoViewOptions);
 
   // ========================= arrow =========================
   const mergedArrow = targetElement
