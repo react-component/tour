@@ -9,7 +9,7 @@ React 18 supported Tour Component.
 [github-actions-image]: https://github.com/react-component/tour/workflows/CI/badge.svg
 [github-actions-url]: https://github.com/react-component/tour/actions
 [codecov-image]: https://img.shields.io/codecov/c/github/react-component/tour/master.svg?style=flat-square
-[codecov-url]: https://codecov.io/gh/react-component/tour/branch/master
+[codecov-url]: https://app.codecov.io/gh/react-component/tour
 [download-image]: https://img.shields.io/npm/dm/@rc-component/tour.svg?style=flat-square
 [download-url]: https://npmjs.org/package/@rc-component/tour
 
