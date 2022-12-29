@@ -35,7 +35,11 @@ export interface TourProps {
   onChange?: (current: number) => void;
   onClose?: (current: number) => void;
   onFinish?: () => void;
-  mask?: boolean;
+  mask?: boolean | {
+    style: React.CSSProperties;
+    // to fill mask color, e.g. rgba(80,0,0,0.5)
+    fill?: string;
+  };
   arrow?: boolean | { pointAtCenter: boolean };
   rootClassName?: string;
   placement?: PlacementType;
@@ -155,6 +159,9 @@ const Tour = (props: TourProps) => {
     />
   );
 
+  const mergedShowMask = typeof mergedMask === "boolean" ? mergedMask : !!mergedMask;
+  const mergedMaskStyle = typeof mergedMask === "boolean" ? undefined : mergedMask;
+
   return (
     <>
       <Trigger
@@ -188,7 +195,9 @@ const Tour = (props: TourProps) => {
       <Mask
         prefixCls={prefixCls}
         pos={posInfo}
-        mask={mergedMask}
+        showMask={mergedShowMask}
+        style={mergedMaskStyle?.style}
+        fill={mergedMaskStyle?.fill}
         open={mergedOpen}
         animated={animated}
         rootClassName={rootClassName}

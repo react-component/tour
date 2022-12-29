@@ -13,13 +13,25 @@ export interface MaskProps {
   prefixCls?: string;
   pos: PosInfo; //	获取引导卡片指向的元素
   rootClassName?: string;
-  mask?: boolean;
+  showMask?: boolean;
+  style?: React.CSSProperties;
+  // to fill mask color, e.g. rgba(80,0,0,0.5)
+  fill?: string;
   open?: boolean;
   animated?: boolean | { placeholder: boolean };
 }
 
 const Mask = (props: MaskProps) => {
-  const { prefixCls, rootClassName, pos, mask, open, animated } = props;
+  const {
+    prefixCls,
+    rootClassName,
+    pos,
+    showMask,
+    style = {},
+    fill = "rgba(0,0,0,0.5)",
+    open,
+    animated,
+  } = props;
 
   const id = useId();
   const maskId = `${prefixCls}-mask-${id}`;
@@ -38,9 +50,10 @@ const Mask = (props: MaskProps) => {
           bottom: 0,
           zIndex: 900,
           pointerEvents: 'none',
+          ...style
         }}
       >
-        {mask ? (
+        {showMask ? (
           <svg
             style={{
               width: '100%',
@@ -70,7 +83,7 @@ const Mask = (props: MaskProps) => {
               y="0"
               width="100%"
               height="100%"
-              fill="rgba(0,0,0,0.5)"
+              fill={fill}
               mask={`url(#${maskId})`}
             />
 

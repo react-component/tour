@@ -9,7 +9,11 @@ export interface TourStepInfo {
   title: ReactNode;
   description?: ReactNode;
   placement?: PlacementType;
-  mask?: boolean;
+  mask?:  boolean | {
+    style: React.CSSProperties;
+    // to fill mask color, e.g. rgba(80,0,0,0.5)
+    fill?: string;
+  };
   className?: string;
   style?: CSSProperties;
 }
