@@ -482,7 +482,7 @@ describe('Tour', () => {
               style: {
                 boxShadow: 'inset 0 0 80px #333'
               },
-              fill: 'rgba(255,0,0,0.5)'
+              color: 'rgba(255,0,0,0.5)'
             }}
             steps={[
               {
@@ -498,7 +498,7 @@ describe('Tour', () => {
                   style: {
                     boxShadow: 'inset 0 0 30px green'
                   },
-                  fill: 'rgba(80,0,0,0.5)'
+                  color: 'rgba(80,0,0,0.5)'
                 }
               },
             ]}
