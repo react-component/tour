@@ -16,6 +16,7 @@ export interface TourStepInfo {
   };
   className?: string;
   style?: CSSProperties;
+  scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
 }
 
 export interface TourStepProps extends TourStepInfo {

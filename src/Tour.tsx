@@ -99,11 +99,13 @@ const Tour = (props: TourProps) => {
     arrow: stepArrow,
     className: stepClassName,
     mask: stepMask,
+    scrollIntoViewOptions: stepScrollIntoViewOptions
   } = steps[mergedCurrent] || {};
 
   const mergedPlacement = stepPlacement ?? placement;
   const mergedMask = mergedOpen && (stepMask ?? mask);
-  const [posInfo, targetElement] = useTarget(target, open, gap, scrollIntoViewOptions);
+  const mergedScrollIntoViewOptions = stepScrollIntoViewOptions ?? scrollIntoViewOptions;
+  const [posInfo, targetElement] = useTarget(target, open, gap, mergedScrollIntoViewOptions);
 
   // ========================= arrow =========================
   const mergedArrow = targetElement

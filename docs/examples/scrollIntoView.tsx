@@ -54,6 +54,9 @@ const App = () => {
             description: '创建一条数据',
             target: () => createBtnRef.current,
             mask: true,
+            scrollIntoViewOptions: {
+              block: 'start'
+            }
           },
           {
             title: '更新',
