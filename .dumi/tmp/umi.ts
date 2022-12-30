@@ -3,7 +3,7 @@
 // DO NOT CHANGE IT MANUALLY!
 import './core/polyfill';
 
-import { renderClient } from '/Users/jilin/projects/antd/rc-tour/node_modules/_@umijs_renderer-react@4.0.41@@umijs/renderer-react';
+import { renderClient } from '/Users/tangwenhui/kiner/learning/tour/node_modules/@umijs/renderer-react';
 import { getRoutes } from './core/route';
 import { createPluginManager } from './core/plugin';
 import { createHistory } from './core/history';

@@ -3,7 +3,7 @@
 // DO NOT CHANGE IT MANUALLY!
 import React, { useState, useEffect, useRef } from 'react';
 import { useOutlet, history } from 'dumi';
-import { SiteContext } from '/Users/jilin/projects/antd/rc-tour/node_modules/_dumi@2.0.18@dumi/dist/client/theme-api/context.js';
+import { SiteContext } from '/Users/tangwenhui/kiner/learning/tour/node_modules/dumi/dist/client/theme-api/context.js';
 import { demos, components } from '../meta';
 import { locales } from '../locales/config';
 
@@ -33,7 +33,7 @@ export default function DumiContextWrapper() {
 
   return (
     <SiteContext.Provider value={{
-      pkg: {"name":"@rc-component/tour","description":"React tour Component","version":"1.2.1","license":"MIT","repository":{"type":"git","url":"https://github.com/react-component/tour.git"},"author":"wangning4567@163.com"},
+      pkg: {"name":"@rc-component/tour","description":"React tour Component","version":"1.3.0","license":"MIT","repository":{"type":"git","url":"https://github.com/react-component/tour.git"},"author":"wangning4567@163.com"},
       entryExports,
       demos,
       components,
