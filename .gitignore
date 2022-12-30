@@ -36,4 +36,5 @@ package-lock.json
 .env.local
 
 # dumi
-.dumi
+.dumi/tmp
+.dumi/tmp-production
