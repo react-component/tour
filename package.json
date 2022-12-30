@@ -22,8 +22,7 @@
   "typings": "es/index.d.ts",
   "files": [
     "lib",
-    "es",
-    "dist"
+    "es"
   ],
   "scripts": {
     "compile": "father build",
@@ -53,7 +52,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@umijs/fabric": "^2.5.2",
-    "dumi": "^1.1.0",
+    "dumi": "^2.0.0",
     "eslint": "^7.18.0",
     "father": "^4.0.0-rc.8",
     "gh-pages": "^3.1.0",

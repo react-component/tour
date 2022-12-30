@@ -1,4 +1,8 @@
-## arrow
+---
+title: arrow
+nav:
+  title: Demo
+  path: /demo
+---
 
-
-<code src="../examples/arrow.tsx" />
+<code src="../examples/arrow.tsx"></code>
