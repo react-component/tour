@@ -125,7 +125,7 @@ We use typescript to create the Type definition. You can view directly in IDE. B
 | arrow | `boolean` \| `{ pointAtCenter: boolean}` | `true` | 是否显示箭头，包含是否指向元素中心的配置 |
 | placement | `left` \| `leftTop` \| `leftBottom` \| `right` \| `rightTop` \| `rightBottom` \| `top` \| `topLeft` \| `topRight` \| `bottom`  \| `bottomLeft` \| `bottomRight` | `bottom` | 引导卡片相对于目标元素的位置 |
 | onClose | `() => void` | - | 关闭引导时的回调函数 |
-| mask | `boolean \| { style?: React.CSSProperties; color?: string; }` | `true` | 整体是否启用蒙层，也可以传入自定义样式修改蒙层样式 |
+| mask | `boolean \| { style?: React.CSSProperties; color?: string; }` | `true` | 整体是否启用蒙层，也可以传入自定义样式修改蒙层样式，默认跟随 Tour 的 `mask` 属性 |
 | renderPanel | `(props: TourStepProps, current: number) => ReactNode;` |  | 渲染 popoup 弹窗方法 |
 | className | `string` | - | - |
 | style | `React.CSSProperties` | - | - |
