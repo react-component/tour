@@ -6,4 +6,4 @@ nav:
 ---
 
 
-<code src="../examples/scrollIntoView.tsx" />
+<code src="../examples/scrollIntoView.tsx"></code>
