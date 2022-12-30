@@ -22,8 +22,7 @@
   "typings": "es/index.d.ts",
   "files": [
     "lib",
-    "es",
-    "dist"
+    "es"
   ],
   "scripts": {
     "compile": "father build",
