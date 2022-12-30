@@ -38,7 +38,7 @@ export interface TourProps {
   mask?: boolean | {
     style?: React.CSSProperties;
     // to fill mask color, e.g. rgba(80,0,0,0.5)
-    fill?: string;
+    color?: string;
   };
   arrow?: boolean | { pointAtCenter: boolean };
   rootClassName?: string;
@@ -197,7 +197,7 @@ const Tour = (props: TourProps) => {
         pos={posInfo}
         showMask={mergedShowMask}
         style={mergedMaskStyle?.style}
-        fill={mergedMaskStyle?.fill}
+        fill={mergedMaskStyle?.color}
         open={mergedOpen}
         animated={animated}
         rootClassName={rootClassName}

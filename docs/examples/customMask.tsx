@@ -33,7 +33,7 @@ const App = () => {
           style: {
             boxShadow: 'inset 0 0 80px #333'
           },
-          fill: 'rgba(255,0,0,0.5)'
+          color: 'rgba(255,0,0,0.5)'
         }}
         animated={true}
         steps={[
@@ -66,7 +66,7 @@ const App = () => {
               style: {
                 boxShadow: 'inset 0 0 80px #333'
               },
-              fill: 'rgba(80,0,0,0.5)'
+              color: 'rgba(80,0,0,0.5)'
             },
             style: { color: 'red' },
           },
