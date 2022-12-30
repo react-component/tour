@@ -1,4 +1,4 @@
 ## notFound
 
 
-<code src="../examples/notFound.tsx" />
+<code src="../examples/notFound.tsx"></code>

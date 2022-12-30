@@ -1,4 +1,4 @@
 ## placement
 
 
-<code src="../examples/placement.tsx" />
+<code src="../examples/placement.tsx"></code>

@@ -1,4 +1,4 @@
 ## animated
 
 
-<code src="../examples/animated.tsx" />
+<code src="../examples/animated.tsx"></code>

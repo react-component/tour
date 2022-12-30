@@ -1,4 +1,4 @@
 ## open
 
 
-<code src="../examples/open.tsx" />
+<code src="../examples/open.tsx"></code>

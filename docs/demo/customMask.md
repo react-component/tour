@@ -1,4 +1,4 @@
 ## customMask
 
 
-<code src="../examples/customMask.tsx" />
+<code src="../examples/customMask.tsx"></code>

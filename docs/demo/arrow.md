@@ -1,4 +1,4 @@
 ## arrow
 
 
-<code src="../examples/arrow.tsx" />
+<code src="../examples/arrow.tsx"></code>

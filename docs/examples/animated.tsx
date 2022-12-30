@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, version } from 'react';
 import Tour from '../../src/index';
 import './basic.less';
 
@@ -7,16 +7,18 @@ const App = () => {
   const updateBtnRef = useRef<HTMLButtonElement>(null);
   const deleteBtnRef = useRef<HTMLButtonElement>(null);
   return (
+    <React.StrictMode>
     <div style={{ margin: 20 }}>
       <div>
+        {version}
         <button
           className="ant-target"
           ref={createBtnRef}
-          style={{ marginLeft: 100 }}
+          // style={{ marginLeft: 100 }}
         >
           Create
         </button>
-        <div style={{ height: 200 }} />
+        {/* <div style={{ height: 200 }} /> */}
         <button className="ant-target" ref={updateBtnRef}>
           Update
         </button>
@@ -28,14 +30,14 @@ const App = () => {
       <div style={{ height: 200 }} />
 
       <Tour
-        defaultCurrent={2}
+        defaultCurrent={0}
         animated={true}
         steps={[
           {
             title: '创建',
             description: '创建一条数据',
             target: () => createBtnRef.current,
-            mask: true,
+            // mask: true,
           },
           {
             title: '更新',
@@ -56,12 +58,13 @@ const App = () => {
               </div>
             ),
             target: () => deleteBtnRef.current,
-            mask: true,
-            style: { color: 'red' },
+            // mask: true,
+            // style: { color: 'red' },
           },
         ]}
       />
     </div>
+    </React.StrictMode>
   );
 };
 
