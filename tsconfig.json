@@ -12,5 +12,6 @@
       "@@/*": ["src/.umi/*"],
       "@rc-component/tour": ["src/Tour.tsx"]
     }
-  }
+  },
+  "include": [".dumi/**/*", ".dumirc.ts", "**/*.ts", "**/*.tsx"]
 }
