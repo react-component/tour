@@ -14,7 +14,6 @@ import placements, { getCenterPlacements } from './placements';
 import type { TourStepProps } from './TourStep';
 import type { PlacementType } from './placements';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import ReactDOM from 'react-dom';
 
 const CENTER_ALIGN = {
   points: ['cc', 'cc'],
