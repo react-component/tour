@@ -69,6 +69,8 @@ const Tour = (props: TourProps) => {
     ...restProps
   } = props;
 
+  const triggerDOMNode = React.useRef<HTMLDivElement>(null);
+
   const [mergedCurrent, setMergedCurrent] = useMergedState(0, {
     value: current,
     defaultValue: defaultCurrent,
@@ -177,9 +179,11 @@ const Tour = (props: TourProps) => {
         forceRender={false}
         destroyPopupOnHide
         zIndex={1090}
+        getTriggerDOMNode={() => triggerDOMNode.current}
       >
         <Portal open={mergedOpen} autoLock>
           <div
+            ref={triggerDOMNode}
             className={classNames(
               rootClassName,
               `${prefixCls}-target-placeholder`,
