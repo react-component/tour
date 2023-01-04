@@ -69,8 +69,6 @@ const Tour = (props: TourProps) => {
     ...restProps
   } = props;
 
-  const triggerDOMNode = React.useRef<HTMLDivElement>(null);
-
   const [mergedCurrent, setMergedCurrent] = useMergedState(0, {
     value: current,
     defaultValue: defaultCurrent,
@@ -163,7 +161,9 @@ const Tour = (props: TourProps) => {
 
   const mergedShowMask = typeof mergedMask === "boolean" ? mergedMask : !!mergedMask;
   const mergedMaskStyle = typeof mergedMask === "boolean" ? undefined : mergedMask;
-
+  
+  // when targetElement is not exist, use body as triggerDOMNode
+  const getTriggerDOMNode = () => targetElement || document.body;
   return (
     <>
       <Trigger
@@ -179,11 +179,10 @@ const Tour = (props: TourProps) => {
         forceRender={false}
         destroyPopupOnHide
         zIndex={1090}
-        getTriggerDOMNode={() => triggerDOMNode.current}
+        getTriggerDOMNode={getTriggerDOMNode}
       >
         <Portal open={mergedOpen} autoLock>
           <div
-            ref={triggerDOMNode}
             className={classNames(
               rootClassName,
               `${prefixCls}-target-placeholder`,
