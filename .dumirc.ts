@@ -4,5 +4,4 @@ export default defineConfig({
   themeConfig: {
     name: 'Tour',
   },
-  mfsu: false,
 });
