@@ -581,9 +581,9 @@ describe('Tour', () => {
     };
     const { baseElement } = render(<App />);
     fireEvent.click(baseElement.querySelector('.btn1'));
-    expect(baseElement.innerHTML).toMatchSnapshot();
+    expect(baseElement).toMatchSnapshot();
     fireEvent.click(screen.getByRole('button', { name: 'Next' }));
-    expect(baseElement.innerHTML).toMatchSnapshot();
+    expect(baseElement).toMatchSnapshot();
     fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
     expect(spy).not.toHaveBeenCalled();
   });
