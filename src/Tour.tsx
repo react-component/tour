@@ -165,6 +165,11 @@ const Tour = (props: TourProps) => {
 
   const mergedShowMask = typeof mergedMask === "boolean" ? mergedMask : !!mergedMask;
   const mergedMaskStyle = typeof mergedMask === "boolean" ? undefined : mergedMask;
+  
+  // when targetElement is not exist, use body as triggerDOMNode
+  const getTriggerDOMNode = (node) => {
+    return node || targetElement || document.body
+  };
 
   return (
     <>
@@ -181,6 +186,7 @@ const Tour = (props: TourProps) => {
         forceRender={false}
         destroyPopupOnHide
         zIndex={1090}
+        getTriggerDOMNode={getTriggerDOMNode}
       >
         <Portal open={mergedOpen} autoLock>
           <div

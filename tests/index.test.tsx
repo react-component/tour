@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, StrictMode } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Tour from '../src/index';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
@@ -6,12 +6,24 @@ import { act } from 'react-dom/test-utils';
 import { resizeWindow } from './utils';
 
 describe('Tour', () => {
+  let spy: jest.SpyInstance;
+
+  beforeAll(() => {
+    spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterAll(() => {
+    spy.mockRestore();
+  });
+
   beforeEach(() => {
+    jest.resetModules();
     jest.useFakeTimers();
   });
 
   afterEach(() => {
     jest.useRealTimers();
+    spy.mockReset();
   });
 
   it('steps in undefined', async () => {
@@ -277,7 +289,7 @@ describe('Tour', () => {
         );
       };
 
-      const { rerender,baseElement } = render(<Demo />);
+      const { rerender, baseElement } = render(<Demo />);
       expect(document.querySelector(`.rc-tour-arrow`)).toBeTruthy();
 
       arrow = false;
@@ -473,16 +485,20 @@ describe('Tour', () => {
 
       return (
         <div style={{ width: '100%' }}>
-          <button className="btn1" ref={btn1Ref}>按钮1</button>
-          <button className="btn2" ref={btn2Ref}>按钮2</button>
+          <button className="btn1" ref={btn1Ref}>
+            按钮1
+          </button>
+          <button className="btn2" ref={btn2Ref}>
+            按钮2
+          </button>
           <Tour
             open
             placement={'bottom'}
             mask={{
               style: {
-                boxShadow: 'inset 0 0 80px #333'
+                boxShadow: 'inset 0 0 80px #333',
               },
-              color: 'rgba(255,0,0,0.5)'
+              color: 'rgba(255,0,0,0.5)',
             }}
             steps={[
               {
@@ -496,10 +512,10 @@ describe('Tour', () => {
                 target: () => btn2Ref.current,
                 mask: {
                   style: {
-                    boxShadow: 'inset 0 0 30px green'
+                    boxShadow: 'inset 0 0 30px green',
                   },
-                  color: 'rgba(80,0,0,0.5)'
-                }
+                  color: 'rgba(80,0,0,0.5)',
+                },
               },
             ]}
           />
@@ -508,10 +524,67 @@ describe('Tour', () => {
     };
     const { baseElement } = render(<Demo />);
 
-    expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle('box-shadow: inset 0 0 80px #333');
-    expect(baseElement.querySelectorAll('rect')[2]).toHaveAttribute('fill', 'rgba(255,0,0,0.5)');
+    expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle(
+      'box-shadow: inset 0 0 80px #333',
+    );
+    expect(baseElement.querySelectorAll('rect')[2]).toHaveAttribute(
+      'fill',
+      'rgba(255,0,0,0.5)',
+    );
     fireEvent.click(document.querySelector('.rc-tour-next-btn'));
-    expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle('box-shadow: inset 0 0 30px green');
-    expect(baseElement.querySelectorAll('rect')[2]).toHaveAttribute('fill', 'rgba(80,0,0,0.5)');
+    expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle(
+      'box-shadow: inset 0 0 30px green',
+    );
+    expect(baseElement.querySelectorAll('rect')[2]).toHaveAttribute(
+      'fill',
+      'rgba(80,0,0,0.5)',
+    );
+  });
+  it('run in strict mode', () => {
+    const App = () => {
+      const [open, setOpen] = React.useState(false);
+      const btn1 = useRef<HTMLButtonElement>(null);
+
+      return (
+        <StrictMode>
+          <div style={{ margin: 20 }}>
+            <button
+              className='btn1'
+              onClick={() => {
+                setOpen(!open);
+              }}
+            >
+              Open: {String(open)}
+            </button>
+            <button className='btn2' ref={btn1}>Upload</button>
+
+            <Tour
+              placement={'bottom'}
+              open={open}
+              onFinish={() => setOpen(false)}
+              steps={[
+                {
+                  title: '创建',
+                  description: '创建一条数据',
+                  target: undefined,
+                },
+                {
+                  title: '更新',
+                  description: '更新一条数据',
+                  target: () => btn1.current,
+                },
+              ]}
+            />
+          </div>
+        </StrictMode>
+      );
+    };
+    const { baseElement } = render(<App />);
+    fireEvent.click(baseElement.querySelector('.btn1'));
+    expect(baseElement).toMatchSnapshot();
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(baseElement).toMatchSnapshot();
+    fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
+    expect(spy).not.toHaveBeenCalled();
   });
 });
