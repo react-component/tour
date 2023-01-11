@@ -47,6 +47,7 @@ export interface TourProps {
   renderPanel?: (props: TourStepProps, current: number) => ReactNode;
   gap?: Gap;
   animated?: boolean | { placeholder: boolean };
+  scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
 }
 
 const Tour = (props: TourProps) => {
@@ -66,6 +67,7 @@ const Tour = (props: TourProps) => {
     renderPanel,
     gap,
     animated,
+    scrollIntoViewOptions = true,
     ...restProps
   } = props;
 
@@ -97,11 +99,13 @@ const Tour = (props: TourProps) => {
     arrow: stepArrow,
     className: stepClassName,
     mask: stepMask,
+    scrollIntoViewOptions: stepScrollIntoViewOptions
   } = steps[mergedCurrent] || {};
 
   const mergedPlacement = stepPlacement ?? placement;
   const mergedMask = mergedOpen && (stepMask ?? mask);
-  const [posInfo, targetElement] = useTarget(target, open, gap);
+  const mergedScrollIntoViewOptions = stepScrollIntoViewOptions ?? scrollIntoViewOptions;
+  const [posInfo, targetElement] = useTarget(target, open, gap, mergedScrollIntoViewOptions);
 
   // ========================= arrow =========================
   const mergedArrow = targetElement
@@ -161,6 +165,11 @@ const Tour = (props: TourProps) => {
 
   const mergedShowMask = typeof mergedMask === "boolean" ? mergedMask : !!mergedMask;
   const mergedMaskStyle = typeof mergedMask === "boolean" ? undefined : mergedMask;
+  
+  // when targetElement is not exist, use body as triggerDOMNode
+  const getTriggerDOMNode = (node) => {
+    return node || targetElement || document.body
+  };
 
   return (
     <>
@@ -177,6 +186,7 @@ const Tour = (props: TourProps) => {
         forceRender={false}
         destroyPopupOnHide
         zIndex={1090}
+        getTriggerDOMNode={getTriggerDOMNode}
       >
         <Portal open={mergedOpen} autoLock>
           <div

@@ -21,6 +21,7 @@ export default function useTarget(
   target: TourStepInfo['target'],
   open: boolean,
   gap?: Gap,
+  scrollIntoViewOptions?: boolean | ScrollIntoViewOptions
 ): [PosInfo, HTMLElement] {
   // ========================= Target =========================
   // We trade `undefined` as not get target by function yet.
@@ -42,7 +43,7 @@ export default function useTarget(
     if (targetElement) {
       // Exist target element. We should scroll and get target position
       if (!isInViewPort(targetElement)) {
-        targetElement.scrollIntoView(true);
+        targetElement.scrollIntoView(scrollIntoViewOptions);
       }
 
       const { left, top, width, height } =
