@@ -34,6 +34,7 @@
     "now-build": "npm run docs:build",
     "prepublishOnly": "npm run compile && np --no-cleanup --yolo --no-publish",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
+    "prepare": "dumi setup",
     "start": "dumi dev",
     "test": "umi-test",
     "watch": "father dev"
