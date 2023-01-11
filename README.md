@@ -116,6 +116,7 @@ We use typescript to create the Type definition. You can view directly in IDE. B
 | mask | `boolean \| { style?: React.CSSProperties; color?: string; }` | `true` | 整体是否启用蒙层，也可以传入自定义样式修改蒙层样式 |
 | animated | `boolean \| { placeholder: boolean }` | `false` | 是否启用目标遮罩动画 |
 | arrow | `boolean \| { pointAtCenter: boolean}` | `true` | 整体是否显示箭头，包含是否指向元素中心的配置 |
+| scrollIntoViewOptions | `boolean \| ScrollIntoViewOptions` | `true` | 是否支持当前元素滚动到视窗内，也可传入配置指定滚动视窗的相关参数 |
 
 ### TourStep
 
@@ -129,3 +130,4 @@ We use typescript to create the Type definition. You can view directly in IDE. B
 | renderPanel | `(props: TourStepProps, current: number) => ReactNode;` |  | 渲染 popoup 弹窗方法 |
 | className | `string` | - | - |
 | style | `React.CSSProperties` | - | - |
+| scrollIntoViewOptions | `boolean \| ScrollIntoViewOptions` | `true` | 是否支持当前元素滚动到视窗内，也可传入配置指定滚动视窗的相关参数，默认跟随 Tour 的 `scrollIntoViewOptions` 属性 |
