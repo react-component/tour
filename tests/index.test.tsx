@@ -612,6 +612,37 @@ describe('Tour', () => {
             animated={false}
             open={open}
             placement={'bottom'}
+            arrow={{pointAtCenter: true}}
+            builtinPlacements={basePlacement}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+    const Demo2 = () => {
+      const [open, setOpen] = React.useState(false);
+      const btnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <button
+            className="btn1"
+            ref={btnRef}
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            按钮
+          </button>
+          <Tour
+            animated={false}
+            open={open}
+            placement={'bottom'}
             builtinPlacements={basePlacement}
             steps={[
               {
@@ -627,5 +658,8 @@ describe('Tour', () => {
     const { baseElement } = render(<Demo />);
     fireEvent.click(baseElement.querySelector('.btn1'));
     expect(baseElement).toMatchSnapshot();
+    const { baseElement: baseElement2 } = render(<Demo />);
+    fireEvent.click(baseElement2.querySelector('.btn1'));
+    expect(baseElement2).toMatchSnapshot();
   });
 });
