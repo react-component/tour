@@ -4,6 +4,7 @@ import Tour from '../src/index';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
 import { resizeWindow } from './utils';
+import placements from '../src/placements';
 
 describe('Tour', () => {
   let spy: jest.SpyInstance;
@@ -549,14 +550,16 @@ describe('Tour', () => {
         <StrictMode>
           <div style={{ margin: 20 }}>
             <button
-              className='btn1'
+              className="btn1"
               onClick={() => {
                 setOpen(!open);
               }}
             >
               Open: {String(open)}
             </button>
-            <button className='btn2' ref={btn1}>Upload</button>
+            <button className="btn2" ref={btn1}>
+              Upload
+            </button>
 
             <Tour
               placement={'bottom'}
@@ -586,5 +589,77 @@ describe('Tour', () => {
     expect(baseElement).toMatchSnapshot();
     fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
     expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('use custom builtinPlacements', async () => {
+    const basePlacement = placements;
+    basePlacement.bottom.offset = [0, 23];
+    const Demo = () => {
+      const [open, setOpen] = React.useState(false);
+      const btnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <button
+            className="btn1"
+            ref={btnRef}
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            按钮
+          </button>
+          <Tour
+            animated={false}
+            open={open}
+            placement={'bottom'}
+            arrow={{pointAtCenter: true}}
+            builtinPlacements={basePlacement}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+    const Demo2 = () => {
+      const [open, setOpen] = React.useState(false);
+      const btnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <button
+            className="btn1"
+            ref={btnRef}
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            按钮
+          </button>
+          <Tour
+            animated={false}
+            open={open}
+            placement={'bottom'}
+            builtinPlacements={basePlacement}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+    const { baseElement } = render(<Demo />);
+    fireEvent.click(baseElement.querySelector('.btn1'));
+    expect(baseElement).toMatchSnapshot();
+    const { baseElement: baseElement2 } = render(<Demo2 />);
+    fireEvent.click(baseElement2.querySelector('.btn1'));
+    expect(baseElement2).toMatchSnapshot();
   });
 });
