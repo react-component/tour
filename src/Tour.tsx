@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
 
+import type { TriggerProps } from 'rc-trigger';
 import Trigger from 'rc-trigger';
 import Portal from '@rc-component/portal';
 import classNames from 'classnames';
@@ -27,7 +28,7 @@ const CENTER_PLACEHOLDER: React.CSSProperties = {
   height: 1,
 };
 
-export interface TourProps {
+export interface TourProps extends Pick<TriggerProps, 'onPopupAlign' | 'builtinPlacements'> {
   steps?: TourStepInfo[];
   open?: boolean;
   defaultCurrent?: number;
@@ -125,8 +126,8 @@ const Tour = (props: TourProps) => {
   // ========================= popupAlign =========================
   const popupAlign = targetElement
     ? arrowPointAtCenter
-      ? getCenterPlacements({ placement })
-      : placements[mergedPlacement]
+      ? restProps.builtinPlacements?.[placement] || getCenterPlacements({ placement })
+      : restProps.builtinPlacements?.[placement] || placements[mergedPlacement]
     : CENTER_ALIGN;
 
   // ========================= Render =========================
@@ -174,11 +175,11 @@ const Tour = (props: TourProps) => {
   return (
     <>
       <Trigger
+        builtinPlacements={placements}
         {...restProps}
         popupAlign={popupAlign}
         popupStyle={stepStyle}
         popupPlacement={mergedPlacement}
-        builtinPlacements={placements}
         popupVisible={mergedOpen}
         popupClassName={classNames(rootClassName, stepClassName)}
         prefixCls={prefixCls}
