@@ -127,7 +127,7 @@ const Tour = (props: TourProps) => {
   const popupAlign = targetElement
     ? arrowPointAtCenter
       ? restProps.builtinPlacements?.[placement] || getCenterPlacements({ placement })
-      : restProps.builtinPlacements?.[placement] || placements[mergedPlacement]
+      : restProps.builtinPlacements?.[mergedPlacement] || placements[mergedPlacement]
     : CENTER_ALIGN;
 
   // ========================= Render =========================
