@@ -658,7 +658,7 @@ describe('Tour', () => {
     const { baseElement } = render(<Demo />);
     fireEvent.click(baseElement.querySelector('.btn1'));
     expect(baseElement).toMatchSnapshot();
-    const { baseElement: baseElement2 } = render(<Demo />);
+    const { baseElement: baseElement2 } = render(<Demo2 />);
     fireEvent.click(baseElement2.querySelector('.btn1'));
     expect(baseElement2).toMatchSnapshot();
   });
