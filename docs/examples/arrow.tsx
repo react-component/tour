@@ -8,12 +8,12 @@ const App = () => {
     boolean | { pointAtCenter: boolean }
   >(true);
   return (
-    <div style={{ margin: 20 }}>
+    <div style={{ margin: '200px 0 400px', textAlign: 'center' }}>
       <div style={{ height: 200 }} />
       <button
         ref={btnRef}
         onClick={() => {
-          setArrow({ pointAtCenter: true });
+          setArrow(arrow === true ? { pointAtCenter: true } : true);
         }}
         style={{ width: 200 }}
       >
@@ -22,7 +22,7 @@ const App = () => {
       <Tour
         defaultCurrent={0}
         arrow={arrow}
-        placement={'bottomRight'}
+        placement={'topRight'}
         steps={[
           {
             title: '创建',
