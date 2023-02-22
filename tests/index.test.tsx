@@ -6,6 +6,28 @@ import { act } from 'react-dom/test-utils';
 import { resizeWindow } from './utils';
 import { placements } from '../src/placements';
 
+const mockBtnRect = (rect: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }, scrollIntoViewCb?: () => void) => {
+    spyElementPrototypes(HTMLButtonElement, {
+      getBoundingClientRect: {
+        get(): any {
+          return () => ({ ...rect, left: rect.x, top: rect.y });
+        },
+      },
+      scrollIntoView: {
+        get(): any {
+          scrollIntoViewCb?.();
+          return val => val;
+        },
+      },
+    });
+  };
+
+
 describe('Tour', () => {
   let spy: jest.SpyInstance;
 
@@ -395,26 +417,7 @@ describe('Tour', () => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  const mockBtnRect = (rect: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  }) => {
-    spyElementPrototypes(HTMLButtonElement, {
-      getBoundingClientRect: {
-        get(): any {
-          return () => ({ ...rect, left: rect.x, top: rect.y });
-        },
-      },
-      scrollIntoView: {
-        get(): any {
-          return val => val;
-        },
-      },
-    });
-  };
-
+  
   it('should update position when window resize', async () => {
     mockBtnRect({
       x: 800,
@@ -661,5 +664,57 @@ describe('Tour', () => {
     const { baseElement: baseElement2 } = render(<Demo2 />);
     fireEvent.click(baseElement2.querySelector('.btn1'));
     expect(baseElement2).toMatchSnapshot();
+  });
+
+  it('should not trigger scrollIntoView when tour is not open', async () => {
+    const scrollIntoView = jest.fn();
+    mockBtnRect({
+      x: 800,
+      y: 333,
+      width: 230,
+      height: 180,
+    }, scrollIntoView);
+    const Demo = () => {
+      const btnRef = useRef<HTMLButtonElement>(null);
+      const [open, setOpen] = useState(false);
+      return (
+        <div style={{ width: '100%', height: 10, overflow: 'auto' }}>
+          <button
+            className="btn"
+            ref={btnRef}
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            按钮
+          </button>
+          <Tour
+            open={open}
+            placement={'bottom'}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+    const { baseElement, unmount } = render(<Demo />);
+    expect(scrollIntoView).not.toBeCalled();
+    fireEvent.click(baseElement.querySelector('.btn'));
+    await act(() => {
+      jest.runAllTimers();
+    });
+    expect(scrollIntoView).toBeCalledTimes(1);
+    unmount();
+    mockBtnRect({
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    });
   });
 });

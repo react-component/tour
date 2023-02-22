@@ -42,7 +42,7 @@ export default function useTarget(
   const updatePos = useEvent(() => {
     if (targetElement) {
       // Exist target element. We should scroll and get target position
-      if (!isInViewPort(targetElement)) {
+      if (!isInViewPort(targetElement) && open) {
         targetElement.scrollIntoView(scrollIntoViewOptions);
       }
 
