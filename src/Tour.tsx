@@ -1,8 +1,8 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
 
-import type { TriggerProps } from 'rc-trigger';
-import Trigger from 'rc-trigger';
+import type { TriggerProps } from '@rc-component/trigger';
+import Trigger from '@rc-component/trigger';
 import Portal from '@rc-component/portal';
 import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
@@ -11,15 +11,10 @@ import type { Gap } from './hooks/useTarget';
 import TourStep from './TourStep';
 import type { TourStepInfo } from './TourStep';
 import Mask from './Mask';
-import placements, { getCenterPlacements } from './placements';
+import { getPlacements } from './placements';
 import type { TourStepProps } from './TourStep';
 import type { PlacementType } from './placements';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-
-const CENTER_ALIGN = {
-  points: ['cc', 'cc'],
-  offset: [0, 0],
-};
 
 const CENTER_PLACEHOLDER: React.CSSProperties = {
   left: '50%',
@@ -28,7 +23,8 @@ const CENTER_PLACEHOLDER: React.CSSProperties = {
   height: 1,
 };
 
-export interface TourProps extends Pick<TriggerProps, 'onPopupAlign' | 'builtinPlacements'> {
+export interface TourProps
+  extends Pick<TriggerProps, 'onPopupAlign' | 'builtinPlacements'> {
   steps?: TourStepInfo[];
   open?: boolean;
   defaultCurrent?: number;
@@ -36,11 +32,13 @@ export interface TourProps extends Pick<TriggerProps, 'onPopupAlign' | 'builtinP
   onChange?: (current: number) => void;
   onClose?: (current: number) => void;
   onFinish?: () => void;
-  mask?: boolean | {
-    style?: React.CSSProperties;
-    // to fill mask color, e.g. rgba(80,0,0,0.5)
-    color?: string;
-  };
+  mask?:
+    | boolean
+    | {
+        style?: React.CSSProperties;
+        // to fill mask color, e.g. rgba(80,0,0,0.5)
+        color?: string;
+      };
   arrow?: boolean | { pointAtCenter: boolean };
   rootClassName?: string;
   placement?: PlacementType;
@@ -72,6 +70,8 @@ const Tour = (props: TourProps) => {
     ...restProps
   } = props;
 
+  const triggerRef = React.useRef<{ forceAlign: () => void }>();
+
   const [mergedCurrent, setMergedCurrent] = useMergedState(0, {
     value: current,
     defaultValue: defaultCurrent,
@@ -100,13 +100,19 @@ const Tour = (props: TourProps) => {
     arrow: stepArrow,
     className: stepClassName,
     mask: stepMask,
-    scrollIntoViewOptions: stepScrollIntoViewOptions
+    scrollIntoViewOptions: stepScrollIntoViewOptions,
   } = steps[mergedCurrent] || {};
 
   const mergedPlacement = stepPlacement ?? placement;
   const mergedMask = mergedOpen && (stepMask ?? mask);
-  const mergedScrollIntoViewOptions = stepScrollIntoViewOptions ?? scrollIntoViewOptions;
-  const [posInfo, targetElement] = useTarget(target, open, gap, mergedScrollIntoViewOptions);
+  const mergedScrollIntoViewOptions =
+    stepScrollIntoViewOptions ?? scrollIntoViewOptions;
+  const [posInfo, targetElement] = useTarget(
+    target,
+    open,
+    gap,
+    mergedScrollIntoViewOptions,
+  );
 
   // ========================= arrow =========================
   const mergedArrow = targetElement
@@ -117,18 +123,15 @@ const Tour = (props: TourProps) => {
   const arrowPointAtCenter =
     typeof mergedArrow === 'object' ? mergedArrow.pointAtCenter : false;
 
+  useLayoutEffect(() => {
+    triggerRef.current?.forceAlign();
+  }, [arrowPointAtCenter, mergedCurrent]);
+
   // ========================= Change =========================
   const onInternalChange = (nextCurrent: number) => {
     setMergedCurrent(nextCurrent);
     onChange?.(nextCurrent);
   };
-
-  // ========================= popupAlign =========================
-  const popupAlign = targetElement
-    ? arrowPointAtCenter
-      ? restProps.builtinPlacements?.[placement] || getCenterPlacements({ placement })
-      : restProps.builtinPlacements?.[mergedPlacement] || placements[mergedPlacement]
-    : CENTER_ALIGN;
 
   // ========================= Render =========================
   // Skip if not init yet
@@ -164,20 +167,22 @@ const Tour = (props: TourProps) => {
     />
   );
 
-  const mergedShowMask = typeof mergedMask === "boolean" ? mergedMask : !!mergedMask;
-  const mergedMaskStyle = typeof mergedMask === "boolean" ? undefined : mergedMask;
-  
+  const mergedShowMask =
+    typeof mergedMask === 'boolean' ? mergedMask : !!mergedMask;
+  const mergedMaskStyle =
+    typeof mergedMask === 'boolean' ? undefined : mergedMask;
+
   // when targetElement is not exist, use body as triggerDOMNode
-  const getTriggerDOMNode = (node) => {
-    return node || targetElement || document.body
+  const getTriggerDOMNode = node => {
+    return node || targetElement || document.body;
   };
 
   return (
     <>
       <Trigger
-        builtinPlacements={placements}
+        builtinPlacements={getPlacements(arrowPointAtCenter)}
         {...restProps}
-        popupAlign={popupAlign}
+        ref={triggerRef}
         popupStyle={stepStyle}
         popupPlacement={mergedPlacement}
         popupVisible={mergedOpen}
@@ -188,6 +193,7 @@ const Tour = (props: TourProps) => {
         destroyPopupOnHide
         zIndex={1090}
         getTriggerDOMNode={getTriggerDOMNode}
+        arrow={!!mergedArrow}
       >
         <Portal open={mergedOpen} autoLock>
           <div

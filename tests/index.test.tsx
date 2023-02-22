@@ -4,7 +4,7 @@ import Tour from '../src/index';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
 import { resizeWindow } from './utils';
-import placements from '../src/placements';
+import { placements } from '../src/placements';
 
 describe('Tour', () => {
   let spy: jest.SpyInstance;

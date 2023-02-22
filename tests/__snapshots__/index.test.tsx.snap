@@ -11,63 +11,60 @@ exports[`Tour animated placeholder true 1`] = `
       </button>
     </div>
   </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; width: 100%;"
-  >
-    <div>
+  <div>
+    <div
+      class="rc-tour customClassName rc-tour-placement-bottom"
+      style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1090;"
+    >
       <div
-        class="rc-tour customClassName"
-        style="z-index: 1090; opacity: 0;"
+        class="rc-tour-arrow"
+        style="position: absolute;"
+      />
+      <div
+        class="rc-tour-content"
       >
         <div
-          class="rc-tour-content"
+          class="rc-tour-inner"
         >
-          <div
-            class="rc-tour-arrow"
-          />
-          <div
-            class="rc-tour-inner"
+          <button
+            aria-label="Close"
+            class="rc-tour-close"
+            type="button"
           >
-            <button
-              aria-label="Close"
-              class="rc-tour-close"
-              type="button"
+            <span
+              class="rc-tour-close-x"
             >
-              <span
-                class="rc-tour-close-x"
-              >
-                ×
-              </span>
-            </button>
+              ×
+            </span>
+          </button>
+          <div
+            class="rc-tour-header"
+          >
             <div
-              class="rc-tour-header"
+              class="rc-tour-title"
             >
-              <div
-                class="rc-tour-title"
-              >
-                创建
-              </div>
+              创建
             </div>
+          </div>
+          <div
+            class="rc-tour-description"
+          >
+            创建一条数据
+          </div>
+          <div
+            class="rc-tour-footer"
+          >
             <div
-              class="rc-tour-description"
-            >
-              创建一条数据
-            </div>
+              class="rc-tour-sliders"
+            />
             <div
-              class="rc-tour-footer"
+              class="rc-tour-buttons"
             >
-              <div
-                class="rc-tour-sliders"
-              />
-              <div
-                class="rc-tour-buttons"
+              <button
+                class="rc-tour-finish-btn"
               >
-                <button
-                  class="rc-tour-finish-btn"
-                >
-                  Finish
-                </button>
-              </div>
+                Finish
+              </button>
             </div>
           </div>
         </div>
@@ -167,63 +164,60 @@ exports[`Tour animated true 1`] = `
       </button>
     </div>
   </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; width: 100%;"
-  >
-    <div>
+  <div>
+    <div
+      class="rc-tour customClassName rc-tour-placement-bottom"
+      style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1090;"
+    >
       <div
-        class="rc-tour customClassName"
-        style="z-index: 1090; opacity: 0;"
+        class="rc-tour-arrow"
+        style="position: absolute;"
+      />
+      <div
+        class="rc-tour-content"
       >
         <div
-          class="rc-tour-content"
+          class="rc-tour-inner"
         >
-          <div
-            class="rc-tour-arrow"
-          />
-          <div
-            class="rc-tour-inner"
+          <button
+            aria-label="Close"
+            class="rc-tour-close"
+            type="button"
           >
-            <button
-              aria-label="Close"
-              class="rc-tour-close"
-              type="button"
+            <span
+              class="rc-tour-close-x"
             >
-              <span
-                class="rc-tour-close-x"
-              >
-                ×
-              </span>
-            </button>
+              ×
+            </span>
+          </button>
+          <div
+            class="rc-tour-header"
+          >
             <div
-              class="rc-tour-header"
+              class="rc-tour-title"
             >
-              <div
-                class="rc-tour-title"
-              >
-                创建
-              </div>
+              创建
             </div>
+          </div>
+          <div
+            class="rc-tour-description"
+          >
+            创建一条数据
+          </div>
+          <div
+            class="rc-tour-footer"
+          >
             <div
-              class="rc-tour-description"
-            >
-              创建一条数据
-            </div>
+              class="rc-tour-sliders"
+            />
             <div
-              class="rc-tour-footer"
+              class="rc-tour-buttons"
             >
-              <div
-                class="rc-tour-sliders"
-              />
-              <div
-                class="rc-tour-buttons"
+              <button
+                class="rc-tour-finish-btn"
               >
-                <button
-                  class="rc-tour-finish-btn"
-                >
-                  Finish
-                </button>
-              </div>
+                Finish
+              </button>
             </div>
           </div>
         </div>
@@ -337,11 +331,6 @@ exports[`Tour basic 1`] = `
       />
     </div>
   </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; width: 100%;"
-  >
-    <div />
-  </div>
 </body>
 `;
 
@@ -356,21 +345,21 @@ exports[`Tour renderPanel 1`] = `
       </button>
     </div>
   </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; width: 100%;"
-  >
-    <div>
+  <div>
+    <div
+      class="rc-tour rc-tour-placement-bottom"
+      style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1090;"
+    >
       <div
-        class="rc-tour"
-        style="z-index: 1090; opacity: 0;"
-      >
-        <div>
-          创建
-          ,当前在第
-          0
-          步,描述为
-          创建一条数据
-        </div>
+        class="rc-tour-arrow"
+        style="position: absolute;"
+      />
+      <div>
+        创建
+        ,当前在第
+        0
+        步,描述为
+        创建一条数据
       </div>
     </div>
   </div>
@@ -467,63 +456,60 @@ exports[`Tour rootClassName 1`] = `
       </button>
     </div>
   </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; width: 100%;"
-  >
-    <div>
+  <div>
+    <div
+      class="rc-tour customClassName rc-tour-placement-bottom"
+      style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1090;"
+    >
       <div
-        class="rc-tour customClassName"
-        style="z-index: 1090; opacity: 0;"
+        class="rc-tour-arrow"
+        style="position: absolute;"
+      />
+      <div
+        class="rc-tour-content"
       >
         <div
-          class="rc-tour-content"
+          class="rc-tour-inner"
         >
-          <div
-            class="rc-tour-arrow"
-          />
-          <div
-            class="rc-tour-inner"
+          <button
+            aria-label="Close"
+            class="rc-tour-close"
+            type="button"
           >
-            <button
-              aria-label="Close"
-              class="rc-tour-close"
-              type="button"
+            <span
+              class="rc-tour-close-x"
             >
-              <span
-                class="rc-tour-close-x"
-              >
-                ×
-              </span>
-            </button>
+              ×
+            </span>
+          </button>
+          <div
+            class="rc-tour-header"
+          >
             <div
-              class="rc-tour-header"
+              class="rc-tour-title"
             >
-              <div
-                class="rc-tour-title"
-              >
-                创建
-              </div>
+              创建
             </div>
+          </div>
+          <div
+            class="rc-tour-description"
+          >
+            创建一条数据
+          </div>
+          <div
+            class="rc-tour-footer"
+          >
             <div
-              class="rc-tour-description"
-            >
-              创建一条数据
-            </div>
+              class="rc-tour-sliders"
+            />
             <div
-              class="rc-tour-footer"
+              class="rc-tour-buttons"
             >
-              <div
-                class="rc-tour-sliders"
-              />
-              <div
-                class="rc-tour-buttons"
+              <button
+                class="rc-tour-finish-btn"
               >
-                <button
-                  class="rc-tour-finish-btn"
-                >
-                  Finish
-                </button>
-              </div>
+                Finish
+              </button>
             </div>
           </div>
         </div>
@@ -633,6 +619,69 @@ exports[`Tour run in strict mode 1`] = `
   </div>
   <div>
     <div
+      class="rc-tour rc-tour-placement-bottom"
+      style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1090;"
+    >
+      <div
+        class="rc-tour-content"
+      >
+        <div
+          class="rc-tour-inner"
+        >
+          <button
+            aria-label="Close"
+            class="rc-tour-close"
+            type="button"
+          >
+            <span
+              class="rc-tour-close-x"
+            >
+              ×
+            </span>
+          </button>
+          <div
+            class="rc-tour-header"
+          >
+            <div
+              class="rc-tour-title"
+            >
+              创建
+            </div>
+          </div>
+          <div
+            class="rc-tour-description"
+          >
+            创建一条数据
+          </div>
+          <div
+            class="rc-tour-footer"
+          >
+            <div
+              class="rc-tour-sliders"
+            >
+              <span
+                class="active"
+              />
+              <span
+                class=""
+              />
+            </div>
+            <div
+              class="rc-tour-buttons"
+            >
+              <button
+                class="rc-tour-next-btn"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
       class="rc-tour-target-placeholder"
       style="left: 50%; top: 50%; width: 1px; height: 1px; position: fixed; pointer-events: none;"
     />
@@ -669,73 +718,6 @@ exports[`Tour run in strict mode 1`] = `
       </svg>
     </div>
   </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; width: 100%;"
-  >
-    <div>
-      <div
-        class="rc-tour"
-        style="z-index: 1090; opacity: 0;"
-      >
-        <div
-          class="rc-tour-content"
-        >
-          <div
-            class="rc-tour-inner"
-          >
-            <button
-              aria-label="Close"
-              class="rc-tour-close"
-              type="button"
-            >
-              <span
-                class="rc-tour-close-x"
-              >
-                ×
-              </span>
-            </button>
-            <div
-              class="rc-tour-header"
-            >
-              <div
-                class="rc-tour-title"
-              >
-                创建
-              </div>
-            </div>
-            <div
-              class="rc-tour-description"
-            >
-              创建一条数据
-            </div>
-            <div
-              class="rc-tour-footer"
-            >
-              <div
-                class="rc-tour-sliders"
-              >
-                <span
-                  class="active"
-                />
-                <span
-                  class=""
-                />
-              </div>
-              <div
-                class="rc-tour-buttons"
-              >
-                <button
-                  class="rc-tour-next-btn"
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </body>
 `;
 
@@ -756,6 +738,78 @@ exports[`Tour run in strict mode 2`] = `
       >
         Upload
       </button>
+    </div>
+  </div>
+  <div>
+    <div
+      class="rc-tour rc-tour-placement-bottom"
+      style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1090;"
+    >
+      <div
+        class="rc-tour-arrow"
+        style="position: absolute;"
+      />
+      <div
+        class="rc-tour-content"
+      >
+        <div
+          class="rc-tour-inner"
+        >
+          <button
+            aria-label="Close"
+            class="rc-tour-close"
+            type="button"
+          >
+            <span
+              class="rc-tour-close-x"
+            >
+              ×
+            </span>
+          </button>
+          <div
+            class="rc-tour-header"
+          >
+            <div
+              class="rc-tour-title"
+            >
+              更新
+            </div>
+          </div>
+          <div
+            class="rc-tour-description"
+          >
+            更新一条数据
+          </div>
+          <div
+            class="rc-tour-footer"
+          >
+            <div
+              class="rc-tour-sliders"
+            >
+              <span
+                class=""
+              />
+              <span
+                class="active"
+              />
+            </div>
+            <div
+              class="rc-tour-buttons"
+            >
+              <button
+                class="rc-tour-prev-btn"
+              >
+                Prev
+              </button>
+              <button
+                class="rc-tour-finish-btn"
+              >
+                Finish
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div>
@@ -837,81 +891,6 @@ exports[`Tour run in strict mode 2`] = `
       </svg>
     </div>
   </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; width: 100%;"
-  >
-    <div>
-      <div
-        class="rc-tour"
-        style="z-index: 1090; opacity: 0;"
-      >
-        <div
-          class="rc-tour-content"
-        >
-          <div
-            class="rc-tour-arrow"
-          />
-          <div
-            class="rc-tour-inner"
-          >
-            <button
-              aria-label="Close"
-              class="rc-tour-close"
-              type="button"
-            >
-              <span
-                class="rc-tour-close-x"
-              >
-                ×
-              </span>
-            </button>
-            <div
-              class="rc-tour-header"
-            >
-              <div
-                class="rc-tour-title"
-              >
-                更新
-              </div>
-            </div>
-            <div
-              class="rc-tour-description"
-            >
-              更新一条数据
-            </div>
-            <div
-              class="rc-tour-footer"
-            >
-              <div
-                class="rc-tour-sliders"
-              >
-                <span
-                  class=""
-                />
-                <span
-                  class="active"
-                />
-              </div>
-              <div
-                class="rc-tour-buttons"
-              >
-                <button
-                  class="rc-tour-prev-btn"
-                >
-                  Prev
-                </button>
-                <button
-                  class="rc-tour-finish-btn"
-                >
-                  Finish
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </body>
 `;
 
@@ -924,72 +903,68 @@ exports[`Tour should keep current when controlled 1`] = `
       open
     </button>
   </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; width: 100%;"
-  >
-    <div>
+  <div>
+    <div
+      class="rc-tour rc-tour-placement-bottom"
+      style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1090;"
+    >
       <div
-        class="rc-tour"
-        style="z-index: 1090; opacity: 0;"
+        class="rc-tour-content"
       >
         <div
-          class="rc-tour-content"
+          class="rc-tour-inner"
         >
-          <div
-            class="rc-tour-inner"
+          <button
+            aria-label="Close"
+            class="rc-tour-close"
+            type="button"
           >
-            <button
-              aria-label="Close"
-              class="rc-tour-close"
-              type="button"
+            <span
+              class="rc-tour-close-x"
+            >
+              ×
+            </span>
+          </button>
+          <div
+            class="rc-tour-header"
+          >
+            <div
+              class="rc-tour-title"
+            >
+              step 2
+            </div>
+          </div>
+          <div
+            class="rc-tour-description"
+          >
+            创建一条数据
+          </div>
+          <div
+            class="rc-tour-footer"
+          >
+            <div
+              class="rc-tour-sliders"
             >
               <span
-                class="rc-tour-close-x"
-              >
-                ×
-              </span>
-            </button>
-            <div
-              class="rc-tour-header"
-            >
-              <div
-                class="rc-tour-title"
-              >
-                step 2
-              </div>
+                class=""
+              />
+              <span
+                class="active"
+              />
             </div>
             <div
-              class="rc-tour-description"
+              class="rc-tour-buttons"
             >
-              创建一条数据
-            </div>
-            <div
-              class="rc-tour-footer"
-            >
-              <div
-                class="rc-tour-sliders"
+              <button
+                class="rc-tour-prev-btn"
               >
-                <span
-                  class=""
-                />
-                <span
-                  class="active"
-                />
-              </div>
-              <div
-                class="rc-tour-buttons"
+                Prev
+              </button>
+              <button
+                class="rc-tour-finish-btn"
               >
-                <button
-                  class="rc-tour-prev-btn"
-                >
-                  Prev
-                </button>
-                <button
-                  class="rc-tour-finish-btn"
-                >
-                  Finish
-                </button>
-              </div>
+                Finish
+              </button>
             </div>
           </div>
         </div>
@@ -1046,67 +1021,63 @@ exports[`Tour should return step 1 when reopen 1`] = `
       open
     </button>
   </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; width: 100%;"
-  >
-    <div>
+  <div>
+    <div
+      class="rc-tour rc-tour-placement-bottom"
+      style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1090;"
+    >
       <div
-        class="rc-tour"
-        style="z-index: 1090; opacity: 0;"
+        class="rc-tour-content"
       >
         <div
-          class="rc-tour-content"
+          class="rc-tour-inner"
         >
-          <div
-            class="rc-tour-inner"
+          <button
+            aria-label="Close"
+            class="rc-tour-close"
+            type="button"
           >
-            <button
-              aria-label="Close"
-              class="rc-tour-close"
-              type="button"
+            <span
+              class="rc-tour-close-x"
+            >
+              ×
+            </span>
+          </button>
+          <div
+            class="rc-tour-header"
+          >
+            <div
+              class="rc-tour-title"
+            >
+              step 1
+            </div>
+          </div>
+          <div
+            class="rc-tour-description"
+          >
+            创建一条数据
+          </div>
+          <div
+            class="rc-tour-footer"
+          >
+            <div
+              class="rc-tour-sliders"
             >
               <span
-                class="rc-tour-close-x"
-              >
-                ×
-              </span>
-            </button>
-            <div
-              class="rc-tour-header"
-            >
-              <div
-                class="rc-tour-title"
-              >
-                step 1
-              </div>
+                class="active"
+              />
+              <span
+                class=""
+              />
             </div>
             <div
-              class="rc-tour-description"
+              class="rc-tour-buttons"
             >
-              创建一条数据
-            </div>
-            <div
-              class="rc-tour-footer"
-            >
-              <div
-                class="rc-tour-sliders"
+              <button
+                class="rc-tour-next-btn"
               >
-                <span
-                  class="active"
-                />
-                <span
-                  class=""
-                />
-              </div>
-              <div
-                class="rc-tour-buttons"
-              >
-                <button
-                  class="rc-tour-next-btn"
-                >
-                  Next
-                </button>
-              </div>
+                Next
+              </button>
             </div>
           </div>
         </div>
@@ -1167,63 +1138,60 @@ exports[`Tour should update position when window resize 1`] = `
       </button>
     </div>
   </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; width: 100%;"
-  >
-    <div>
+  <div>
+    <div
+      class="rc-tour rc-tour-placement-bottom"
+      style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1090;"
+    >
       <div
-        class="rc-tour"
-        style="z-index: 1090; opacity: 0;"
+        class="rc-tour-arrow"
+        style="position: absolute;"
+      />
+      <div
+        class="rc-tour-content"
       >
         <div
-          class="rc-tour-content"
+          class="rc-tour-inner"
         >
-          <div
-            class="rc-tour-arrow"
-          />
-          <div
-            class="rc-tour-inner"
+          <button
+            aria-label="Close"
+            class="rc-tour-close"
+            type="button"
           >
-            <button
-              aria-label="Close"
-              class="rc-tour-close"
-              type="button"
+            <span
+              class="rc-tour-close-x"
             >
-              <span
-                class="rc-tour-close-x"
-              >
-                ×
-              </span>
-            </button>
+              ×
+            </span>
+          </button>
+          <div
+            class="rc-tour-header"
+          >
             <div
-              class="rc-tour-header"
+              class="rc-tour-title"
             >
-              <div
-                class="rc-tour-title"
-              >
-                创建
-              </div>
+              创建
             </div>
+          </div>
+          <div
+            class="rc-tour-description"
+          >
+            创建一条数据
+          </div>
+          <div
+            class="rc-tour-footer"
+          >
             <div
-              class="rc-tour-description"
-            >
-              创建一条数据
-            </div>
+              class="rc-tour-sliders"
+            />
             <div
-              class="rc-tour-footer"
+              class="rc-tour-buttons"
             >
-              <div
-                class="rc-tour-sliders"
-              />
-              <div
-                class="rc-tour-buttons"
+              <button
+                class="rc-tour-finish-btn"
               >
-                <button
-                  class="rc-tour-finish-btn"
-                >
-                  Finish
-                </button>
-              </div>
+                Finish
+              </button>
             </div>
           </div>
         </div>
@@ -1323,60 +1291,56 @@ exports[`Tour showArrow should show tooltip arrow default 1`] = `
       </button>
     </div>
   </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; width: 100%;"
-  >
-    <div>
+  <div>
+    <div
+      class="rc-tour rc-tour-placement-bottom"
+      style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1090;"
+    >
       <div
-        class="rc-tour"
-        style="z-index: 1090; opacity: 0;"
+        class="rc-tour-content"
       >
         <div
-          class="rc-tour-content"
+          class="rc-tour-inner"
         >
-          <div
-            class="rc-tour-inner"
+          <button
+            aria-label="Close"
+            class="rc-tour-close"
+            type="button"
           >
-            <button
-              aria-label="Close"
-              class="rc-tour-close"
-              type="button"
+            <span
+              class="rc-tour-close-x"
             >
-              <span
-                class="rc-tour-close-x"
-              >
-                ×
-              </span>
-            </button>
+              ×
+            </span>
+          </button>
+          <div
+            class="rc-tour-header"
+          >
             <div
-              class="rc-tour-header"
+              class="rc-tour-title"
             >
-              <div
-                class="rc-tour-title"
-              >
-                创建
-              </div>
+              创建
             </div>
+          </div>
+          <div
+            class="rc-tour-description"
+          >
+            创建一条数据
+          </div>
+          <div
+            class="rc-tour-footer"
+          >
             <div
-              class="rc-tour-description"
-            >
-              创建一条数据
-            </div>
+              class="rc-tour-sliders"
+            />
             <div
-              class="rc-tour-footer"
+              class="rc-tour-buttons"
             >
-              <div
-                class="rc-tour-sliders"
-              />
-              <div
-                class="rc-tour-buttons"
+              <button
+                class="rc-tour-finish-btn"
               >
-                <button
-                  class="rc-tour-finish-btn"
-                >
-                  Finish
-                </button>
-              </div>
+                Finish
+              </button>
             </div>
           </div>
         </div>
@@ -1476,63 +1440,60 @@ exports[`Tour single 1`] = `
       </button>
     </div>
   </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; width: 100%;"
-  >
-    <div>
+  <div>
+    <div
+      class="rc-tour rc-tour-placement-bottom"
+      style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1090;"
+    >
       <div
-        class="rc-tour"
-        style="z-index: 1090; opacity: 0;"
+        class="rc-tour-arrow"
+        style="position: absolute;"
+      />
+      <div
+        class="rc-tour-content"
       >
         <div
-          class="rc-tour-content"
+          class="rc-tour-inner"
         >
-          <div
-            class="rc-tour-arrow"
-          />
-          <div
-            class="rc-tour-inner"
+          <button
+            aria-label="Close"
+            class="rc-tour-close"
+            type="button"
           >
-            <button
-              aria-label="Close"
-              class="rc-tour-close"
-              type="button"
+            <span
+              class="rc-tour-close-x"
             >
-              <span
-                class="rc-tour-close-x"
-              >
-                ×
-              </span>
-            </button>
+              ×
+            </span>
+          </button>
+          <div
+            class="rc-tour-header"
+          >
             <div
-              class="rc-tour-header"
+              class="rc-tour-title"
             >
-              <div
-                class="rc-tour-title"
-              >
-                创建
-              </div>
+              创建
             </div>
+          </div>
+          <div
+            class="rc-tour-description"
+          >
+            创建一条数据
+          </div>
+          <div
+            class="rc-tour-footer"
+          >
             <div
-              class="rc-tour-description"
-            >
-              创建一条数据
-            </div>
+              class="rc-tour-sliders"
+            />
             <div
-              class="rc-tour-footer"
+              class="rc-tour-buttons"
             >
-              <div
-                class="rc-tour-sliders"
-              />
-              <div
-                class="rc-tour-buttons"
+              <button
+                class="rc-tour-finish-btn"
               >
-                <button
-                  class="rc-tour-finish-btn"
-                >
-                  Finish
-                </button>
-              </div>
+                Finish
+              </button>
             </div>
           </div>
         </div>
@@ -1634,63 +1595,60 @@ exports[`Tour use custom builtinPlacements 1`] = `
       </button>
     </div>
   </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; width: 100%;"
-  >
-    <div>
+  <div>
+    <div
+      class="rc-tour rc-tour-placement-bottom"
+      style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1090;"
+    >
       <div
-        class="rc-tour"
-        style="z-index: 1090; opacity: 0;"
+        class="rc-tour-arrow"
+        style="position: absolute;"
+      />
+      <div
+        class="rc-tour-content"
       >
         <div
-          class="rc-tour-content"
+          class="rc-tour-inner"
         >
-          <div
-            class="rc-tour-arrow"
-          />
-          <div
-            class="rc-tour-inner"
+          <button
+            aria-label="Close"
+            class="rc-tour-close"
+            type="button"
           >
-            <button
-              aria-label="Close"
-              class="rc-tour-close"
-              type="button"
+            <span
+              class="rc-tour-close-x"
             >
-              <span
-                class="rc-tour-close-x"
-              >
-                ×
-              </span>
-            </button>
+              ×
+            </span>
+          </button>
+          <div
+            class="rc-tour-header"
+          >
             <div
-              class="rc-tour-header"
+              class="rc-tour-title"
             >
-              <div
-                class="rc-tour-title"
-              >
-                创建
-              </div>
+              创建
             </div>
+          </div>
+          <div
+            class="rc-tour-description"
+          >
+            创建一条数据
+          </div>
+          <div
+            class="rc-tour-footer"
+          >
             <div
-              class="rc-tour-description"
-            >
-              创建一条数据
-            </div>
+              class="rc-tour-sliders"
+            />
             <div
-              class="rc-tour-footer"
+              class="rc-tour-buttons"
             >
-              <div
-                class="rc-tour-sliders"
-              />
-              <div
-                class="rc-tour-buttons"
+              <button
+                class="rc-tour-finish-btn"
               >
-                <button
-                  class="rc-tour-finish-btn"
-                >
-                  Finish
-                </button>
-              </div>
+                Finish
+              </button>
             </div>
           </div>
         </div>
@@ -1792,63 +1750,60 @@ exports[`Tour use custom builtinPlacements 2`] = `
       </button>
     </div>
   </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; width: 100%;"
-  >
-    <div>
+  <div>
+    <div
+      class="rc-tour rc-tour-placement-bottom"
+      style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1090;"
+    >
       <div
-        class="rc-tour"
-        style="z-index: 1090; opacity: 0;"
+        class="rc-tour-arrow"
+        style="position: absolute;"
+      />
+      <div
+        class="rc-tour-content"
       >
         <div
-          class="rc-tour-content"
+          class="rc-tour-inner"
         >
-          <div
-            class="rc-tour-arrow"
-          />
-          <div
-            class="rc-tour-inner"
+          <button
+            aria-label="Close"
+            class="rc-tour-close"
+            type="button"
           >
-            <button
-              aria-label="Close"
-              class="rc-tour-close"
-              type="button"
+            <span
+              class="rc-tour-close-x"
             >
-              <span
-                class="rc-tour-close-x"
-              >
-                ×
-              </span>
-            </button>
+              ×
+            </span>
+          </button>
+          <div
+            class="rc-tour-header"
+          >
             <div
-              class="rc-tour-header"
+              class="rc-tour-title"
             >
-              <div
-                class="rc-tour-title"
-              >
-                创建
-              </div>
+              创建
             </div>
+          </div>
+          <div
+            class="rc-tour-description"
+          >
+            创建一条数据
+          </div>
+          <div
+            class="rc-tour-footer"
+          >
             <div
-              class="rc-tour-description"
-            >
-              创建一条数据
-            </div>
+              class="rc-tour-sliders"
+            />
             <div
-              class="rc-tour-footer"
+              class="rc-tour-buttons"
             >
-              <div
-                class="rc-tour-sliders"
-              />
-              <div
-                class="rc-tour-buttons"
+              <button
+                class="rc-tour-finish-btn"
               >
-                <button
-                  class="rc-tour-finish-btn"
-                >
-                  Finish
-                </button>
-              </div>
+                Finish
+              </button>
             </div>
           </div>
         </div>

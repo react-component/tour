@@ -3,7 +3,7 @@ import Tour from '../../src/index';
 import './basic.less';
 import { placements } from '../../src/placements';
 import type { PlacementType } from '../../src/placements';
-import type { BuildInPlacements } from 'rc-trigger';
+import type { BuildInPlacements } from '@rc-component/trigger';
 
 function getCustomPlacements(delta: number): BuildInPlacements {
   const customPlacements: BuildInPlacements = {};
