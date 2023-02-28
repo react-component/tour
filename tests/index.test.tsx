@@ -6,27 +6,29 @@ import { act } from 'react-dom/test-utils';
 import { resizeWindow } from './utils';
 import { placements } from '../src/placements';
 
-const mockBtnRect = (rect: {
+const mockBtnRect = (
+  rect: {
     x: number;
     y: number;
     width: number;
     height: number;
-  }, scrollIntoViewCb?: () => void) => {
-    spyElementPrototypes(HTMLButtonElement, {
-      getBoundingClientRect: {
-        get(): any {
-          return () => ({ ...rect, left: rect.x, top: rect.y });
-        },
+  },
+  scrollIntoViewCb?: () => void,
+) => {
+  spyElementPrototypes(HTMLButtonElement, {
+    getBoundingClientRect: {
+      get(): any {
+        return () => ({ ...rect, left: rect.x, top: rect.y });
       },
-      scrollIntoView: {
-        get(): any {
-          scrollIntoViewCb?.();
-          return val => val;
-        },
+    },
+    scrollIntoView: {
+      get(): any {
+        scrollIntoViewCb?.();
+        return val => val;
       },
-    });
-  };
-
+    },
+  });
+};
 
 describe('Tour', () => {
   let spy: jest.SpyInstance;
@@ -417,7 +419,6 @@ describe('Tour', () => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  
   it('should update position when window resize', async () => {
     mockBtnRect({
       x: 800,
@@ -615,7 +616,7 @@ describe('Tour', () => {
             animated={false}
             open={open}
             placement={'bottom'}
-            arrow={{pointAtCenter: true}}
+            arrow={{ pointAtCenter: true }}
             builtinPlacements={basePlacement}
             steps={[
               {
@@ -668,12 +669,15 @@ describe('Tour', () => {
 
   it('should not trigger scrollIntoView when tour is not open', async () => {
     const scrollIntoView = jest.fn();
-    mockBtnRect({
-      x: 800,
-      y: 333,
-      width: 230,
-      height: 180,
-    }, scrollIntoView);
+    mockBtnRect(
+      {
+        x: 800,
+        y: 333,
+        width: 230,
+        height: 180,
+      },
+      scrollIntoView,
+    );
     const Demo = () => {
       const btnRef = useRef<HTMLButtonElement>(null);
       const [open, setOpen] = useState(false);
@@ -715,6 +719,28 @@ describe('Tour', () => {
       y: 0,
       width: 0,
       height: 0,
+    });
+  });
+  it('support zIndex', () => {
+    const App = ({zIndex}: {zIndex?: number}) => (
+      <Tour
+        zIndex={zIndex}
+        open
+        steps={[
+          {
+            title: '创建',
+            description: '创建一条数据',
+          },
+        ]}
+      />
+    );
+    const { baseElement, rerender } = render(<App />);
+    expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle({
+      zIndex: 900
+    });
+    rerender(<App zIndex={1001} />);
+    expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle({
+      zIndex: 1001
     });
   });
 });
