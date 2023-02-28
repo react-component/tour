@@ -48,7 +48,7 @@ const Mask = (props: MaskProps) => {
           right: 0,
           top: 0,
           bottom: 0,
-          zIndex: 900,
+          zIndex: 1001,
           pointerEvents: 'none',
           ...style
         }}
