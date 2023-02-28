@@ -181,6 +181,17 @@ const Tour = (props: TourProps) => {
 
   return (
     <>
+      <Mask
+        zIndex={zIndex}
+        prefixCls={prefixCls}
+        pos={posInfo}
+        showMask={mergedShowMask}
+        style={mergedMaskStyle?.style}
+        fill={mergedMaskStyle?.color}
+        open={mergedOpen}
+        animated={animated}
+        rootClassName={rootClassName}
+      />
       <Trigger
         builtinPlacements={getPlacements(arrowPointAtCenter)}
         {...restProps}
@@ -193,7 +204,7 @@ const Tour = (props: TourProps) => {
         popup={getPopupElement}
         forceRender={false}
         destroyPopupOnHide
-        zIndex={1090}
+        zIndex={zIndex}
         getTriggerDOMNode={getTriggerDOMNode}
         arrow={!!mergedArrow}
       >
@@ -211,17 +222,6 @@ const Tour = (props: TourProps) => {
           />
         </Portal>
       </Trigger>
-      <Mask
-        zIndex={zIndex}
-        prefixCls={prefixCls}
-        pos={posInfo}
-        showMask={mergedShowMask}
-        style={mergedMaskStyle?.style}
-        fill={mergedMaskStyle?.color}
-        open={mergedOpen}
-        animated={animated}
-        rootClassName={rootClassName}
-      />
     </>
   );
 };
