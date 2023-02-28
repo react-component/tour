@@ -47,6 +47,7 @@ export interface TourProps
   gap?: Gap;
   animated?: boolean | { placeholder: boolean };
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
+  zIndex?: number;
 }
 
 const Tour = (props: TourProps) => {
@@ -67,6 +68,7 @@ const Tour = (props: TourProps) => {
     gap,
     animated,
     scrollIntoViewOptions = true,
+    zIndex,
     ...restProps
   } = props;
 
@@ -210,6 +212,7 @@ const Tour = (props: TourProps) => {
         </Portal>
       </Trigger>
       <Mask
+        zIndex={zIndex}
         prefixCls={prefixCls}
         pos={posInfo}
         showMask={mergedShowMask}

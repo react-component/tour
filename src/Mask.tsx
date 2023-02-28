@@ -19,6 +19,7 @@ export interface MaskProps {
   fill?: string;
   open?: boolean;
   animated?: boolean | { placeholder: boolean };
+  zIndex?: number;
 }
 
 const Mask = (props: MaskProps) => {
@@ -31,6 +32,7 @@ const Mask = (props: MaskProps) => {
     fill = "rgba(0,0,0,0.5)",
     open,
     animated,
+    zIndex = 900,
   } = props;
 
   const id = useId();
@@ -48,7 +50,7 @@ const Mask = (props: MaskProps) => {
           right: 0,
           top: 0,
           bottom: 0,
-          zIndex: 1001,
+          zIndex,
           pointerEvents: 'none',
           ...style
         }}
