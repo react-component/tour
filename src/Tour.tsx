@@ -68,7 +68,7 @@ const Tour = (props: TourProps) => {
     gap,
     animated,
     scrollIntoViewOptions = true,
-    zIndex,
+    zIndex = 900,
     ...restProps
   } = props;
 

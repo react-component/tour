@@ -32,7 +32,7 @@ const Mask = (props: MaskProps) => {
     fill = "rgba(0,0,0,0.5)",
     open,
     animated,
-    zIndex = 900,
+    zIndex,
   } = props;
 
   const id = useId();
