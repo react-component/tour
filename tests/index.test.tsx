@@ -736,11 +736,11 @@ describe('Tour', () => {
     );
     const { baseElement, rerender } = render(<App />);
     expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle({
-      zIndex: 900
-    });
-    rerender(<App zIndex={1001} />);
-    expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle({
       zIndex: 1001
+    });
+    rerender(<App zIndex={900} />);
+    expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle({
+      zIndex: 900
     });
   });
 });
