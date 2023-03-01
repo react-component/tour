@@ -47,6 +47,7 @@ export interface TourProps
   gap?: Gap;
   animated?: boolean | { placeholder: boolean };
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
+  zIndex?: number;
 }
 
 const Tour = (props: TourProps) => {
@@ -67,6 +68,7 @@ const Tour = (props: TourProps) => {
     gap,
     animated,
     scrollIntoViewOptions = true,
+    zIndex = 1001,
     ...restProps
   } = props;
 
@@ -179,6 +181,17 @@ const Tour = (props: TourProps) => {
 
   return (
     <>
+      <Mask
+        zIndex={zIndex}
+        prefixCls={prefixCls}
+        pos={posInfo}
+        showMask={mergedShowMask}
+        style={mergedMaskStyle?.style}
+        fill={mergedMaskStyle?.color}
+        open={mergedOpen}
+        animated={animated}
+        rootClassName={rootClassName}
+      />
       <Trigger
         builtinPlacements={getPlacements(arrowPointAtCenter)}
         {...restProps}
@@ -191,7 +204,7 @@ const Tour = (props: TourProps) => {
         popup={getPopupElement}
         forceRender={false}
         destroyPopupOnHide
-        zIndex={1090}
+        zIndex={zIndex}
         getTriggerDOMNode={getTriggerDOMNode}
         arrow={!!mergedArrow}
       >
@@ -209,16 +222,6 @@ const Tour = (props: TourProps) => {
           />
         </Portal>
       </Trigger>
-      <Mask
-        prefixCls={prefixCls}
-        pos={posInfo}
-        showMask={mergedShowMask}
-        style={mergedMaskStyle?.style}
-        fill={mergedMaskStyle?.color}
-        open={mergedOpen}
-        animated={animated}
-        rootClassName={rootClassName}
-      />
     </>
   );
 };
