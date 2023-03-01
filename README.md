@@ -118,7 +118,7 @@ We use typescript to create the Type definition. You can view directly in IDE. B
 | arrow | `boolean \| { pointAtCenter: boolean}` | `true` | 整体是否显示箭头，包含是否指向元素中心的配置 |
 | scrollIntoViewOptions | `boolean \| ScrollIntoViewOptions` | `true` | 是否支持当前元素滚动到视窗内，也可传入配置指定滚动视窗的相关参数 |
 | onPopupAlign | `function(popupDomNode, align)` | - | 当弹出框对齐后回调 |
-| zIndex | `number` | 900 | 弹层的层级 |
+| zIndex | `number` | 1001 | 弹层的层级 |
 
 
 ### TourStep
