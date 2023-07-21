@@ -4,7 +4,7 @@ import React, { StrictMode, useRef, useState } from 'react';
 import { act } from 'react-dom/test-utils';
 import Tour from '../src/index';
 import { placements } from '../src/placements';
-import { getMergedPlacement } from '../src/util';
+import { getPlacement } from '../src/util';
 import { resizeWindow } from './utils';
 
 const mockBtnRect = (
@@ -750,7 +750,7 @@ describe('Tour', () => {
     const placement = undefined;
     const stepPlacement = undefined;
 
-    expect(getMergedPlacement(targetElement, placement, stepPlacement)).toBe(
+    expect(getPlacement(targetElement, placement, stepPlacement)).toBe(
       'center',
     );
   });

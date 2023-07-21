@@ -14,7 +14,7 @@ import type { PlacementType } from './placements';
 import { getPlacements } from './placements';
 import type { TourStepInfo, TourStepProps } from './TourStep';
 import TourStep from './TourStep';
-import { getMergedPlacement } from './util';
+import { getPlacement } from './util';
 
 const CENTER_PLACEHOLDER: React.CSSProperties = {
   left: '50%',
@@ -114,11 +114,7 @@ const Tour = (props: TourProps) => {
     gap,
     mergedScrollIntoViewOptions,
   );
-  const mergedPlacement = getMergedPlacement(
-    targetElement,
-    placement,
-    stepPlacement,
-  );
+  const mergedPlacement = getPlacement(targetElement, placement, stepPlacement);
 
   // ========================= arrow =========================
   const mergedArrow = targetElement

@@ -9,7 +9,7 @@ export function isInViewPort(element: HTMLElement) {
   return top >= 0 && left >= 0 && right <= viewWidth && bottom <= viewHeight;
 }
 
-export function getMergedPlacement(
+export function getPlacement(
   targetElement?: HTMLElement | null,
   placement?: PlacementType,
   stepPlacement?: PlacementType,
