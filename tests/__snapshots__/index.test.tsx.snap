@@ -86,6 +86,12 @@ exports[`Tour animated placeholder true 1`] = `
   </div>
   <div>
     <div
+      class="customClassName rc-tour-target-placeholder"
+      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
+    />
+  </div>
+  <div>
+    <div
       class="rc-tour customClassName rc-tour-placement-bottom"
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
@@ -143,12 +149,6 @@ exports[`Tour animated placeholder true 1`] = `
         </div>
       </div>
     </div>
-  </div>
-  <div>
-    <div
-      class="customClassName rc-tour-target-placeholder"
-      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
-    />
   </div>
 </body>
 `;
@@ -239,6 +239,12 @@ exports[`Tour animated true 1`] = `
   </div>
   <div>
     <div
+      class="customClassName rc-tour-target-placeholder"
+      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
+    />
+  </div>
+  <div>
+    <div
       class="rc-tour customClassName rc-tour-placement-bottom"
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
@@ -296,12 +302,6 @@ exports[`Tour animated true 1`] = `
         </div>
       </div>
     </div>
-  </div>
-  <div>
-    <div
-      class="customClassName rc-tour-target-placeholder"
-      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
-    />
   </div>
 </body>
 `;
@@ -420,6 +420,12 @@ exports[`Tour renderPanel 1`] = `
   </div>
   <div>
     <div
+      class="rc-tour-target-placeholder"
+      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
+    />
+  </div>
+  <div>
+    <div
       class="rc-tour rc-tour-placement-bottom"
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
@@ -435,12 +441,6 @@ exports[`Tour renderPanel 1`] = `
         创建一条数据
       </div>
     </div>
-  </div>
-  <div>
-    <div
-      class="rc-tour-target-placeholder"
-      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
-    />
   </div>
 </body>
 `;
@@ -531,6 +531,12 @@ exports[`Tour rootClassName 1`] = `
   </div>
   <div>
     <div
+      class="customClassName rc-tour-target-placeholder"
+      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
+    />
+  </div>
+  <div>
+    <div
       class="rc-tour customClassName rc-tour-placement-bottom"
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
@@ -589,12 +595,6 @@ exports[`Tour rootClassName 1`] = `
       </div>
     </div>
   </div>
-  <div>
-    <div
-      class="customClassName rc-tour-target-placeholder"
-      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
-    />
-  </div>
 </body>
 `;
 
@@ -648,6 +648,12 @@ exports[`Tour run in strict mode 1`] = `
         />
       </svg>
     </div>
+  </div>
+  <div>
+    <div
+      class="rc-tour-target-placeholder"
+      style="left: 50%; top: 50%; width: 1px; height: 1px; position: fixed; pointer-events: none;"
+    />
   </div>
   <div>
     <div
@@ -711,12 +717,6 @@ exports[`Tour run in strict mode 1`] = `
         </div>
       </div>
     </div>
-  </div>
-  <div>
-    <div
-      class="rc-tour-target-placeholder"
-      style="left: 50%; top: 50%; width: 1px; height: 1px; position: fixed; pointer-events: none;"
-    />
   </div>
 </body>
 `;
@@ -815,6 +815,12 @@ exports[`Tour run in strict mode 2`] = `
   </div>
   <div>
     <div
+      class="rc-tour-target-placeholder"
+      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
+    />
+  </div>
+  <div>
+    <div
       class="rc-tour rc-tour-placement-bottom"
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
@@ -885,12 +891,6 @@ exports[`Tour run in strict mode 2`] = `
       </div>
     </div>
   </div>
-  <div>
-    <div
-      class="rc-tour-target-placeholder"
-      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
-    />
-  </div>
 </body>
 `;
 
@@ -937,7 +937,13 @@ exports[`Tour should keep current when controlled 1`] = `
   </div>
   <div>
     <div
-      class="rc-tour rc-tour-placement-bottom"
+      class="rc-tour-target-placeholder"
+      style="left: 50%; top: 50%; width: 1px; height: 1px; position: fixed; pointer-events: none;"
+    />
+  </div>
+  <div>
+    <div
+      class="rc-tour"
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
       <div
@@ -1003,12 +1009,6 @@ exports[`Tour should keep current when controlled 1`] = `
       </div>
     </div>
   </div>
-  <div>
-    <div
-      class="rc-tour-target-placeholder"
-      style="left: 50%; top: 50%; width: 1px; height: 1px; position: fixed; pointer-events: none;"
-    />
-  </div>
 </body>
 `;
 
@@ -1055,7 +1055,13 @@ exports[`Tour should return step 1 when reopen 1`] = `
   </div>
   <div>
     <div
-      class="rc-tour rc-tour-placement-bottom"
+      class="rc-tour-target-placeholder"
+      style="left: 50%; top: 50%; width: 1px; height: 1px; position: fixed; pointer-events: none;"
+    />
+  </div>
+  <div>
+    <div
+      class="rc-tour"
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
       <div
@@ -1115,12 +1121,6 @@ exports[`Tour should return step 1 when reopen 1`] = `
         </div>
       </div>
     </div>
-  </div>
-  <div>
-    <div
-      class="rc-tour-target-placeholder"
-      style="left: 50%; top: 50%; width: 1px; height: 1px; position: fixed; pointer-events: none;"
-    />
   </div>
 </body>
 `;
@@ -1213,6 +1213,12 @@ exports[`Tour should update position when window resize 1`] = `
   </div>
   <div>
     <div
+      class="rc-tour-target-placeholder"
+      style="left: 9px; top: 4px; width: 242px; height: 192px; position: fixed; pointer-events: none;"
+    />
+  </div>
+  <div>
+    <div
       class="rc-tour rc-tour-placement-bottom"
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
@@ -1270,12 +1276,6 @@ exports[`Tour should update position when window resize 1`] = `
         </div>
       </div>
     </div>
-  </div>
-  <div>
-    <div
-      class="rc-tour-target-placeholder"
-      style="left: 9px; top: 4px; width: 242px; height: 192px; position: fixed; pointer-events: none;"
-    />
   </div>
 </body>
 `;
@@ -1366,6 +1366,12 @@ exports[`Tour showArrow should show tooltip arrow default 1`] = `
   </div>
   <div>
     <div
+      class="rc-tour-target-placeholder"
+      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
+    />
+  </div>
+  <div>
+    <div
       class="rc-tour rc-tour-placement-bottom"
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
@@ -1419,12 +1425,6 @@ exports[`Tour showArrow should show tooltip arrow default 1`] = `
         </div>
       </div>
     </div>
-  </div>
-  <div>
-    <div
-      class="rc-tour-target-placeholder"
-      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
-    />
   </div>
 </body>
 `;
@@ -1515,6 +1515,12 @@ exports[`Tour single 1`] = `
   </div>
   <div>
     <div
+      class="rc-tour-target-placeholder"
+      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
+    />
+  </div>
+  <div>
+    <div
       class="rc-tour rc-tour-placement-bottom"
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
@@ -1572,12 +1578,6 @@ exports[`Tour single 1`] = `
         </div>
       </div>
     </div>
-  </div>
-  <div>
-    <div
-      class="rc-tour-target-placeholder"
-      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
-    />
   </div>
 </body>
 `;
@@ -1670,6 +1670,12 @@ exports[`Tour use custom builtinPlacements 1`] = `
   </div>
   <div>
     <div
+      class="rc-tour-target-placeholder"
+      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
+    />
+  </div>
+  <div>
+    <div
       class="rc-tour rc-tour-placement-bottom"
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
@@ -1727,12 +1733,6 @@ exports[`Tour use custom builtinPlacements 1`] = `
         </div>
       </div>
     </div>
-  </div>
-  <div>
-    <div
-      class="rc-tour-target-placeholder"
-      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
-    />
   </div>
 </body>
 `;
@@ -1825,6 +1825,12 @@ exports[`Tour use custom builtinPlacements 2`] = `
   </div>
   <div>
     <div
+      class="rc-tour-target-placeholder"
+      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
+    />
+  </div>
+  <div>
+    <div
       class="rc-tour rc-tour-placement-bottom"
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
@@ -1882,12 +1888,6 @@ exports[`Tour use custom builtinPlacements 2`] = `
         </div>
       </div>
     </div>
-  </div>
-  <div>
-    <div
-      class="rc-tour-target-placeholder"
-      style="left: -6px; top: -6px; width: 12px; height: 12px; position: fixed; pointer-events: none;"
-    />
   </div>
   <div>
     <div
