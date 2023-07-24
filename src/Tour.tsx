@@ -1,20 +1,20 @@
-import * as React from 'react';
 import type { ReactNode } from 'react';
+import * as React from 'react';
 
+import Portal from '@rc-component/portal';
 import type { TriggerProps } from '@rc-component/trigger';
 import Trigger from '@rc-component/trigger';
-import Portal from '@rc-component/portal';
 import classNames from 'classnames';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import useTarget from './hooks/useTarget';
-import type { Gap } from './hooks/useTarget';
-import TourStep from './TourStep';
-import type { TourStepInfo } from './TourStep';
-import Mask from './Mask';
-import { getPlacements } from './placements';
-import type { TourStepProps } from './TourStep';
-import type { PlacementType } from './placements';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import type { Gap } from './hooks/useTarget';
+import useTarget from './hooks/useTarget';
+import Mask from './Mask';
+import type { PlacementType } from './placements';
+import { getPlacements } from './placements';
+import type { TourStepInfo, TourStepProps } from './TourStep';
+import TourStep from './TourStep';
+import { getPlacement } from './util';
 
 const CENTER_PLACEHOLDER: React.CSSProperties = {
   left: '50%',
@@ -63,7 +63,7 @@ const Tour = (props: TourProps) => {
     mask = true,
     arrow = true,
     rootClassName,
-    placement = 'bottom',
+    placement,
     renderPanel,
     gap,
     animated,
@@ -105,7 +105,6 @@ const Tour = (props: TourProps) => {
     scrollIntoViewOptions: stepScrollIntoViewOptions,
   } = steps[mergedCurrent] || {};
 
-  const mergedPlacement = stepPlacement ?? placement;
   const mergedMask = mergedOpen && (stepMask ?? mask);
   const mergedScrollIntoViewOptions =
     stepScrollIntoViewOptions ?? scrollIntoViewOptions;
@@ -115,6 +114,7 @@ const Tour = (props: TourProps) => {
     gap,
     mergedScrollIntoViewOptions,
   );
+  const mergedPlacement = getPlacement(targetElement, placement, stepPlacement);
 
   // ========================= arrow =========================
   const mergedArrow = targetElement

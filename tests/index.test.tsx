@@ -1,10 +1,11 @@
-import React, { useState, useRef, StrictMode } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import Tour from '../src/index';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
+import React, { StrictMode, useRef, useState } from 'react';
 import { act } from 'react-dom/test-utils';
-import { resizeWindow } from './utils';
+import Tour from '../src/index';
 import { placements } from '../src/placements';
+import { getPlacement } from '../src/util';
+import { resizeWindow } from './utils';
 
 const mockBtnRect = (
   rect: {
@@ -722,7 +723,7 @@ describe('Tour', () => {
     });
   });
   it('support zIndex', () => {
-    const App = ({zIndex}: {zIndex?: number}) => (
+    const App = ({ zIndex }: { zIndex?: number }) => (
       <Tour
         zIndex={zIndex}
         open
@@ -736,11 +737,21 @@ describe('Tour', () => {
     );
     const { baseElement, rerender } = render(<App />);
     expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle({
-      zIndex: 1001
+      zIndex: 1001,
     });
     rerender(<App zIndex={900} />);
     expect(baseElement.querySelector('.rc-tour-mask')).toHaveStyle({
-      zIndex: 900
+      zIndex: 900,
     });
+  });
+
+  it('placement should be center when target null', () => {
+    const targetElement = null;
+    const placement = undefined;
+    const stepPlacement = undefined;
+
+    expect(getPlacement(targetElement, placement, stepPlacement)).toBe(
+      'center',
+    );
   });
 });
