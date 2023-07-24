@@ -1,29 +1,33 @@
-import React, { useMemo, useRef, useState } from 'react';
-import Tour from '../../src/index';
-import './basic.less';
-import { placements } from '../../src/placements';
-import type { PlacementType } from '../../src/placements';
 import type { BuildInPlacements } from '@rc-component/trigger';
+import { useMemo, useRef, useState } from 'react';
+import Tour from '../../src/index';
+import type { PlacementType } from '../../src/placements';
+import { placements } from '../../src/placements';
+import './basic.less';
 
 function getCustomPlacements(delta: number): BuildInPlacements {
   const customPlacements: BuildInPlacements = {};
   Object.keys(placements).forEach((key: PlacementType) => {
-    const oriPlacement = {...placements[key]};
+    const oriPlacement = { ...placements[key] };
     const oriOffset = oriPlacement.offset;
-    if (key.startsWith("left") || key.startsWith("right")) {
-      const symbol = key.startsWith("left") ? -1 : 1;
-      oriPlacement.offset = [(oriOffset[0] + delta) * symbol, oriOffset[1]];
+    if (key.startsWith('left') || key.startsWith('right')) {
+      const symbol = key.startsWith('left') ? -1 : 1;
+      oriPlacement.offset = [
+        ((oriOffset[0] as number) + delta) * symbol,
+        oriOffset[1],
+      ];
     } else {
-      const symbol = key.startsWith("top") ? -1 : 1;
-      oriPlacement.offset = [oriOffset[0], (oriOffset[1] + delta) * symbol];
+      const symbol = key.startsWith('top') ? -1 : 1;
+      oriPlacement.offset = [
+        oriOffset[0],
+        ((oriOffset[1] as number) + delta) * symbol,
+      ];
     }
-    
+
     customPlacements[key] = oriPlacement;
   });
   return customPlacements;
 }
-
-
 
 const App = () => {
   const [placement, setPlacement] = useState<PlacementType>('rightBottom');
@@ -44,7 +48,13 @@ const App = () => {
         ))}
       </select>
 
-      <p>自定义偏移量：<input value={delta} onChange={e => setDelta(parseFloat(e.target.value))} /></p>
+      <p>
+        自定义偏移量：
+        <input
+          value={delta}
+          onChange={e => setDelta(parseFloat(e.target.value))}
+        />
+      </p>
 
       <div style={{ height: 300 }} />
 
