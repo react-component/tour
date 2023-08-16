@@ -67,6 +67,7 @@ const Demo = () => {
                         description: '创建一条数据',
                         target: () => createBtnRef.current,
                         mask: true,
+                        style: { position: 'absolute' }
                     },
                     {
                         title: '更新',
@@ -77,6 +78,7 @@ const Demo = () => {
                             </div>
                         ),
                         target: () => updateBtnRef.current,
+                        style: { position: 'absolute' },
                     },
                     {
                         title: '删除',
@@ -88,7 +90,7 @@ const Demo = () => {
                         ),
                         target: () => deleteBtnRef.current,
                         mask: true,
-                        style: { color: 'red' },
+                        style: { color: 'red', position: 'absolute' },
                     },
                 ]}
             />
