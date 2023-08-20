@@ -14,19 +14,28 @@ export default function DefaultPanel(props: TourStepProps) {
     onNext,
     onFinish,
     className,
+    closable,
   } = props;
+
+  const mergedClosable = closable !== false;
+  const mergedCloseIcon = typeof closable === "object" ?
+    closable.closeIcon : (
+      <span className={`${prefixCls}-close-x`}>&times;</span>
+    )
 
   return (
     <div className={classNames(`${prefixCls}-content`, className)}>
       <div className={`${prefixCls}-inner`}>
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close"
-          className={`${prefixCls}-close`}
-        >
-          <span className={`${prefixCls}-close-x`}>&times;</span>
-        </button>
+        {mergedClosable && (
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close"
+            className={`${prefixCls}-close`}
+          >
+            {mergedCloseIcon}
+          </button>
+        )}
         <div className={`${prefixCls}-header`}>
           <div className={`${prefixCls}-title`}>{title}</div>
         </div>
@@ -35,13 +44,13 @@ export default function DefaultPanel(props: TourStepProps) {
           <div className={`${prefixCls}-sliders`}>
             {total > 1
               ? [...Array.from({ length: total }).keys()].map((item, index) => {
-                  return (
-                    <span
-                      key={item}
-                      className={index === current ? 'active' : ''}
-                    />
-                  );
-                })
+                return (
+                  <span
+                    key={item}
+                    className={index === current ? 'active' : ''}
+                  />
+                );
+              })
               : null}
           </div>
           <div className={`${prefixCls}-buttons`}>

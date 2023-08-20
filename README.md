@@ -106,6 +106,7 @@ We use typescript to create the Type definition. You can view directly in IDE. B
 
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
+| closable | `boolean \| { closeIcon?: React.ReactNode }` | - | 自定义关闭按钮 |
 | steps | `TourStepProps[]` | - | 引导步骤 |
 | open | `boolean` | `true` | 受控打开引导（与 `current` 受控分开） |
 | current | `number` | 0 | 受控当前处于哪一步 |
@@ -125,6 +126,7 @@ We use typescript to create the Type definition. You can view directly in IDE. B
 
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
+| closable | `boolean \| { closeIcon?: React.ReactNode }` | - | 自定义关闭按钮 |
 | target | `() => HTMLElement` \|  `HTMLElement` | - | 获取引导卡片指向的元素 |
 | arrow | `boolean` \| `{ pointAtCenter: boolean}` | `true` | 是否显示箭头，包含是否指向元素中心的配置 |
 | placement | `left` \| `leftTop` \| `leftBottom` \| `right` \| `rightTop` \| `rightBottom` \| `top` \| `topLeft` \| `topRight` \| `bottom`  \| `bottomLeft` \| `bottomRight` | `bottom` | 引导卡片相对于目标元素的位置 |

@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
-import React, { StrictMode, useRef, useState } from 'react';
+import React, { ReactNode, StrictMode, useRef, useState } from 'react';
 import { act } from 'react-dom/test-utils';
 import Tour from '../src/index';
 import { placements } from '../src/placements';
@@ -35,7 +35,7 @@ describe('Tour', () => {
   let spy: jest.SpyInstance;
 
   beforeAll(() => {
-    spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    spy = jest.spyOn(console, 'error').mockImplementation(() => { });
   });
 
   afterAll(() => {
@@ -753,5 +753,103 @@ describe('Tour', () => {
     expect(getPlacement(targetElement, placement, stepPlacement)).toBe(
       'center',
     );
+  });
+  it('support closable', () => {
+    const Demo = ({ closable = false }: { closable?: boolean | { closeIcon?: ReactNode } }) => {
+      const createBtnRef = useRef<HTMLButtonElement>(null);
+      const updateBtnRef = useRef<HTMLButtonElement>(null);
+      const deleteBtnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <div>
+            <button ref={createBtnRef}>Create</button>
+            <div style={{ height: 200 }} />
+            <button ref={updateBtnRef}>Update</button>
+            <button ref={deleteBtnRef}>Delete</button>
+          </div>
+          <div style={{ height: 200 }} />
+
+          <Tour
+            closable={closable}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => createBtnRef.current,
+                mask: true,
+              },
+              {
+                title: '更新',
+                closable: !closable,
+                description: (
+                  <div>
+                    <span>更新一条数据</span>
+                    <button>帮助文档</button>
+                  </div>
+                ),
+                target: () => updateBtnRef.current,
+              },
+              {
+                title: '删除',
+                closable: { closeIcon: <span className='custom-del-close-icon'>Close</span> },
+                description: (
+                  <div>
+                    <span>危险操作:删除一条数据</span>
+                    <button>帮助文档</button>
+                  </div>
+                ),
+                target: () => deleteBtnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+
+    const resetIndex = () => {
+      // reset
+      fireEvent.click(screen.getByRole('button', { name: 'Prev' }));
+      fireEvent.click(screen.getByRole('button', { name: 'Prev' }));
+    }
+
+    const { baseElement, rerender } = render(<Demo />);
+    expect(baseElement.querySelector('.rc-tour-close')).toBeFalsy();
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
+    expect(baseElement.querySelector('.rc-tour-close-x')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
+    expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
+    expect(baseElement.querySelector('.custom-del-close-icon')).toBeTruthy();
+
+    resetIndex();
+
+    rerender(<Demo closable />);
+    expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
+    console.log(baseElement.querySelector('.rc-tour-close').innerHTML);
+    expect(baseElement.querySelector('.rc-tour-close-x')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(baseElement.querySelector('.rc-tour-close')).toBeFalsy();
+    expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
+    expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
+    expect(baseElement.querySelector('.custom-del-close-icon')).toBeTruthy();
+
+    resetIndex();
+
+    rerender(<Demo closable={{ closeIcon: <span className='custom-global-close-icon'>X</span> }} />);
+    expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
+    expect(baseElement.querySelector('.custom-global-close-icon')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(baseElement.querySelector('.rc-tour-close')).toBeFalsy();
+    expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
+    expect(baseElement.querySelector('.custom-global-close-icon')).toBeFalsy();
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
+    expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
+    expect(baseElement.querySelector('.custom-del-close-icon')).toBeTruthy();
+
+    resetIndex();
   });
 });
