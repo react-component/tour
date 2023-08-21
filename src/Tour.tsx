@@ -32,6 +32,7 @@ export interface TourProps
   onChange?: (current: number) => void;
   onClose?: (current: number) => void;
   onFinish?: () => void;
+  closeIcon?: TourStepProps["closeIcon"]
   mask?:
     | boolean
     | {
@@ -69,6 +70,7 @@ const Tour = (props: TourProps) => {
     animated,
     scrollIntoViewOptions = true,
     zIndex = 1001,
+    closeIcon,
     ...restProps
   } = props;
 
@@ -103,9 +105,11 @@ const Tour = (props: TourProps) => {
     className: stepClassName,
     mask: stepMask,
     scrollIntoViewOptions: stepScrollIntoViewOptions,
+    closeIcon: stepCloseIcon,
   } = steps[mergedCurrent] || {};
 
   const mergedMask = mergedOpen && (stepMask ?? mask);
+  const mergedCloseIcon = stepCloseIcon ?? closeIcon;
   const mergedScrollIntoViewOptions =
     stepScrollIntoViewOptions ?? scrollIntoViewOptions;
   const [posInfo, targetElement] = useTarget(
@@ -165,6 +169,7 @@ const Tour = (props: TourProps) => {
         handleClose();
         onFinish?.();
       }}
+      closeIcon={mergedCloseIcon}
       {...steps[mergedCurrent]}
     />
   );
