@@ -32,7 +32,7 @@ export interface TourProps
   onChange?: (current: number) => void;
   onClose?: (current: number) => void;
   onFinish?: () => void;
-  closable?: boolean | { closeIcon?: ReactNode }
+  closable?: TourStepProps["closable"]
   mask?:
     | boolean
     | {
