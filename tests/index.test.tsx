@@ -754,7 +754,7 @@ describe('Tour', () => {
       'center',
     );
   });
-  it('support closable', () => {
+  it('support closeIcon', () => {
     const Demo = ({ closeIcon = false }: { closeIcon?: ReactNode }) => {
       const createBtnRef = useRef<HTMLButtonElement>(null);
       const updateBtnRef = useRef<HTMLButtonElement>(null);
