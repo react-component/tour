@@ -816,7 +816,6 @@ describe('Tour', () => {
     expect(baseElement.querySelector('.rc-tour-close')).toBeFalsy();
     fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
-    console.log('===>',baseElement.querySelector('.rc-tour-close').innerHTML);
     expect(baseElement.querySelector('.rc-tour-close-x')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
@@ -827,7 +826,6 @@ describe('Tour', () => {
 
     rerender(<Demo closeIcon />);
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
-    console.log(baseElement.querySelector('.rc-tour-close').innerHTML);
     expect(baseElement.querySelector('.rc-tour-close-x')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     expect(baseElement.querySelector('.rc-tour-close')).toBeFalsy();
