@@ -32,7 +32,7 @@ export interface TourProps
   onChange?: (current: number) => void;
   onClose?: (current: number) => void;
   onFinish?: () => void;
-  closable?: TourStepProps["closable"]
+  closeIcon?: TourStepProps["closeIcon"]
   mask?:
     | boolean
     | {
@@ -70,7 +70,7 @@ const Tour = (props: TourProps) => {
     animated,
     scrollIntoViewOptions = true,
     zIndex = 1001,
-    closable,
+    closeIcon,
     ...restProps
   } = props;
 
@@ -105,11 +105,11 @@ const Tour = (props: TourProps) => {
     className: stepClassName,
     mask: stepMask,
     scrollIntoViewOptions: stepScrollIntoViewOptions,
-    closable: stepClosable,
+    closeIcon: stepCloseIcon,
   } = steps[mergedCurrent] || {};
 
   const mergedMask = mergedOpen && (stepMask ?? mask);
-  const mergedClosable = stepClosable ?? closable;
+  const mergedCloseIcon = stepCloseIcon ?? closeIcon;
   const mergedScrollIntoViewOptions =
     stepScrollIntoViewOptions ?? scrollIntoViewOptions;
   const [posInfo, targetElement] = useTarget(
@@ -169,7 +169,7 @@ const Tour = (props: TourProps) => {
         handleClose();
         onFinish?.();
       }}
-      closable={mergedClosable}
+      closeIcon={mergedCloseIcon}
       {...steps[mergedCurrent]}
     />
   );

@@ -14,14 +14,13 @@ export default function DefaultPanel(props: TourStepProps) {
     onNext,
     onFinish,
     className,
-    closable,
+    closeIcon,
   } = props;
 
-  const mergedClosable = closable !== false;
-  const mergedCloseIcon = typeof closable === "object" ?
-    closable.closeIcon : (
-      <span className={`${prefixCls}-close-x`}>&times;</span>
-    )
+  const mergedClosable = closeIcon !== false && closeIcon !== null;
+  const mergedCloseIcon = (closeIcon !== undefined && closeIcon !== true) ? closeIcon : (
+    <span className={`${prefixCls}-close-x`}>&times;</span>
+  )
 
   return (
     <div className={classNames(`${prefixCls}-content`, className)}>

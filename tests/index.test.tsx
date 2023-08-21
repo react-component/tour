@@ -755,7 +755,7 @@ describe('Tour', () => {
     );
   });
   it('support closable', () => {
-    const Demo = ({ closable = false }: { closable?: boolean | { closeIcon?: ReactNode } }) => {
+    const Demo = ({ closeIcon = false }: { closeIcon?: ReactNode }) => {
       const createBtnRef = useRef<HTMLButtonElement>(null);
       const updateBtnRef = useRef<HTMLButtonElement>(null);
       const deleteBtnRef = useRef<HTMLButtonElement>(null);
@@ -770,7 +770,7 @@ describe('Tour', () => {
           <div style={{ height: 200 }} />
 
           <Tour
-            closable={closable}
+            closeIcon={closeIcon}
             steps={[
               {
                 title: '创建',
@@ -780,7 +780,7 @@ describe('Tour', () => {
               },
               {
                 title: '更新',
-                closable: !closable,
+                closeIcon: !closeIcon,
                 description: (
                   <div>
                     <span>更新一条数据</span>
@@ -791,7 +791,7 @@ describe('Tour', () => {
               },
               {
                 title: '删除',
-                closable: { closeIcon: <span className='custom-del-close-icon'>Close</span> },
+                closeIcon: <span className='custom-del-close-icon'>Close</span>,
                 description: (
                   <div>
                     <span>危险操作:删除一条数据</span>
@@ -816,6 +816,7 @@ describe('Tour', () => {
     expect(baseElement.querySelector('.rc-tour-close')).toBeFalsy();
     fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
+    console.log('===>',baseElement.querySelector('.rc-tour-close').innerHTML);
     expect(baseElement.querySelector('.rc-tour-close-x')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
@@ -824,7 +825,7 @@ describe('Tour', () => {
 
     resetIndex();
 
-    rerender(<Demo closable />);
+    rerender(<Demo closeIcon />);
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
     console.log(baseElement.querySelector('.rc-tour-close').innerHTML);
     expect(baseElement.querySelector('.rc-tour-close-x')).toBeTruthy();
@@ -838,7 +839,7 @@ describe('Tour', () => {
 
     resetIndex();
 
-    rerender(<Demo closable={{ closeIcon: <span className='custom-global-close-icon'>X</span> }} />);
+    rerender(<Demo closeIcon={<span className='custom-global-close-icon'>X</span>} />);
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
     expect(baseElement.querySelector('.custom-global-close-icon')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Next' }));

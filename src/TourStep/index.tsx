@@ -17,7 +17,7 @@ export interface TourStepInfo {
   className?: string;
   style?: CSSProperties;
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
-  closable?: boolean | { closeIcon?: ReactNode }
+  closeIcon?: ReactNode
 }
 
 export interface TourStepProps extends TourStepInfo {
