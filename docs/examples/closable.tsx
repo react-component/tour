@@ -28,7 +28,7 @@ const App = () => {
       <div style={{ height: 200 }} />
 
       <Tour
-        closable={false}
+        closeIcon={false}
         steps={[
           {
             title: '创建',
@@ -38,7 +38,7 @@ const App = () => {
           },
           {
             title: '更新',
-            closable: true,
+            closeIcon: true,
             description: (
               <div>
                 <span>更新一条数据</span>
@@ -60,7 +60,7 @@ const App = () => {
           },
           {
             title: '删除',
-            closable: { closeIcon: <span className='custom-close'>X</span> },
+            closeIcon: <span className='custom-close'>X</span>,
             description: (
               <div>
                 <span>危险操作：删除一条数据</span>
