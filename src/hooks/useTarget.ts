@@ -63,7 +63,7 @@ export default function useTarget(
   });
 
   const getGapOffset = (index: number) =>
-    (Array.isArray(gap?.offset) ? gap?.offset[index] : gap?.offset) || 6;
+    (Array.isArray(gap?.offset) ? gap?.offset[index] : gap?.offset) ?? 6;
 
   useLayoutEffect(() => {
     updatePos();
