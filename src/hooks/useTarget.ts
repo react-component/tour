@@ -1,11 +1,11 @@
-import { useState, useMemo } from 'react';
+import useEvent from 'rc-util/lib/hooks/useEvent';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import { isInViewPort } from '../util';
+import { useMemo, useState } from 'react';
 import type { TourStepInfo } from '..';
-import useEvent from "rc-util/lib/hooks/useEvent";
+import { isInViewPort } from '../util';
 
 export interface Gap {
-  offset?: number;
+  offset?: number | [number, number];
   radius?: number;
 }
 
@@ -21,7 +21,7 @@ export default function useTarget(
   target: TourStepInfo['target'],
   open: boolean,
   gap?: Gap,
-  scrollIntoViewOptions?: boolean | ScrollIntoViewOptions
+  scrollIntoViewOptions?: boolean | ScrollIntoViewOptions,
 ): [PosInfo, HTMLElement] {
   // ========================= Target =========================
   // We trade `undefined` as not get target by function yet.
@@ -62,13 +62,16 @@ export default function useTarget(
     }
   });
 
+  const getGapOffset = (index: number) =>
+    (Array.isArray(gap?.offset) ? gap?.offset[index] : gap?.offset) ?? 6;
+
   useLayoutEffect(() => {
     updatePos();
     // update when window resize
     window.addEventListener('resize', updatePos);
     return () => {
       window.removeEventListener('resize', updatePos);
-    }
+    };
   }, [targetElement, open, updatePos]);
 
   // ======================== PosInfo =========================
@@ -77,14 +80,15 @@ export default function useTarget(
       return posInfo;
     }
 
-    const gapOffset = gap?.offset || 6;
+    const gapOffsetX = getGapOffset(0);
+    const gapOffsetY = getGapOffset(1);
     const gapRadius = gap?.radius || 2;
 
     return {
-      left: posInfo.left - gapOffset,
-      top: posInfo.top - gapOffset,
-      width: posInfo.width + gapOffset * 2,
-      height: posInfo.height + gapOffset * 2,
+      left: posInfo.left - gapOffsetX,
+      top: posInfo.top - gapOffsetY,
+      width: posInfo.width + gapOffsetX * 2,
+      height: posInfo.height + gapOffsetY * 2,
       radius: gapRadius,
     };
   }, [posInfo, gap]);

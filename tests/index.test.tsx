@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
-import React, { ReactNode, StrictMode, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
+import React, { StrictMode, useRef, useState } from 'react';
 import { act } from 'react-dom/test-utils';
 import Tour from '../src/index';
 import { placements } from '../src/placements';
@@ -35,7 +36,7 @@ describe('Tour', () => {
   let spy: jest.SpyInstance;
 
   beforeAll(() => {
-    spy = jest.spyOn(console, 'error').mockImplementation(() => { });
+    spy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterAll(() => {
@@ -791,7 +792,7 @@ describe('Tour', () => {
               },
               {
                 title: '删除',
-                closeIcon: <span className='custom-del-close-icon'>Close</span>,
+                closeIcon: <span className="custom-del-close-icon">Close</span>,
                 description: (
                   <div>
                     <span>危险操作:删除一条数据</span>
@@ -810,7 +811,7 @@ describe('Tour', () => {
       // reset
       fireEvent.click(screen.getByRole('button', { name: 'Prev' }));
       fireEvent.click(screen.getByRole('button', { name: 'Prev' }));
-    }
+    };
 
     const { baseElement, rerender } = render(<Demo />);
     expect(baseElement.querySelector('.rc-tour-close')).toBeFalsy();
@@ -837,7 +838,9 @@ describe('Tour', () => {
 
     resetIndex();
 
-    rerender(<Demo closeIcon={<span className='custom-global-close-icon'>X</span>} />);
+    rerender(
+      <Demo closeIcon={<span className="custom-global-close-icon">X</span>} />,
+    );
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
     expect(baseElement.querySelector('.custom-global-close-icon')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Next' }));
@@ -850,5 +853,50 @@ describe('Tour', () => {
     expect(baseElement.querySelector('.custom-del-close-icon')).toBeTruthy();
 
     resetIndex();
+  });
+
+  it('Should gap support horizontal offset', async () => {
+    const scrollIntoView = jest.fn();
+    mockBtnRect(
+      {
+        x: 800,
+        y: 333,
+        width: 230,
+        height: 180,
+      },
+      scrollIntoView,
+    );
+    const Demo = () => {
+      const btnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <button ref={btnRef}>按钮</button>
+          <Tour
+            placement={'bottom'}
+            gap={{
+              offset: [20, 80],
+            }}
+            open={true}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+    render(<Demo />);
+    await act(() => {
+      jest.runAllTimers();
+    });
+    const targetRect = document
+      .getElementById('rc-tour-mask-test-id')
+      .querySelectorAll('rect')[1];
+    expect(targetRect).toBeTruthy();
+    expect(targetRect).toHaveAttribute('width', '270');
+    expect(targetRect).toHaveAttribute('height', '340');
   });
 });

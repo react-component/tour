@@ -31,6 +31,7 @@ open http://localhost:8000
 
 ## Usage
 
+<!-- prettier-ignore -->
 ```js | pure
 import Tour from '@rc-component/tour';
 
@@ -102,8 +103,10 @@ export default Demo;
 ## 🔥 API
 
 We use typescript to create the Type definition. You can view directly in IDE. But you can still check the type definition [here](https://github.com/react-component/tour/blob/master/src/interface.ts).
+
 ### Tour
 
+<!-- prettier-ignore -->
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
 | closeIcon | `React.ReactNode` | - | 自定义关闭按钮 |
@@ -111,6 +114,7 @@ We use typescript to create the Type definition. You can view directly in IDE. B
 | open | `boolean` | `true` | 受控打开引导（与 `current` 受控分开） |
 | current | `number` | 0 | 受控当前处于哪一步 |
 | defaultCurrent | `number` | 0 | 默认处于哪一步 |
+| gap | `{ offset?: number \| [number, number]; radius?: number }` | - | 控制引导显示间距 |
 | onChange | `(current: number) => void` | - | 步骤改变时的回调，`current`为改变前的步骤，`next`为改变后的步骤 |
 | onClose | `(current: number) => void` | - | 关闭引导时的回调 |
 | onFinish | `() => void` | - | 完成引导时的回调 |
@@ -121,9 +125,9 @@ We use typescript to create the Type definition. You can view directly in IDE. B
 | onPopupAlign | `function(popupDomNode, align)` | - | 当弹出框对齐后回调 |
 | zIndex | `number` | 1001 | 弹层的层级 |
 
-
 ### TourStep
 
+<!-- prettier-ignore -->
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
 | closeIcon | `React.ReactNode` | - | 自定义关闭按钮 |
