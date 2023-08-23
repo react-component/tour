@@ -3,7 +3,7 @@ import Tour from '../../src/index';
 import './basic.less';
 
 const App = () => {
-  const createBtnRef = useRef<HTMLButtonElement>(null);
+  const createBtnRef = useRef<HTMLDivElement>(null);
   const [offsetX, setOffsetX] = useState(6);
   const [offsetY, setOffsetY] = useState(6);
   const [open, setOpen] = useState(false);
