@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import Tour from '../../src/index';
 import './basic.less';
 
