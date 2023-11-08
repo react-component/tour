@@ -8,20 +8,10 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@@/*": [
-        ".dumi/tmp/*"
-      ],
-      "@rc-component/tour": [
-        "src/Tour.tsx"
-      ]
+      "@/*": ["src/*"],
+      "@@/*": [".dumi/tmp/*"],
+      "@rc-component/tour": ["src/Tour.tsx"]
     }
   },
-  "include": [
-    ".dumirc.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ]
+  "include": [".dumi/**/*", ".dumirc.ts", "**/*.ts", "**/*.tsx"]
 }
