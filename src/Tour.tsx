@@ -32,7 +32,7 @@ export interface TourProps
   onChange?: (current: number) => void;
   onClose?: (current: number) => void;
   onFinish?: () => void;
-  closeIcon?: TourStepProps["closeIcon"]
+  closeIcon?: TourStepProps['closeIcon'];
   mask?:
     | boolean
     | {
@@ -49,9 +49,10 @@ export interface TourProps
   animated?: boolean | { placeholder: boolean };
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
   zIndex?: number;
+  getPopupContainer?: TriggerProps['getPopupContainer'];
 }
 
-const Tour = (props: TourProps) => {
+const Tour: React.FC<TourProps> = props => {
   const {
     prefixCls = 'rc-tour',
     steps = [],
@@ -71,6 +72,7 @@ const Tour = (props: TourProps) => {
     scrollIntoViewOptions = true,
     zIndex = 1001,
     closeIcon,
+    getPopupContainer,
     ...restProps
   } = props;
 
@@ -212,6 +214,7 @@ const Tour = (props: TourProps) => {
         zIndex={zIndex}
         getTriggerDOMNode={getTriggerDOMNode}
         arrow={!!mergedArrow}
+        getPopupContainer={getPopupContainer}
       >
         <Portal open={mergedOpen} autoLock>
           <div
