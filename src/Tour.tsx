@@ -32,7 +32,7 @@ export interface TourProps
   onChange?: (current: number) => void;
   onClose?: (current: number) => void;
   onFinish?: () => void;
-  closeIcon?: TourStepProps['closeIcon'];
+  closeIcon?: TourStepProps["closeIcon"];
   mask?:
     | boolean
     | {
