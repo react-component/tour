@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import * as React from 'react';
 
 import Portal from '@rc-component/portal';
-import type { TriggerProps } from '@rc-component/trigger';
+import type { TriggerProps, TriggerRef } from '@rc-component/trigger';
 import Trigger from '@rc-component/trigger';
 import classNames from 'classnames';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
@@ -22,11 +22,6 @@ const CENTER_PLACEHOLDER: React.CSSProperties = {
   width: 1,
   height: 1,
 };
-
-export interface TourRef {
-  forceAlign: () => void;
-  nativeElement: HTMLElement;
-}
 
 export interface TourProps
   extends Pick<TriggerProps, 'onPopupAlign' | 'builtinPlacements'> {
@@ -80,7 +75,7 @@ const Tour: React.FC<TourProps> = props => {
     ...restProps
   } = props;
 
-  const triggerRef = React.useRef<TourRef>();
+  const triggerRef = React.useRef<TriggerRef>();
 
   const [mergedCurrent, setMergedCurrent] = useMergedState(0, {
     value: current,
