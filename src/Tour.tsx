@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import * as React from 'react';
 
 import Portal from '@rc-component/portal';
-import type { TriggerProps } from '@rc-component/trigger';
+import type { TriggerProps, TriggerRef } from '@rc-component/trigger';
 import Trigger from '@rc-component/trigger';
 import classNames from 'classnames';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
@@ -32,7 +32,7 @@ export interface TourProps
   onChange?: (current: number) => void;
   onClose?: (current: number) => void;
   onFinish?: () => void;
-  closeIcon?: TourStepProps["closeIcon"]
+  closeIcon?: TourStepProps['closeIcon'];
   mask?:
     | boolean
     | {
@@ -49,9 +49,10 @@ export interface TourProps
   animated?: boolean | { placeholder: boolean };
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
   zIndex?: number;
+  getPopupContainer?: TriggerProps['getPopupContainer'];
 }
 
-const Tour = (props: TourProps) => {
+const Tour: React.FC<TourProps> = props => {
   const {
     prefixCls = 'rc-tour',
     steps = [],
@@ -74,7 +75,7 @@ const Tour = (props: TourProps) => {
     ...restProps
   } = props;
 
-  const triggerRef = React.useRef<{ forceAlign: () => void }>();
+  const triggerRef = React.useRef<TriggerRef>();
 
   const [mergedCurrent, setMergedCurrent] = useMergedState(0, {
     value: current,
@@ -90,6 +91,7 @@ const Tour = (props: TourProps) => {
   });
 
   const openRef = React.useRef(mergedOpen);
+
   useLayoutEffect(() => {
     if (mergedOpen && !openRef.current) {
       setMergedCurrent(0);

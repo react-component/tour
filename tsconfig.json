@@ -13,5 +13,6 @@
       "@rc-component/tour": ["src/Tour.tsx"]
     }
   },
-  "include": [".dumi/**/*", ".dumirc.ts", "**/*.ts", "**/*.tsx"]
+  "include": [".dumi/**/*", ".dumirc.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
