@@ -23,6 +23,11 @@ const CENTER_PLACEHOLDER: React.CSSProperties = {
   height: 1,
 };
 
+export interface TourRef {
+  forceAlign: () => void;
+  nativeElement: HTMLElement;
+}
+
 export interface TourProps
   extends Pick<TriggerProps, 'onPopupAlign' | 'builtinPlacements'> {
   steps?: TourStepInfo[];
@@ -32,7 +37,7 @@ export interface TourProps
   onChange?: (current: number) => void;
   onClose?: (current: number) => void;
   onFinish?: () => void;
-  closeIcon?: TourStepProps["closeIcon"];
+  closeIcon?: TourStepProps['closeIcon'];
   mask?:
     | boolean
     | {
@@ -52,7 +57,7 @@ export interface TourProps
   getPopupContainer?: TriggerProps['getPopupContainer'];
 }
 
-const Tour: React.FC<TourProps> = props => {
+const Tour = React.forwardRef<TourRef, TourProps>((props, ref) => {
   const {
     prefixCls = 'rc-tour',
     steps = [],
@@ -75,7 +80,9 @@ const Tour: React.FC<TourProps> = props => {
     ...restProps
   } = props;
 
-  const triggerRef = React.useRef<{ forceAlign: () => void }>();
+  const triggerRef = React.useRef<TourRef>();
+
+  React.useImperativeHandle(ref, () => triggerRef.current);
 
   const [mergedCurrent, setMergedCurrent] = useMergedState(0, {
     value: current,
@@ -91,6 +98,7 @@ const Tour: React.FC<TourProps> = props => {
   });
 
   const openRef = React.useRef(mergedOpen);
+
   useLayoutEffect(() => {
     if (mergedOpen && !openRef.current) {
       setMergedCurrent(0);
@@ -230,6 +238,6 @@ const Tour: React.FC<TourProps> = props => {
       </Trigger>
     </>
   );
-};
+});
 
 export default Tour;
