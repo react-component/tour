@@ -57,7 +57,7 @@ export interface TourProps
   getPopupContainer?: TriggerProps['getPopupContainer'];
 }
 
-const Tour = React.forwardRef<TourRef, TourProps>((props, ref) => {
+const Tour: React.FC<TourProps> = props => {
   const {
     prefixCls = 'rc-tour',
     steps = [],
@@ -81,8 +81,6 @@ const Tour = React.forwardRef<TourRef, TourProps>((props, ref) => {
   } = props;
 
   const triggerRef = React.useRef<TourRef>();
-
-  React.useImperativeHandle(ref, () => triggerRef.current);
 
   const [mergedCurrent, setMergedCurrent] = useMergedState(0, {
     value: current,
@@ -238,6 +236,6 @@ const Tour = React.forwardRef<TourRef, TourProps>((props, ref) => {
       </Trigger>
     </>
   );
-});
+};
 
 export default Tour;
