@@ -72,7 +72,6 @@ const Tour: React.FC<TourProps> = props => {
     scrollIntoViewOptions = true,
     zIndex = 1001,
     closeIcon,
-    getPopupContainer,
     ...restProps
   } = props;
 
@@ -214,7 +213,6 @@ const Tour: React.FC<TourProps> = props => {
         zIndex={zIndex}
         getTriggerDOMNode={getTriggerDOMNode}
         arrow={!!mergedArrow}
-        getPopupContainer={getPopupContainer}
       >
         <Portal open={mergedOpen} autoLock>
           <div
