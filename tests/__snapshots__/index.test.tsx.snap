@@ -620,7 +620,7 @@ exports[`Tour run in strict mode 1`] = `
   <div>
     <div
       class="rc-tour-mask"
-      style="position: fixed; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 1001; pointer-events: none;"
+      style="position: fixed; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 1001; pointer-events: auto;"
     >
       <svg
         style="width: 100%; height: 100%;"
@@ -906,7 +906,7 @@ exports[`Tour should keep current when controlled 1`] = `
   <div>
     <div
       class="rc-tour-mask"
-      style="position: fixed; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 1001; pointer-events: none;"
+      style="position: fixed; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 1001; pointer-events: auto;"
     >
       <svg
         style="width: 100%; height: 100%;"
@@ -1024,7 +1024,7 @@ exports[`Tour should return step 1 when reopen 1`] = `
   <div>
     <div
       class="rc-tour-mask"
-      style="position: fixed; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 1001; pointer-events: none;"
+      style="position: fixed; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 1001; pointer-events: auto;"
     >
       <svg
         style="width: 100%; height: 100%;"
