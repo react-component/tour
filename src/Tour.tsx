@@ -51,7 +51,7 @@ export interface TourProps
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
   zIndex?: number;
   getPopupContainer?: TriggerProps['getPopupContainer'];
-  getBuiltinPlacements?: (config?: { arrowPointAtCenter?: boolean }) => TriggerProps['builtinPlacements'];
+  builtinPlacements?: TriggerProps['builtinPlacements'] | ((config?: { arrowPointAtCenter?: boolean }) => TriggerProps['builtinPlacements']);
 }
 
 const Tour: React.FC<TourProps> = props => {
@@ -74,7 +74,6 @@ const Tour: React.FC<TourProps> = props => {
     scrollIntoViewOptions = true,
     zIndex = 1001,
     closeIcon,
-    getBuiltinPlacements,
     builtinPlacements,
     ...restProps
   } = props;
@@ -147,13 +146,10 @@ const Tour: React.FC<TourProps> = props => {
 
   const mergedBuiltinPlacements = useMemo(() => {
     if (builtinPlacements) {
-      return builtinPlacements
-    }
-    if (getBuiltinPlacements) {
-      return getBuiltinPlacements({arrowPointAtCenter});
+      return typeof builtinPlacements === 'function' ? builtinPlacements({arrowPointAtCenter}) : builtinPlacements;
     }
     return getPlacements(arrowPointAtCenter);
-  }, [getBuiltinPlacements, builtinPlacements, arrowPointAtCenter])
+  }, [builtinPlacements, arrowPointAtCenter])
 
   // ========================= Render =========================
   // Skip if not init yet
