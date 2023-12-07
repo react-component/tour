@@ -25,7 +25,7 @@ const CENTER_PLACEHOLDER: React.CSSProperties = {
 };
 
 export interface TourProps
-  extends Pick<TriggerProps, 'onPopupAlign' | 'builtinPlacements'> {
+  extends Pick<TriggerProps, 'onPopupAlign'> {
   steps?: TourStepInfo[];
   open?: boolean;
   defaultCurrent?: number;
