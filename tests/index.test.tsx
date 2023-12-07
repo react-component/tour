@@ -899,4 +899,34 @@ describe('Tour', () => {
     expect(targetRect).toHaveAttribute('width', '270');
     expect(targetRect).toHaveAttribute('height', '340');
   });
+
+  it('disabledInteraction should work', () => {
+    const Demo = () => {
+      const btnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <button ref={btnRef}>按钮</button>
+          <Tour
+            placement={'bottom'}
+            gap={{
+              offset: [20, 80],
+            }}
+            open
+            disabledInteraction
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+
+    render(<Demo />);
+
+    expect(document.querySelector('.rc-tour-mask')).toHaveStyle('pointer-events: auto')
+  })
 });
