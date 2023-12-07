@@ -912,7 +912,7 @@ describe('Tour', () => {
               offset: [20, 80],
             }}
             open
-            disabledSpotlight
+            disabledInteraction
             steps={[
               {
                 title: '创建',
