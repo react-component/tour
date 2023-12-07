@@ -52,7 +52,7 @@ export interface TourProps
   zIndex?: number;
   getPopupContainer?: TriggerProps['getPopupContainer'];
   builtinPlacements?: TriggerProps['builtinPlacements'] | ((config?: { arrowPointAtCenter?: boolean }) => TriggerProps['builtinPlacements']);
-  disabledSpotlight?: boolean;
+  disabledInteraction?: boolean;
 }
 
 const Tour: React.FC<TourProps> = props => {
@@ -76,7 +76,7 @@ const Tour: React.FC<TourProps> = props => {
     zIndex = 1001,
     closeIcon,
     builtinPlacements,
-    disabledSpotlight,
+    disabledInteraction,
     ...restProps
   } = props;
 
