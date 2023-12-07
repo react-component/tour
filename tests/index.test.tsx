@@ -900,7 +900,7 @@ describe('Tour', () => {
     expect(targetRect).toHaveAttribute('height', '340');
   });
 
-  it('disabledSpotlight should work', () => {
+  it('disabledInteraction should work', () => {
     const Demo = () => {
       const btnRef = useRef<HTMLButtonElement>(null);
       return (

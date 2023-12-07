@@ -210,7 +210,7 @@ const Tour: React.FC<TourProps> = props => {
         open={mergedOpen}
         animated={animated}
         rootClassName={rootClassName}
-        disabledSpotlight={disabledSpotlight}
+        disabledInteraction={disabledInteraction}
       />
       <Trigger
         {...restProps}
