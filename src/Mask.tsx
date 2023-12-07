@@ -20,6 +20,7 @@ export interface MaskProps {
   open?: boolean;
   animated?: boolean | { placeholder: boolean };
   zIndex?: number;
+  disabledSpotlight?: boolean;
 }
 
 const Mask = (props: MaskProps) => {
@@ -33,6 +34,7 @@ const Mask = (props: MaskProps) => {
     open,
     animated,
     zIndex,
+    disabledSpotlight
   } = props;
 
   const id = useId();
@@ -51,7 +53,7 @@ const Mask = (props: MaskProps) => {
           top: 0,
           bottom: 0,
           zIndex,
-          pointerEvents: pos ? 'none' : 'auto',
+          pointerEvents: pos && !disabledSpotlight ? 'none' : 'auto',
           ...style
         }}
       >
