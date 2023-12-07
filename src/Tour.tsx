@@ -15,6 +15,7 @@ import { getPlacements } from './placements';
 import type { TourStepInfo, TourStepProps } from './TourStep';
 import TourStep from './TourStep';
 import { getPlacement } from './util';
+import { useMemo } from 'react';
 
 const CENTER_PLACEHOLDER: React.CSSProperties = {
   left: '50%',
@@ -24,7 +25,7 @@ const CENTER_PLACEHOLDER: React.CSSProperties = {
 };
 
 export interface TourProps
-  extends Pick<TriggerProps, 'onPopupAlign' | 'builtinPlacements'> {
+  extends Pick<TriggerProps, 'onPopupAlign'> {
   steps?: TourStepInfo[];
   open?: boolean;
   defaultCurrent?: number;
@@ -50,6 +51,7 @@ export interface TourProps
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
   zIndex?: number;
   getPopupContainer?: TriggerProps['getPopupContainer'];
+  builtinPlacements?: TriggerProps['builtinPlacements'] | ((config?: { arrowPointAtCenter?: boolean }) => TriggerProps['builtinPlacements']);
 }
 
 const Tour: React.FC<TourProps> = props => {
@@ -72,6 +74,7 @@ const Tour: React.FC<TourProps> = props => {
     scrollIntoViewOptions = true,
     zIndex = 1001,
     closeIcon,
+    builtinPlacements,
     ...restProps
   } = props;
 
@@ -141,6 +144,13 @@ const Tour: React.FC<TourProps> = props => {
     onChange?.(nextCurrent);
   };
 
+  const mergedBuiltinPlacements = useMemo(() => {
+    if (builtinPlacements) {
+      return typeof builtinPlacements === 'function' ? builtinPlacements({arrowPointAtCenter}) : builtinPlacements;
+    }
+    return getPlacements(arrowPointAtCenter);
+  }, [builtinPlacements, arrowPointAtCenter])
+
   // ========================= Render =========================
   // Skip if not init yet
   if (targetElement === undefined) {
@@ -200,8 +210,8 @@ const Tour: React.FC<TourProps> = props => {
         rootClassName={rootClassName}
       />
       <Trigger
-        builtinPlacements={getPlacements(arrowPointAtCenter)}
         {...restProps}
+        builtinPlacements={mergedBuiltinPlacements}
         ref={triggerRef}
         popupStyle={stepStyle}
         popupPlacement={mergedPlacement}
