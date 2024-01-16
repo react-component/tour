@@ -25,8 +25,8 @@ exports[`Tour animated placeholder true 1`] = `
           >
             <rect
               fill="white"
-              height="100%"
-              width="100%"
+              height="100vh"
+              width="100vw"
               x="0"
               y="0"
             />
@@ -178,8 +178,8 @@ exports[`Tour animated true 1`] = `
           >
             <rect
               fill="white"
-              height="100%"
-              width="100%"
+              height="100vh"
+              width="100vw"
               x="0"
               y="0"
             />
@@ -359,8 +359,8 @@ exports[`Tour renderPanel 1`] = `
           >
             <rect
               fill="white"
-              height="100%"
-              width="100%"
+              height="100vh"
+              width="100vw"
               x="0"
               y="0"
             />
@@ -470,8 +470,8 @@ exports[`Tour rootClassName 1`] = `
           >
             <rect
               fill="white"
-              height="100%"
-              width="100%"
+              height="100vh"
+              width="100vw"
               x="0"
               y="0"
             />
@@ -631,8 +631,8 @@ exports[`Tour run in strict mode 1`] = `
           >
             <rect
               fill="white"
-              height="100%"
-              width="100%"
+              height="100vh"
+              width="100vw"
               x="0"
               y="0"
             />
@@ -754,8 +754,8 @@ exports[`Tour run in strict mode 2`] = `
           >
             <rect
               fill="white"
-              height="100%"
-              width="100%"
+              height="100vh"
+              width="100vw"
               x="0"
               y="0"
             />
@@ -917,8 +917,8 @@ exports[`Tour should keep current when controlled 1`] = `
           >
             <rect
               fill="white"
-              height="100%"
-              width="100%"
+              height="100vh"
+              width="100vw"
               x="0"
               y="0"
             />
@@ -1035,8 +1035,8 @@ exports[`Tour should return step 1 when reopen 1`] = `
           >
             <rect
               fill="white"
-              height="100%"
-              width="100%"
+              height="100vh"
+              width="100vw"
               x="0"
               y="0"
             />
@@ -1152,8 +1152,8 @@ exports[`Tour should update position when window resize 1`] = `
           >
             <rect
               fill="white"
-              height="100%"
-              width="100%"
+              height="100vh"
+              width="100vw"
               x="0"
               y="0"
             />
@@ -1305,8 +1305,8 @@ exports[`Tour showArrow should show tooltip arrow default 1`] = `
           >
             <rect
               fill="white"
-              height="100%"
-              width="100%"
+              height="100vh"
+              width="100vw"
               x="0"
               y="0"
             />
@@ -1454,8 +1454,8 @@ exports[`Tour single 1`] = `
           >
             <rect
               fill="white"
-              height="100%"
-              width="100%"
+              height="100vh"
+              width="100vw"
               x="0"
               y="0"
             />
@@ -1609,8 +1609,8 @@ exports[`Tour use custom builtinPlacements 1`] = `
           >
             <rect
               fill="white"
-              height="100%"
-              width="100%"
+              height="100vh"
+              width="100vw"
               x="0"
               y="0"
             />
@@ -1764,8 +1764,8 @@ exports[`Tour use custom builtinPlacements 2`] = `
           >
             <rect
               fill="white"
-              height="100%"
-              width="100%"
+              height="100vh"
+              width="100vw"
               x="0"
               y="0"
             />
