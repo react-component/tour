@@ -23,6 +23,10 @@ const CENTER_PLACEHOLDER: React.CSSProperties = {
   width: 1,
   height: 1,
 };
+const defaultScrollIntoViewOptions: ScrollIntoViewOptions = {
+  block: "center",
+  inline: "center"
+}
 
 export interface TourProps
   extends Pick<TriggerProps, 'onPopupAlign'> {
@@ -72,7 +76,7 @@ const Tour: React.FC<TourProps> = props => {
     renderPanel,
     gap,
     animated,
-    scrollIntoViewOptions = { block: "center", inline: "center" },
+    scrollIntoViewOptions = defaultScrollIntoViewOptions,
     zIndex = 1001,
     closeIcon,
     builtinPlacements,
@@ -111,7 +115,7 @@ const Tour: React.FC<TourProps> = props => {
     arrow: stepArrow,
     className: stepClassName,
     mask: stepMask,
-    scrollIntoViewOptions: stepScrollIntoViewOptions,
+    scrollIntoViewOptions: stepScrollIntoViewOptions = defaultScrollIntoViewOptions,
     closeIcon: stepCloseIcon,
   } = steps[mergedCurrent] || {};
 
