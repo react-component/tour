@@ -72,7 +72,7 @@ const Tour: React.FC<TourProps> = props => {
     renderPanel,
     gap,
     animated,
-    scrollIntoViewOptions = true,
+    scrollIntoViewOptions = { block: "center", inline: "center" },
     zIndex = 1001,
     closeIcon,
     builtinPlacements,
