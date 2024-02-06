@@ -38,3 +38,5 @@ package-lock.json
 # dumi
 .dumi/tmp
 .dumi/tmp-production
+dist/
+
