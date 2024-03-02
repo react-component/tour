@@ -38,6 +38,7 @@ export interface TourProps
   onClose?: (current: number) => void;
   onFinish?: () => void;
   closeIcon?: TourStepProps['closeIcon'];
+  closable?: TourStepProps['closable'];
   mask?:
     | boolean
     | {
@@ -79,6 +80,7 @@ const Tour: React.FC<TourProps> = props => {
     scrollIntoViewOptions = defaultScrollIntoViewOptions,
     zIndex = 1001,
     closeIcon,
+    closable,
     builtinPlacements,
     disabledInteraction,
     ...restProps
@@ -117,10 +119,32 @@ const Tour: React.FC<TourProps> = props => {
     mask: stepMask,
     scrollIntoViewOptions: stepScrollIntoViewOptions = defaultScrollIntoViewOptions,
     closeIcon: stepCloseIcon,
+    closable: stepClosable,
   } = steps[mergedCurrent] || {};
 
+  const mergedClosable = useMemo(() => {
+    // stepClosable has higher priority
+    if (typeof stepClosable === 'object' && stepClosable !== null) {
+      return stepClosable;
+    }
+    if (stepClosable === false || stepCloseIcon === false) {
+      return false;
+    }
+    if (stepCloseIcon) {
+      return { closeIcon: stepCloseIcon };
+    }
+    if (typeof closable === 'object' && closable !== null) {
+      return closable;
+    }
+    if (closable === false || closeIcon === false) {
+      return false;
+    }
+    if (closeIcon) {
+      return { closeIcon };
+    }
+  }, [closable, closeIcon, stepClosable, stepCloseIcon]);
+
   const mergedMask = mergedOpen && (stepMask ?? mask);
-  const mergedCloseIcon = stepCloseIcon ?? closeIcon;
   const mergedScrollIntoViewOptions =
     stepScrollIntoViewOptions ?? scrollIntoViewOptions;
   const [posInfo, targetElement] = useTarget(
@@ -187,7 +211,7 @@ const Tour: React.FC<TourProps> = props => {
         handleClose();
         onFinish?.();
       }}
-      closeIcon={mergedCloseIcon}
+      closable={mergedClosable}
       {...steps[mergedCurrent]}
     />
   );

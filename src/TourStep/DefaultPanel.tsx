@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { TourStepProps } from '.';
 import classNames from 'classnames';
+import pickAttrs from 'rc-util/lib/pickAttrs';
 
 export default function DefaultPanel(props: TourStepProps) {
   const {
@@ -14,9 +15,10 @@ export default function DefaultPanel(props: TourStepProps) {
     onNext,
     onFinish,
     className,
-    closeIcon,
+    closable,
   } = props;
-
+  const [closeIcon, ariaProps] = typeof closable === "object" ? [
+    closable.closeIcon, pickAttrs(closable, true)] : [closable, {}];
   const mergedClosable = closeIcon !== false && closeIcon !== null;
   const mergedCloseIcon = (closeIcon !== undefined && closeIcon !== true) ? closeIcon : (
     <span className={`${prefixCls}-close-x`}>&times;</span>
@@ -30,6 +32,7 @@ export default function DefaultPanel(props: TourStepProps) {
             type="button"
             onClick={onClose}
             aria-label="Close"
+            {...ariaProps}
             className={`${prefixCls}-close`}
           >
             {mergedCloseIcon}

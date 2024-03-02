@@ -71,6 +71,32 @@ const App = () => {
             mask: true,
             style: { color: 'red' },
           },
+          {
+            title: '删除',
+            closable: true,
+            description: (
+              <div>
+                <span>危险操作：删除一条数据</span>
+                <button>帮助文档</button>
+              </div>
+            ),
+            target: () => deleteBtnRef.current,
+            mask: true,
+            style: { color: 'red' },
+          },
+          {
+            title: '删除',
+            closable: { closeIcon: <span className='custom-close'>X</span>, 'aria-label': 'CloseBtn' },
+            description: (
+              <div>
+                <span>危险操作：删除一条数据</span>
+                <button>帮助文档</button>
+              </div>
+            ),
+            target: () => deleteBtnRef.current,
+            mask: true,
+            style: { color: 'red' },
+          },
         ]}
       />
     </div>
