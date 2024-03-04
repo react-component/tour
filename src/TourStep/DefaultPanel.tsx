@@ -17,12 +17,9 @@ export default function DefaultPanel(props: TourStepProps) {
     className,
     closable,
   } = props;
-  const [closeIcon, ariaProps] = typeof closable === "object" ? [
-    closable.closeIcon, pickAttrs(closable, true)] : [closable, {}];
+  const [closeIcon, ariaProps] = (typeof closable === "object" && closable !== null) ? [
+    closable.closeIcon, pickAttrs(closable, true)] : [!!closable, {}];
   const mergedClosable = closeIcon !== false && closeIcon !== null;
-  const mergedCloseIcon = (closeIcon !== undefined && closeIcon !== true) ? closeIcon : (
-    <span className={`${prefixCls}-close-x`}>&times;</span>
-  )
 
   return (
     <div className={classNames(`${prefixCls}-content`, className)}>
@@ -35,7 +32,7 @@ export default function DefaultPanel(props: TourStepProps) {
             {...ariaProps}
             className={`${prefixCls}-close`}
           >
-            {mergedCloseIcon}
+            {closeIcon}
           </button>
         )}
         <div className={`${prefixCls}-header`}>
