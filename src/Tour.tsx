@@ -131,9 +131,7 @@ const Tour: React.FC<TourProps> = props => {
 
   const mergedBuiltinPlacements = useMemo(() => {
     if (builtinPlacements) {
-      return typeof builtinPlacements === 'function'
-        ? builtinPlacements({ arrowPointAtCenter })
-        : builtinPlacements;
+      return typeof builtinPlacements === 'function' ? builtinPlacements({ arrowPointAtCenter }) : builtinPlacements;
     }
     return getPlacements(arrowPointAtCenter);
   }, [builtinPlacements, arrowPointAtCenter]);
