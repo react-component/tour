@@ -20,20 +20,24 @@ function getClosableObj(
   if (closable === false) {
     return null;
   }
-  // closable is undefined
-  return undefined;
+  // closable is undefined，return false to downgrading
+  return false;
 }
 
 function getMergedCloseIcon(
   icon: TourStepProps['closeIcon'],
   defaultCloseIcon: ReactNode,
 ) {
+  // if icon is true, use defaultCloseIcon, else use null
   if (typeof icon === 'boolean') {
     return icon ? defaultCloseIcon : null;
   }
+  // if icon is not undefined, use icon
   if (icon !== undefined) {
     return icon;
   }
+  // icon is undefined，return false to downgrading
+  return false;
 }
 
 export function useClosable(
@@ -49,15 +53,15 @@ export function useClosable(
     );
     // stepCloseIcon has higher priority
     let res = getMergedCloseIcon(stepCloseIcon, defaultCloseIcon);
-    if (res !== undefined) {
+    if (res !== false) {
       return res;
     }
-    // if stepCloseIcon is undefined, use closeIcon
+    // if stepCloseIcon is false, use closeIcon
     res = getMergedCloseIcon(closeIcon, defaultCloseIcon);
-    if (res !== undefined) {
+    if (res !== false) {
       return res;
     }
-    // if closeIcon is undefined, use defaultCloseIcon
+    // if closeIcon is false, use defaultCloseIcon
     return defaultCloseIcon;
   }, [closeIcon, stepCloseIcon, prefixCls]);
 
@@ -77,12 +81,12 @@ export function useClosable(
     }
     // stepClosable has higher priority
     let closableObj = getClosableObj(stepClosable, mergedCloseIcon);
-    // if stepClosable is undefined, use closable
-    if (closableObj === undefined) {
+    // if stepClosable is false, use closable
+    if (closableObj === false) {
       closableObj = getClosableObj(closable, mergedCloseIcon);
     }
-    // if closable is undefined, should not render close button.
-    return closableObj === undefined ? null : closableObj;
+    // if closable is false, should not render close button.
+    return closableObj === false ? null : closableObj;
   }, [
     closable,
     stepClosable,
