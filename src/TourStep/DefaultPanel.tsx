@@ -3,10 +3,8 @@ import type { TourStepProps } from '../interface';
 import classNames from 'classnames';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 
-type CloseNoBoolean =  Exclude<TourStepProps["closable"], boolean>;
-
 export type DefaultPanelProps = Exclude<TourStepProps, "closable"> & {
-  closable: CloseNoBoolean;
+  closable: Exclude<TourStepProps["closable"], boolean>;
 };
 
 export default function DefaultPanel(props: DefaultPanelProps) {
