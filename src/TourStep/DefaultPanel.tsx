@@ -1,11 +1,15 @@
 import * as React from 'react';
-import type { TourStepProps } from '.';
+import type { TourStepProps } from '../interface';
 import classNames from 'classnames';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 
 type CloseNoBoolean =  Exclude<TourStepProps["closable"], boolean>;
 
-export default function DefaultPanel(props: TourStepProps) {
+export type DefaultPanelProps = Exclude<TourStepProps, "closable"> & {
+  closable: CloseNoBoolean;
+};
+
+export default function DefaultPanel(props: DefaultPanelProps) {
   const {
     prefixCls,
     current,
@@ -19,8 +23,8 @@ export default function DefaultPanel(props: TourStepProps) {
     className,
     closable,
   } = props;
-  const ariaProps = pickAttrs((closable as CloseNoBoolean) || {}, true);
-  const closeIcon = (closable as CloseNoBoolean)?.closeIcon;
+  const ariaProps = pickAttrs(closable || {}, true);
+  const closeIcon = closable?.closeIcon;
   const mergedClosable = !!closable;
 
   return (

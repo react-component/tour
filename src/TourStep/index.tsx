@@ -1,7 +1,5 @@
 import * as React from 'react';
-import type { ReactNode, CSSProperties } from 'react';
-import type { PlacementType } from '../placements';
-import DefaultPanel from './DefaultPanel';
+import DefaultPanel, { DefaultPanelProps } from './DefaultPanel';
 import type { TourStepProps, TourStepInfo } from '../interface';
 
 export type {
@@ -9,7 +7,7 @@ export type {
   TourStepInfo,
 };
 
-const TourStep = (props: TourStepProps) => {
+const TourStep = (props: DefaultPanelProps) => {
   const { current, renderPanel } = props;
 
   return (
