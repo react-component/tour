@@ -43,11 +43,10 @@ export function useClosable(
   closable: TourProps['closable'],
   closeIcon: TourProps['closeIcon'],
 ) {
-  const defaultCloseIcon = (
-    <span className={`${prefixCls}-close-x`}>&times;</span>
-  );
-
   const mergedCloseIcon = useMemo(() => {
+    const defaultCloseIcon = (
+      <span className={`${prefixCls}-close-x`}>&times;</span>
+    );
     // stepCloseIcon has higher priority
     let res = getMergedCloseIcon(stepCloseIcon, defaultCloseIcon);
     if (res !== undefined) {
