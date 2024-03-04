@@ -3,6 +3,8 @@ import type { TourStepProps } from '.';
 import classNames from 'classnames';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 
+type CloseNoBoolean =  Exclude<TourStepProps["closable"], boolean>;
+
 export default function DefaultPanel(props: TourStepProps) {
   const {
     prefixCls,
@@ -17,9 +19,9 @@ export default function DefaultPanel(props: TourStepProps) {
     className,
     closable,
   } = props;
-  const [closeIcon, ariaProps] = (typeof closable === "object" && closable !== null) ? [
-    closable.closeIcon, pickAttrs(closable, true)] : [!!closable, {}];
-  const mergedClosable = closeIcon !== false && closeIcon !== null;
+  const ariaProps = pickAttrs((closable as CloseNoBoolean) || {}, true);
+  const closeIcon = (closable as CloseNoBoolean)?.closeIcon;
+  const mergedClosable = !!closable;
 
   return (
     <div className={classNames(`${prefixCls}-content`, className)}>
