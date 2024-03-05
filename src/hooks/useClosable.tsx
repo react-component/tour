@@ -1,43 +1,61 @@
-import { useMemo, type ReactNode } from 'react';
+import { useMemo } from 'react';
 import type { TourProps } from '../interface';
-import type { TourStepInfo, TourStepProps } from '../TourStep';
+import type { TourStepInfo } from '../TourStep';
 
-function getClosableObj(
+type ClosableConfig = Exclude<TourStepInfo['closable'], boolean> | null;
+
+function isConfigObj(
   closable: TourStepInfo['closable'],
-  closeIcon: TourStepInfo['closeIcon'],
-) {
-  // closable is non-null object
-  if (typeof closable === 'object' && closable !== null) {
-    return closable;
-  }
-  // closable is true
-  if (closable === true) {
-    return {
-      closeIcon,
-    };
-  }
-  // closable is false
-  if (closable === false) {
-    return null;
-  }
-  // closable is undefined，return false to downgrading
-  return false;
+): closable is Exclude<TourStepInfo['closable'], boolean> {
+  return closable !== null && typeof closable === 'object';
 }
 
-function getMergedCloseIcon(
-  icon: TourStepProps['closeIcon'],
-  defaultCloseIcon: ReactNode,
-) {
-  // if icon is true, use defaultCloseIcon, else use null
-  if (typeof icon === 'boolean') {
-    return icon ? defaultCloseIcon : null;
+function getClosableConfig(
+  prefixCls: string,
+  closable: TourStepInfo['closable'],
+  closeIcon: TourStepInfo['closeIcon'],
+  preset: true,
+): ClosableConfig;
+function getClosableConfig(
+  prefixCls: string,
+  closable: TourStepInfo['closable'],
+  closeIcon: TourStepInfo['closeIcon'],
+  preset: false,
+): ClosableConfig | 'empty';
+/**
+ * Convert `closable` to ClosableConfig.
+ * When `preset` is true, will auto fill ClosableConfig with default value.
+ */
+function getClosableConfig(
+  prefixCls: string,
+  closable: TourStepInfo['closable'],
+  closeIcon: TourStepInfo['closeIcon'],
+  preset: boolean,
+): ClosableConfig | 'empty' {
+  if (
+    closable === false ||
+    (closeIcon === false && (!isConfigObj(closable) || !closable.closeIcon))
+  ) {
+    return null;
   }
-  // if icon is not undefined, use icon
-  if (icon !== undefined) {
-    return icon;
+
+  const defaultIcon = <span className={`${prefixCls}-close-x`}>&times;</span>;
+  const mergedCloseIcon =
+    (typeof closeIcon !== 'boolean' && closeIcon) || defaultIcon;
+
+  if (isConfigObj(closable)) {
+    return {
+      ...closable,
+      closeIcon: closable.closeIcon || mergedCloseIcon,
+    };
   }
-  // icon is undefined，return false to downgrading
-  return false;
+
+  // When StepClosable no need auto fill, but RootClosable need this.
+  return preset || closable || closeIcon
+    ? {
+        closeIcon: mergedCloseIcon,
+      }
+    : 'empty';
 }
 
 export function useClosable(
@@ -47,54 +65,25 @@ export function useClosable(
   closable: TourProps['closable'],
   closeIcon: TourProps['closeIcon'],
 ) {
-  const mergedCloseIcon = useMemo(() => {
-    const defaultCloseIcon = (
-      <span className={`${prefixCls}-close-x`}>&times;</span>
+  return useMemo(() => {
+    const stepClosableConfig = getClosableConfig(
+      prefixCls,
+      stepClosable,
+      stepCloseIcon,
+      false,
     );
-    // stepCloseIcon has higher priority
-    let res = getMergedCloseIcon(stepCloseIcon, defaultCloseIcon);
-    if (res !== false) {
-      return res;
-    }
-    // if stepCloseIcon is false, use closeIcon
-    res = getMergedCloseIcon(closeIcon, defaultCloseIcon);
-    if (res !== false) {
-      return res;
-    }
-    // if closeIcon is false, use defaultCloseIcon
-    return defaultCloseIcon;
-  }, [closeIcon, stepCloseIcon, prefixCls]);
 
-  const mergedClosable = useMemo(() => {
-    // When stepClosable and closable are both undefined, use mergedCloseIcon
-    if (stepClosable === undefined && closable === undefined) {
-      // should not render close button when stepCloseIconn or closeIcon is false explicitly
-      const isHideClose =
-        stepCloseIcon !== undefined
-          ? stepCloseIcon === false
-          : closeIcon === false;
-      return isHideClose
-        ? null
-        : {
-            closeIcon: mergedCloseIcon,
-          };
-    }
-    // stepClosable has higher priority
-    let closableObj = getClosableObj(stepClosable, mergedCloseIcon);
-    // if stepClosable is false, use closable
-    if (closableObj === false) {
-      closableObj = getClosableObj(closable, mergedCloseIcon);
-    }
-    // if closable is false, should not render close button.
-    return closableObj === false ? null : closableObj;
-  }, [
-    closable,
-    stepClosable,
-    mergedCloseIcon,
-    prefixCls,
-    stepCloseIcon,
-    closeIcon,
-  ]);
+    const rootClosableConfig = getClosableConfig(
+      prefixCls,
+      closable,
+      closeIcon,
+      true,
+    );
 
-  return mergedClosable;
+    if (stepClosableConfig !== 'empty') {
+      return stepClosableConfig;
+    }
+
+    return rootClosableConfig;
+  }, [closable, closeIcon, prefixCls, stepClosable, stepCloseIcon]);
 }
