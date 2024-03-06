@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useMemo } from 'react';
 import type { TourProps } from '../interface';
 import type { TourStepInfo } from '../TourStep';
