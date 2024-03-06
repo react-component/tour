@@ -3,8 +3,9 @@ import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import type { ReactNode } from 'react';
 import React, { StrictMode, useRef, useState } from 'react';
 import { act } from 'react-dom/test-utils';
+import type { TourProps } from '../src/index';
 import Tour from '../src/index';
-import { placements } from '../src/placements';
+import { getPlacements, placements } from '../src/placements';
 import { getPlacement } from '../src/util';
 import { resizeWindow } from './utils';
 
@@ -661,12 +662,45 @@ describe('Tour', () => {
         </div>
       );
     };
+    const Demo3 = () => {
+      const [open, setOpen] = React.useState(false);
+      const btnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <button
+            className="btn1"
+            ref={btnRef}
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            按钮
+          </button>
+          <Tour
+            animated={false}
+            open={open}
+            placement={'bottom'}
+            builtinPlacements={config => getPlacements(config.arrowPointAtCenter)}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
     const { baseElement } = render(<Demo />);
     fireEvent.click(baseElement.querySelector('.btn1'));
     expect(baseElement).toMatchSnapshot();
     const { baseElement: baseElement2 } = render(<Demo2 />);
     fireEvent.click(baseElement2.querySelector('.btn1'));
     expect(baseElement2).toMatchSnapshot();
+    const { baseElement: baseElement3 } = render(<Demo3 />);
+    fireEvent.click(baseElement3.querySelector('.btn1'));
+    expect(baseElement3).toMatchSnapshot();
   });
 
   it('should not trigger scrollIntoView when tour is not open', async () => {
@@ -851,6 +885,115 @@ describe('Tour', () => {
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
     expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
     expect(baseElement.querySelector('.custom-del-close-icon')).toBeTruthy();
+
+    resetIndex();
+  });
+
+  it('support closable', () => {
+    const Demo = ({ closable = false }: { closable?: TourProps["closable"] }) => {
+      const createBtnRef = useRef<HTMLButtonElement>(null);
+      const updateBtnRef = useRef<HTMLButtonElement>(null);
+      const deleteBtnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <div>
+            <button ref={createBtnRef}>Create</button>
+            <div style={{ height: 200 }} />
+            <button ref={updateBtnRef}>Update</button>
+            <button ref={deleteBtnRef}>Delete</button>
+          </div>
+          <div style={{ height: 200 }} />
+
+          <Tour
+            closable={closable}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => createBtnRef.current,
+                mask: true,
+              },
+              {
+                title: '更新',
+                closable: !closable,
+                description: (
+                  <div>
+                    <span>更新一条数据</span>
+                    <button>帮助文档</button>
+                  </div>
+                ),
+                target: () => updateBtnRef.current,
+              },
+              {
+                title: '删除',
+                closable: {
+                  closeIcon: <span className="custom-del-close-icon">Close</span>,
+                  "aria-label": "关闭",
+                },
+                description: (
+                  <div>
+                    <span>危险操作:删除一条数据</span>
+                    <button>帮助文档</button>
+                  </div>
+                ),
+                target: () => deleteBtnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+
+    const resetIndex = () => {
+      // reset
+      fireEvent.click(screen.getByRole('button', { name: 'Prev' }));
+      fireEvent.click(screen.getByRole('button', { name: 'Prev' }));
+    };
+
+    const { baseElement, rerender } = render(<Demo />);
+    expect(baseElement.querySelector('.rc-tour-close')).toBeFalsy();
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
+    expect(baseElement.querySelector('.rc-tour-close-x')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
+    expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
+    expect(baseElement.querySelector('.custom-del-close-icon')).toBeTruthy();
+    expect(baseElement.querySelector('.rc-tour-close').getAttribute("aria-label")).toBe("关闭");
+
+    resetIndex();
+
+    rerender(<Demo closable />);
+    expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
+    expect(baseElement.querySelector('.rc-tour-close-x')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(baseElement.querySelector('.rc-tour-close')).toBeFalsy();
+    expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
+    expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
+    expect(baseElement.querySelector('.custom-del-close-icon')).toBeTruthy();
+    expect(baseElement.querySelector('.rc-tour-close').getAttribute("aria-label")).toBe("关闭");
+
+    resetIndex();
+
+    rerender(
+      <Demo closable={{
+        closeIcon: <span className="custom-global-close-icon">X</span>,
+        "aria-label": "关闭",
+      }} />,
+    );
+    expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
+    expect(baseElement.querySelector('.custom-global-close-icon')).toBeTruthy();
+    expect(baseElement.querySelector('.rc-tour-close').getAttribute("aria-label")).toBe("关闭");
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(baseElement.querySelector('.rc-tour-close')).toBeFalsy();
+    expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
+    expect(baseElement.querySelector('.custom-global-close-icon')).toBeFalsy();
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
+    expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
+    expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
 
     resetIndex();
   });

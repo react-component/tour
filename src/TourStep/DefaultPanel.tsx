@@ -1,8 +1,13 @@
 import * as React from 'react';
-import type { TourStepProps } from '.';
+import type { TourStepProps } from '../interface';
 import classNames from 'classnames';
+import pickAttrs from 'rc-util/lib/pickAttrs';
 
-export default function DefaultPanel(props: TourStepProps) {
+export type DefaultPanelProps = Exclude<TourStepProps, "closable"> & {
+  closable: Exclude<TourStepProps["closable"], boolean>;
+};
+
+export default function DefaultPanel(props: DefaultPanelProps) {
   const {
     prefixCls,
     current,
@@ -14,13 +19,11 @@ export default function DefaultPanel(props: TourStepProps) {
     onNext,
     onFinish,
     className,
-    closeIcon,
+    closable,
   } = props;
-
-  const mergedClosable = closeIcon !== false && closeIcon !== null;
-  const mergedCloseIcon = (closeIcon !== undefined && closeIcon !== true) ? closeIcon : (
-    <span className={`${prefixCls}-close-x`}>&times;</span>
-  )
+  const ariaProps = pickAttrs(closable || {}, true);
+  const closeIcon = closable?.closeIcon;
+  const mergedClosable = !!closable;
 
   return (
     <div className={classNames(`${prefixCls}-content`, className)}>
@@ -30,9 +33,10 @@ export default function DefaultPanel(props: TourStepProps) {
             type="button"
             onClick={onClose}
             aria-label="Close"
+            {...ariaProps}
             className={`${prefixCls}-close`}
           >
-            {mergedCloseIcon}
+            {closeIcon}
           </button>
         )}
         <div className={`${prefixCls}-header`}>

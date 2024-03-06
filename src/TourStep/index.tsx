@@ -1,37 +1,13 @@
 import * as React from 'react';
-import type { ReactNode, CSSProperties } from 'react';
-import type { PlacementType } from '../placements';
-import DefaultPanel from './DefaultPanel';
+import DefaultPanel, { DefaultPanelProps } from './DefaultPanel';
+import type { TourStepProps, TourStepInfo } from '../interface';
 
-export interface TourStepInfo {
-  arrow?: boolean | { pointAtCenter: boolean };
-  target?: HTMLElement | (() => HTMLElement) | null | (() => null);
-  title: ReactNode;
-  description?: ReactNode;
-  placement?: PlacementType;
-  mask?:  boolean | {
-    style?: React.CSSProperties;
-    // to fill mask color, e.g. rgba(80,0,0,0.5)
-    color?: string;
-  };
-  className?: string;
-  style?: CSSProperties;
-  scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
-  closeIcon?: ReactNode
-}
+export type {
+  TourStepProps,
+  TourStepInfo,
+};
 
-export interface TourStepProps extends TourStepInfo {
-  prefixCls?: string;
-  total?: number;
-  current?: number;
-  onClose?: () => void;
-  onFinish?: () => void;
-  renderPanel?: (step: TourStepProps, current: number) => ReactNode;
-  onPrev?: () => void;
-  onNext?: () => void;
-}
-
-const TourStep = (props: TourStepProps) => {
+const TourStep = (props: DefaultPanelProps) => {
   const { current, renderPanel } = props;
 
   return (

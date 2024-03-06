@@ -1,21 +1,19 @@
-import type { ReactNode } from 'react';
 import * as React from 'react';
 
 import Portal from '@rc-component/portal';
-import type { TriggerProps, TriggerRef } from '@rc-component/trigger';
+import type { TriggerRef } from '@rc-component/trigger';
 import Trigger from '@rc-component/trigger';
 import classNames from 'classnames';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import type { Gap } from './hooks/useTarget';
+import { useMemo } from 'react';
+import { useClosable } from './hooks/useClosable';
 import useTarget from './hooks/useTarget';
+import type { TourProps } from './interface';
 import Mask from './Mask';
-import type { PlacementType } from './placements';
 import { getPlacements } from './placements';
-import type { TourStepInfo, TourStepProps } from './TourStep';
 import TourStep from './TourStep';
 import { getPlacement } from './util';
-import { useMemo } from 'react';
 
 const CENTER_PLACEHOLDER: React.CSSProperties = {
   left: '50%',
@@ -24,40 +22,11 @@ const CENTER_PLACEHOLDER: React.CSSProperties = {
   height: 1,
 };
 const defaultScrollIntoViewOptions: ScrollIntoViewOptions = {
-  block: "center",
-  inline: "center"
-}
+  block: 'center',
+  inline: 'center',
+};
 
-export interface TourProps
-  extends Pick<TriggerProps, 'onPopupAlign'> {
-  steps?: TourStepInfo[];
-  open?: boolean;
-  defaultCurrent?: number;
-  current?: number;
-  onChange?: (current: number) => void;
-  onClose?: (current: number) => void;
-  onFinish?: () => void;
-  closeIcon?: TourStepProps['closeIcon'];
-  mask?:
-    | boolean
-    | {
-        style?: React.CSSProperties;
-        // to fill mask color, e.g. rgba(80,0,0,0.5)
-        color?: string;
-      };
-  arrow?: boolean | { pointAtCenter: boolean };
-  rootClassName?: string;
-  placement?: PlacementType;
-  prefixCls?: string;
-  renderPanel?: (props: TourStepProps, current: number) => ReactNode;
-  gap?: Gap;
-  animated?: boolean | { placeholder: boolean };
-  scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
-  zIndex?: number;
-  getPopupContainer?: TriggerProps['getPopupContainer'];
-  builtinPlacements?: TriggerProps['builtinPlacements'] | ((config?: { arrowPointAtCenter?: boolean }) => TriggerProps['builtinPlacements']);
-  disabledInteraction?: boolean;
-}
+export type { TourProps };
 
 const Tour: React.FC<TourProps> = props => {
   const {
@@ -79,6 +48,7 @@ const Tour: React.FC<TourProps> = props => {
     scrollIntoViewOptions = defaultScrollIntoViewOptions,
     zIndex = 1001,
     closeIcon,
+    closable,
     builtinPlacements,
     disabledInteraction,
     ...restProps
@@ -115,12 +85,21 @@ const Tour: React.FC<TourProps> = props => {
     arrow: stepArrow,
     className: stepClassName,
     mask: stepMask,
-    scrollIntoViewOptions: stepScrollIntoViewOptions = defaultScrollIntoViewOptions,
+    scrollIntoViewOptions:
+      stepScrollIntoViewOptions = defaultScrollIntoViewOptions,
     closeIcon: stepCloseIcon,
+    closable: stepClosable,
   } = steps[mergedCurrent] || {};
 
+  const mergedClosable = useClosable(
+    prefixCls,
+    stepClosable,
+    stepCloseIcon,
+    closable,
+    closeIcon,
+  );
+
   const mergedMask = mergedOpen && (stepMask ?? mask);
-  const mergedCloseIcon = stepCloseIcon ?? closeIcon;
   const mergedScrollIntoViewOptions =
     stepScrollIntoViewOptions ?? scrollIntoViewOptions;
   const [posInfo, targetElement] = useTarget(
@@ -152,10 +131,12 @@ const Tour: React.FC<TourProps> = props => {
 
   const mergedBuiltinPlacements = useMemo(() => {
     if (builtinPlacements) {
-      return typeof builtinPlacements === 'function' ? builtinPlacements({arrowPointAtCenter}) : builtinPlacements;
+      return typeof builtinPlacements === 'function'
+        ? builtinPlacements({ arrowPointAtCenter })
+        : builtinPlacements;
     }
     return getPlacements(arrowPointAtCenter);
-  }, [builtinPlacements, arrowPointAtCenter])
+  }, [builtinPlacements, arrowPointAtCenter]);
 
   // ========================= Render =========================
   // Skip if not init yet
@@ -187,8 +168,8 @@ const Tour: React.FC<TourProps> = props => {
         handleClose();
         onFinish?.();
       }}
-      closeIcon={mergedCloseIcon}
       {...steps[mergedCurrent]}
+      closable={mergedClosable}
     />
   );
 
