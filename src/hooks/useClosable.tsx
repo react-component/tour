@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useMemo } from 'react';
 import type { TourProps } from '../interface';
 import type { TourStepInfo } from '../TourStep';
 
@@ -66,7 +65,7 @@ export function useClosable(
   closable: TourProps['closable'],
   closeIcon: TourProps['closeIcon'],
 ) {
-  return useMemo(() => {
+  return React.useMemo(() => {
     const stepClosableConfig = getClosableConfig(
       prefixCls,
       stepClosable,
