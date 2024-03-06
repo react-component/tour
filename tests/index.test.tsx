@@ -5,7 +5,7 @@ import React, { StrictMode, useRef, useState } from 'react';
 import { act } from 'react-dom/test-utils';
 import type { TourProps } from '../src/index';
 import Tour from '../src/index';
-import { placements } from '../src/placements';
+import { getPlacements, placements } from '../src/placements';
 import { getPlacement } from '../src/util';
 import { resizeWindow } from './utils';
 
@@ -662,12 +662,45 @@ describe('Tour', () => {
         </div>
       );
     };
+    const Demo3 = () => {
+      const [open, setOpen] = React.useState(false);
+      const btnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <button
+            className="btn1"
+            ref={btnRef}
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            按钮
+          </button>
+          <Tour
+            animated={false}
+            open={open}
+            placement={'bottom'}
+            builtinPlacements={config => getPlacements(config.arrowPointAtCenter)}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
     const { baseElement } = render(<Demo />);
     fireEvent.click(baseElement.querySelector('.btn1'));
     expect(baseElement).toMatchSnapshot();
     const { baseElement: baseElement2 } = render(<Demo2 />);
     fireEvent.click(baseElement2.querySelector('.btn1'));
     expect(baseElement2).toMatchSnapshot();
+    const { baseElement: baseElement3 } = render(<Demo3 />);
+    fireEvent.click(baseElement3.querySelector('.btn1'));
+    expect(baseElement3).toMatchSnapshot();
   });
 
   it('should not trigger scrollIntoView when tour is not open', async () => {
