@@ -8,6 +8,7 @@ import Tour from '../src/index';
 import { getPlacements, placements } from '../src/placements';
 import { getPlacement } from '../src/util';
 import { resizeWindow } from './utils';
+import DefaultPanel from '../src/TourStep/DefaultPanel';
 
 const mockBtnRect = (
   rect: {
@@ -224,6 +225,27 @@ describe('Tour', () => {
         document.querySelector('.rc-tour-placeholder-animated'),
       ).toBeTruthy();
       expect(baseElement).toMatchSnapshot();
+    });
+
+    it('click-slider', () => {
+      const onClickSliderMock = jest.fn();
+      const total = 3;
+      const current = 1; // Assuming current index is 1
+
+      const { container } = render(
+        <DefaultPanel
+          prefixCls="rc-tour"
+          total={total}
+          current={current}
+          onClickSlider={onClickSliderMock}
+        />,
+      );
+
+      const sliderButtons = container.querySelectorAll('.rc-tour-sliders span');
+
+      fireEvent.click(sliderButtons[current]);
+
+      expect(onClickSliderMock).not.toHaveBeenCalled();
     });
   });
 
@@ -680,7 +702,9 @@ describe('Tour', () => {
             animated={false}
             open={open}
             placement={'bottom'}
-            builtinPlacements={config => getPlacements(config.arrowPointAtCenter)}
+            builtinPlacements={config =>
+              getPlacements(config.arrowPointAtCenter)
+            }
             steps={[
               {
                 title: '创建',
@@ -890,7 +914,11 @@ describe('Tour', () => {
   });
 
   it('support closable', () => {
-    const Demo = ({ closable = false }: { closable?: TourProps["closable"] }) => {
+    const Demo = ({
+      closable = false,
+    }: {
+      closable?: TourProps['closable'];
+    }) => {
       const createBtnRef = useRef<HTMLButtonElement>(null);
       const updateBtnRef = useRef<HTMLButtonElement>(null);
       const deleteBtnRef = useRef<HTMLButtonElement>(null);
@@ -927,8 +955,10 @@ describe('Tour', () => {
               {
                 title: '删除',
                 closable: {
-                  closeIcon: <span className="custom-del-close-icon">Close</span>,
-                  "aria-label": "关闭",
+                  closeIcon: (
+                    <span className="custom-del-close-icon">Close</span>
+                  ),
+                  'aria-label': '关闭',
                 },
                 description: (
                   <div>
@@ -959,7 +989,9 @@ describe('Tour', () => {
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
     expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
     expect(baseElement.querySelector('.custom-del-close-icon')).toBeTruthy();
-    expect(baseElement.querySelector('.rc-tour-close').getAttribute("aria-label")).toBe("关闭");
+    expect(
+      baseElement.querySelector('.rc-tour-close').getAttribute('aria-label'),
+    ).toBe('关闭');
 
     resetIndex();
 
@@ -973,19 +1005,25 @@ describe('Tour', () => {
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
     expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
     expect(baseElement.querySelector('.custom-del-close-icon')).toBeTruthy();
-    expect(baseElement.querySelector('.rc-tour-close').getAttribute("aria-label")).toBe("关闭");
+    expect(
+      baseElement.querySelector('.rc-tour-close').getAttribute('aria-label'),
+    ).toBe('关闭');
 
     resetIndex();
 
     rerender(
-      <Demo closable={{
-        closeIcon: <span className="custom-global-close-icon">X</span>,
-        "aria-label": "关闭",
-      }} />,
+      <Demo
+        closable={{
+          closeIcon: <span className="custom-global-close-icon">X</span>,
+          'aria-label': '关闭',
+        }}
+      />,
     );
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
     expect(baseElement.querySelector('.custom-global-close-icon')).toBeTruthy();
-    expect(baseElement.querySelector('.rc-tour-close').getAttribute("aria-label")).toBe("关闭");
+    expect(
+      baseElement.querySelector('.rc-tour-close').getAttribute('aria-label'),
+    ).toBe('关闭');
     fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     expect(baseElement.querySelector('.rc-tour-close')).toBeFalsy();
     expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
@@ -1070,6 +1108,8 @@ describe('Tour', () => {
 
     render(<Demo />);
 
-    expect(document.querySelector('.rc-tour-mask')).toHaveStyle('pointer-events: auto')
-  })
+    expect(document.querySelector('.rc-tour-mask')).toHaveStyle(
+      'pointer-events: auto',
+    );
+  });
 });
