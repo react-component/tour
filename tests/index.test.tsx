@@ -90,33 +90,86 @@ describe('Tour', () => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  it('renderPanel', async () => {
-    const Demo = () => {
-      const btnRef = useRef<HTMLButtonElement>(null);
-      return (
-        <div style={{ margin: 20 }}>
-          <button ref={btnRef}>按钮</button>
-          <Tour
-            placement={'bottom'}
-            steps={[
-              {
-                title: '创建',
-                description: '创建一条数据',
-                target: () => btnRef.current,
-              },
-            ]}
-            renderPanel={(props, current) => (
-              <div>
-                {props.title},当前在第{current}步,描述为{props.description}
-              </div>
-            )}
-          />
-        </div>
+  describe('renderPanel', () => {
+    it('basic', async () => {
+      const Demo = () => {
+        const btnRef = useRef<HTMLButtonElement>(null);
+        return (
+          <div style={{ margin: 20 }}>
+            <button ref={btnRef}>按钮</button>
+            <Tour
+              placement={'bottom'}
+              steps={[
+                {
+                  title: '创建',
+                  description: '创建一条数据',
+                  target: () => btnRef.current,
+                },
+              ]}
+              renderPanel={(props, current) => (
+                <div>
+                  {props.title},当前在第{current}步,描述为{props.description}
+                </div>
+              )}
+            />
+          </div>
+        );
+      };
+      const { getByText, baseElement } = render(<Demo />);
+      expect(getByText('创建,当前在第0步,描述为创建一条数据')).toBeTruthy();
+      expect(baseElement).toMatchSnapshot();
+    });
+
+    it('closable.defaultIcon', () => {
+      const renderPanel = jest.fn(() => null);
+
+      const { rerender } = render(
+        <Tour
+          open
+          steps={[
+            {
+              title: 'bamboo',
+              description: 'little',
+            },
+          ]}
+          renderPanel={renderPanel}
+        />,
       );
-    };
-    const { getByText, baseElement } = render(<Demo />);
-    expect(getByText('创建,当前在第0步,描述为创建一条数据')).toBeTruthy();
-    expect(baseElement).toMatchSnapshot();
+
+      expect(renderPanel).toHaveBeenCalledWith(
+        expect.objectContaining({
+          closable: expect.objectContaining({
+            defaultIcon: true,
+          }),
+        }),
+        0,
+      );
+
+      // Customize
+      renderPanel.mockReset();
+      rerender(
+        <Tour
+          open
+          steps={[
+            {
+              title: 'bamboo',
+              description: 'little',
+            },
+          ]}
+          renderPanel={renderPanel}
+          closeIcon={<span />}
+        />,
+      );
+
+      expect(renderPanel).toHaveBeenCalledWith(
+        expect.objectContaining({
+          closable: expect.objectContaining({
+            defaultIcon: false,
+          }),
+        }),
+        0,
+      );
+    });
   });
 
   it('basic', () => {
@@ -680,7 +733,9 @@ describe('Tour', () => {
             animated={false}
             open={open}
             placement={'bottom'}
-            builtinPlacements={config => getPlacements(config.arrowPointAtCenter)}
+            builtinPlacements={config =>
+              getPlacements(config.arrowPointAtCenter)
+            }
             steps={[
               {
                 title: '创建',
@@ -890,7 +945,11 @@ describe('Tour', () => {
   });
 
   it('support closable', () => {
-    const Demo = ({ closable = false }: { closable?: TourProps["closable"] }) => {
+    const Demo = ({
+      closable = false,
+    }: {
+      closable?: TourProps['closable'];
+    }) => {
       const createBtnRef = useRef<HTMLButtonElement>(null);
       const updateBtnRef = useRef<HTMLButtonElement>(null);
       const deleteBtnRef = useRef<HTMLButtonElement>(null);
@@ -927,8 +986,10 @@ describe('Tour', () => {
               {
                 title: '删除',
                 closable: {
-                  closeIcon: <span className="custom-del-close-icon">Close</span>,
-                  "aria-label": "关闭",
+                  closeIcon: (
+                    <span className="custom-del-close-icon">Close</span>
+                  ),
+                  'aria-label': '关闭',
                 },
                 description: (
                   <div>
@@ -959,7 +1020,9 @@ describe('Tour', () => {
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
     expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
     expect(baseElement.querySelector('.custom-del-close-icon')).toBeTruthy();
-    expect(baseElement.querySelector('.rc-tour-close').getAttribute("aria-label")).toBe("关闭");
+    expect(
+      baseElement.querySelector('.rc-tour-close').getAttribute('aria-label'),
+    ).toBe('关闭');
 
     resetIndex();
 
@@ -973,19 +1036,25 @@ describe('Tour', () => {
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
     expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
     expect(baseElement.querySelector('.custom-del-close-icon')).toBeTruthy();
-    expect(baseElement.querySelector('.rc-tour-close').getAttribute("aria-label")).toBe("关闭");
+    expect(
+      baseElement.querySelector('.rc-tour-close').getAttribute('aria-label'),
+    ).toBe('关闭');
 
     resetIndex();
 
     rerender(
-      <Demo closable={{
-        closeIcon: <span className="custom-global-close-icon">X</span>,
-        "aria-label": "关闭",
-      }} />,
+      <Demo
+        closable={{
+          closeIcon: <span className="custom-global-close-icon">X</span>,
+          'aria-label': '关闭',
+        }}
+      />,
     );
     expect(baseElement.querySelector('.rc-tour-close')).toBeTruthy();
     expect(baseElement.querySelector('.custom-global-close-icon')).toBeTruthy();
-    expect(baseElement.querySelector('.rc-tour-close').getAttribute("aria-label")).toBe("关闭");
+    expect(
+      baseElement.querySelector('.rc-tour-close').getAttribute('aria-label'),
+    ).toBe('关闭');
     fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     expect(baseElement.querySelector('.rc-tour-close')).toBeFalsy();
     expect(baseElement.querySelector('.rc-tour-close-x')).toBeFalsy();
@@ -1070,6 +1139,8 @@ describe('Tour', () => {
 
     render(<Demo />);
 
-    expect(document.querySelector('.rc-tour-mask')).toHaveStyle('pointer-events: auto')
-  })
+    expect(document.querySelector('.rc-tour-mask')).toHaveStyle(
+      'pointer-events: auto',
+    );
+  });
 });

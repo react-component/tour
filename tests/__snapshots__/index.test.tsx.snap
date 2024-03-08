@@ -334,7 +334,7 @@ exports[`Tour basic 1`] = `
 </body>
 `;
 
-exports[`Tour renderPanel 1`] = `
+exports[`Tour renderPanel basic 1`] = `
 <body>
   <div>
     <div

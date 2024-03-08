@@ -2,7 +2,16 @@ import * as React from 'react';
 import type { TourProps } from '../interface';
 import type { TourStepInfo } from '../TourStep';
 
-type ClosableConfig = Exclude<TourStepInfo['closable'], boolean> | null;
+type ClosableConfig =
+  | (Exclude<TourStepInfo['closable'], boolean> & {
+      /**
+       * @private Tell if current closeIcon is provided by `rc-tour`.
+       * It's useful to let custom panel to know if need to render default closeIcon.
+       * And this is safe to remove if next major version.
+       */
+      defaultIcon: boolean;
+    })
+  | null;
 
 function isConfigObj(
   closable: TourStepInfo['closable'],
@@ -44,9 +53,12 @@ function getClosableConfig(
     (typeof closeIcon !== 'boolean' && closeIcon) || defaultIcon;
 
   if (isConfigObj(closable)) {
+    const mergedConfigCloseIcon = closable.closeIcon || defaultIcon;
+
     return {
       ...closable,
-      closeIcon: closable.closeIcon || mergedCloseIcon,
+      closeIcon: mergedConfigCloseIcon,
+      defaultIcon: mergedConfigCloseIcon === defaultIcon,
     };
   }
 
@@ -54,6 +66,7 @@ function getClosableConfig(
   return preset || closable || closeIcon
     ? {
         closeIcon: mergedCloseIcon,
+        defaultIcon: mergedCloseIcon === defaultIcon,
       }
     : 'empty';
 }
