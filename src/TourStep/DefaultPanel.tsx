@@ -3,8 +3,8 @@ import type { TourStepProps } from '../interface';
 import classNames from 'classnames';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 
-export type DefaultPanelProps = Exclude<TourStepProps, "closable"> & {
-  closable: Exclude<TourStepProps["closable"], boolean>;
+export type DefaultPanelProps = Exclude<TourStepProps, 'closable'> & {
+  closable: Exclude<TourStepProps['closable'], boolean>;
 };
 
 export default function DefaultPanel(props: DefaultPanelProps) {
@@ -20,10 +20,17 @@ export default function DefaultPanel(props: DefaultPanelProps) {
     onFinish,
     className,
     closable,
+    onClickSlider,
   } = props;
   const ariaProps = pickAttrs(closable || {}, true);
   const closeIcon = closable?.closeIcon;
   const mergedClosable = !!closable;
+
+  const handleClickSlider = (index: number, currentIndex: number) => {
+    if (index !== currentIndex) {
+      onClickSlider(index);
+    }
+  };
 
   return (
     <div className={classNames(`${prefixCls}-content`, className)}>
@@ -47,13 +54,14 @@ export default function DefaultPanel(props: DefaultPanelProps) {
           <div className={`${prefixCls}-sliders`}>
             {total > 1
               ? [...Array.from({ length: total }).keys()].map((item, index) => {
-                return (
-                  <span
-                    key={item}
-                    className={index === current ? 'active' : ''}
-                  />
-                );
-              })
+                  return (
+                    <span
+                      key={item}
+                      className={index === current ? 'active' : ''}
+                      onClick={() => handleClickSlider(index, current)}
+                    />
+                  );
+                })
               : null}
           </div>
           <div className={`${prefixCls}-buttons`}>

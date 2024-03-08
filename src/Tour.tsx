@@ -170,6 +170,9 @@ const Tour: React.FC<TourProps> = props => {
       }}
       {...steps[mergedCurrent]}
       closable={mergedClosable}
+      onClickSlider={(index: number) => {
+        onInternalChange(index);
+      }}
     />
   );
 
