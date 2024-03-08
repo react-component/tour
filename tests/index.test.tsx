@@ -120,10 +120,10 @@ describe('Tour', () => {
       expect(baseElement).toMatchSnapshot();
     });
 
-    it('closable.defaultIcon', () => {
+    it('closable.closeIcon should be empty', () => {
       const renderPanel = jest.fn(() => null);
 
-      const { rerender } = render(
+      render(
         <Tour
           open
           steps={[
@@ -139,32 +139,7 @@ describe('Tour', () => {
       expect(renderPanel).toHaveBeenCalledWith(
         expect.objectContaining({
           closable: expect.objectContaining({
-            defaultIcon: true,
-          }),
-        }),
-        0,
-      );
-
-      // Customize
-      renderPanel.mockReset();
-      rerender(
-        <Tour
-          open
-          steps={[
-            {
-              title: 'bamboo',
-              description: 'little',
-            },
-          ]}
-          renderPanel={renderPanel}
-          closeIcon={<span />}
-        />,
-      );
-
-      expect(renderPanel).toHaveBeenCalledWith(
-        expect.objectContaining({
-          closable: expect.objectContaining({
-            defaultIcon: false,
+            closeIcon: undefined,
           }),
         }),
         0,
