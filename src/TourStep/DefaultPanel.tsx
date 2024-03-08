@@ -22,7 +22,7 @@ export default function DefaultPanel(props: DefaultPanelProps) {
     closable,
   } = props;
   const ariaProps = pickAttrs(closable || {}, true);
-  const closeIcon = closable?.closeIcon;
+  const closeIcon = closable?.closeIcon ?? <span className={`${prefixCls}-close-x`}>&times;</span>;
   const mergedClosable = !!closable;
 
   return (
