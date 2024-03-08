@@ -92,7 +92,6 @@ const Tour: React.FC<TourProps> = props => {
   } = steps[mergedCurrent] || {};
 
   const mergedClosable = useClosable(
-    prefixCls,
     stepClosable,
     stepCloseIcon,
     closable,

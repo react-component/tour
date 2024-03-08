@@ -11,13 +11,11 @@ function isConfigObj(
 }
 
 function getClosableConfig(
-  prefixCls: string,
   closable: TourStepInfo['closable'],
   closeIcon: TourStepInfo['closeIcon'],
   preset: true,
 ): ClosableConfig;
 function getClosableConfig(
-  prefixCls: string,
   closable: TourStepInfo['closable'],
   closeIcon: TourStepInfo['closeIcon'],
   preset: false,
@@ -27,7 +25,6 @@ function getClosableConfig(
  * When `preset` is true, will auto fill ClosableConfig with default value.
  */
 function getClosableConfig(
-  prefixCls: string,
   closable: TourStepInfo['closable'],
   closeIcon: TourStepInfo['closeIcon'],
   preset: boolean,
@@ -58,7 +55,6 @@ function getClosableConfig(
 }
 
 export function useClosable(
-  prefixCls: string,
   stepClosable: TourStepInfo['closable'],
   stepCloseIcon: TourStepInfo['closeIcon'],
   closable: TourProps['closable'],
@@ -66,23 +62,17 @@ export function useClosable(
 ) {
   return React.useMemo(() => {
     const stepClosableConfig = getClosableConfig(
-      prefixCls,
       stepClosable,
       stepCloseIcon,
       false,
     );
 
-    const rootClosableConfig = getClosableConfig(
-      prefixCls,
-      closable,
-      closeIcon,
-      true,
-    );
+    const rootClosableConfig = getClosableConfig(closable, closeIcon, true);
 
     if (stepClosableConfig !== 'empty') {
       return stepClosableConfig;
     }
 
     return rootClosableConfig;
-  }, [closable, closeIcon, prefixCls, stepClosable, stepCloseIcon]);
+  }, [closable, closeIcon, stepClosable, stepCloseIcon]);
 }
