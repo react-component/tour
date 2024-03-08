@@ -1,5 +1,5 @@
 import * as React from 'react';
-import DefaultPanel, { DefaultPanelProps } from './DefaultPanel';
+import DefaultPanel, { type DefaultPanelProps } from './DefaultPanel';
 import type { TourStepProps, TourStepInfo } from '../interface';
 
 export type {
