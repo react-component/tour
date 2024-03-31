@@ -40,6 +40,7 @@ const Tour: React.FC<TourProps> = props => {
     open,
     mask = true,
     arrow = true,
+    prompt= false,
     rootClassName,
     placement,
     renderPanel,
@@ -164,6 +165,10 @@ const Tour: React.FC<TourProps> = props => {
       onClose={handleClose}
       current={mergedCurrent}
       onFinish={() => {
+        handleClose();
+        onFinish?.();
+      }}
+      onNoPrompt={() => {
         handleClose();
         onFinish?.();
       }}
