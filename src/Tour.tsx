@@ -69,11 +69,18 @@ const Tour: React.FC<TourProps> = props => {
         : origin ?? true,
   });
 
+  // Record if already rended in the DOM to avoid `findDOMNode` issue
+  const [hasOpened, setHasOpened] = React.useState(mergedOpen);
+
   const openRef = React.useRef(mergedOpen);
 
   useLayoutEffect(() => {
-    if (mergedOpen && !openRef.current) {
-      setMergedCurrent(0);
+    if (mergedOpen) {
+      if (!openRef.current) {
+        setMergedCurrent(0);
+      }
+
+      setHasOpened(true);
     }
     openRef.current = mergedOpen;
   }, [mergedOpen]);
@@ -139,7 +146,7 @@ const Tour: React.FC<TourProps> = props => {
 
   // ========================= Render =========================
   // Skip if not init yet
-  if (targetElement === undefined) {
+  if (targetElement === undefined || !hasOpened) {
     return null;
   }
 
