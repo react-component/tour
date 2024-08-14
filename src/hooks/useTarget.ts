@@ -74,6 +74,23 @@ export default function useTarget(
     };
   }, [targetElement, open, updatePos]);
 
+  const getBodyDomTransformScaleVale = () => {
+    const body = document.body;
+    const style = window.getComputedStyle(body);
+    const transform = style.getPropertyValue('transform');
+    const transformOrigin = style.getPropertyValue('transform-origin');
+    console.log(transformOrigin)
+    let scale = 1;
+    if (transform && transform !== 'none' && transformOrigin === '0px 0px') {
+        const values = transform.split('(')[1].split(')')[0].split(',');
+        const a = parseFloat(values[0]);
+        const b = parseFloat(values[1]);
+        scale = Math.sqrt(a * a + b * b);
+    }
+
+    return scale;
+  }
+
   // ======================== PosInfo =========================
   const mergedPosInfo = useMemo(() => {
     if (!posInfo) {
@@ -84,12 +101,14 @@ export default function useTarget(
     const gapOffsetY = getGapOffset(1);
     const gapRadius = gap?.radius || 2;
 
+    const bodyScaleRadio = getBodyDomTransformScaleVale();
+
     return {
-      left: posInfo.left - gapOffsetX,
-      top: posInfo.top - gapOffsetY,
-      width: posInfo.width + gapOffsetX * 2,
-      height: posInfo.height + gapOffsetY * 2,
-      radius: gapRadius,
+      left: (posInfo.left - gapOffsetX) / bodyScaleRadio,
+      top: (posInfo.top - gapOffsetY) / bodyScaleRadio,
+      width: (posInfo.width + gapOffsetX * 2) / bodyScaleRadio,
+      height: (posInfo.height + gapOffsetY * 2) / bodyScaleRadio,
+      radius: gapRadius / bodyScaleRadio,
     };
   }, [posInfo, gap]);
 
