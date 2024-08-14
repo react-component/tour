@@ -74,12 +74,11 @@ export default function useTarget(
     };
   }, [targetElement, open, updatePos]);
 
-  const getBodyDomTransformScaleVale = () => {
+  const getBodyDomTransformScaleVal = () => {
     const body = document.body;
     const style = window.getComputedStyle(body);
     const transform = style.getPropertyValue('transform');
     const transformOrigin = style.getPropertyValue('transform-origin');
-    console.log(transformOrigin)
     let scale = 1;
     if (transform && transform !== 'none' && transformOrigin === '0px 0px') {
         const values = transform.split('(')[1].split(')')[0].split(',');
@@ -101,7 +100,7 @@ export default function useTarget(
     const gapOffsetY = getGapOffset(1);
     const gapRadius = gap?.radius || 2;
 
-    const bodyScaleRadio = getBodyDomTransformScaleVale();
+    const bodyScaleRadio = getBodyDomTransformScaleVal();
 
     return {
       left: (posInfo.left - gapOffsetX) / bodyScaleRadio,
