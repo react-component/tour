@@ -42,20 +42,36 @@ export default function useTarget(
   const updatePos = useEvent(() => {
     if (targetElement) {
       // Exist target element. We should scroll and get target position
+      const calculatePosition = () => {
+        const { left, top, width, height } =
+          targetElement.getBoundingClientRect();
+        const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 };
+        setPosInfo(origin => {
+          if (JSON.stringify(origin) !== JSON.stringify(nextPosInfo)) {
+            return nextPosInfo;
+          }
+          return origin;
+        });
+      };
+
       if (!isInViewPort(targetElement) && open) {
         targetElement.scrollIntoView(scrollIntoViewOptions);
+
+        const observer = new IntersectionObserver(
+          (entries, observer) => {
+            const [entry] = entries;
+            if (entry.isIntersecting) {
+              setTimeout(() => calculatePosition(), 300); // debounce to let scroll finish
+              observer.disconnect();
+            }
+          },
+          { threshold: 1 },
+        );
+
+        observer.observe(targetElement);
+      } else {
+        calculatePosition();
       }
-
-      const { left, top, width, height } =
-        targetElement.getBoundingClientRect();
-      const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 };
-
-      setPosInfo(origin => {
-        if (JSON.stringify(origin) !== JSON.stringify(nextPosInfo)) {
-          return nextPosInfo;
-        }
-        return origin;
-      });
     } else {
       // Not exist target which means we just show in center
       setPosInfo(null);
