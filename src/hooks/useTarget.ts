@@ -2,7 +2,7 @@ import useEvent from 'rc-util/lib/hooks/useEvent';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { useMemo, useState } from 'react';
 import type { TourStepInfo } from '..';
-import { isInViewPort } from '../util';
+import { isInViewPort,debounce } from '../util';
 
 export interface Gap {
   offset?: number | [number, number];
@@ -44,8 +44,8 @@ export default function useTarget(
       // Exist target element. We should scroll and get target position
       if (!isInViewPort(targetElement) && open) {
         targetElement.scrollIntoView(scrollIntoViewOptions);
+        return;
       }
-
       const { left, top, width, height } =
         targetElement.getBoundingClientRect();
       const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 };
@@ -62,6 +62,8 @@ export default function useTarget(
     }
   });
 
+  const debounceUpdatePos = debounce(updatePos, 16)
+
   const getGapOffset = (index: number) =>
     (Array.isArray(gap?.offset) ? gap?.offset[index] : gap?.offset) ?? 6;
 
@@ -69,8 +71,11 @@ export default function useTarget(
     updatePos();
     // update when window resize
     window.addEventListener('resize', updatePos);
+    // update when window scroll stop
+    window.addEventListener('scroll',debounceUpdatePos)
     return () => {
       window.removeEventListener('resize', updatePos);
+      window.removeEventListener('scroll', debounceUpdatePos);
     };
   }, [targetElement, open, updatePos]);
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState} from 'react';
 import Tour from '../../src/index';
 import './basic.less';
 
@@ -65,7 +65,7 @@ const App = () => {
             ),
             target: () => updateBtnRef.current,
             scrollIntoViewOptions: {
-              block: 'start'
+              block: 'start', behavior:'smooth'
             }
           },
           {
