@@ -62,7 +62,19 @@ export default function useTarget(
     }
   });
 
-  const debounceUpdatePos = debounce(updatePos, 50)
+
+  let ticking = false;
+  const debounceUpdatePos = debounce(updatePos,1000/60+0.1);
+  const scrollUpdatePos = !window.requestAnimationFrame ? ()=>{
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        debounceUpdatePos();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }: debounce(updatePos,1000/60*3)
+
 
   const getGapOffset = (index: number) =>
     (Array.isArray(gap?.offset) ? gap?.offset[index] : gap?.offset) ?? 6;
@@ -72,10 +84,10 @@ export default function useTarget(
     // update when window resize
     window.addEventListener('resize', updatePos);
     // update when window scroll stop
-    window.addEventListener('scroll',debounceUpdatePos)
+    window.addEventListener('scroll',scrollUpdatePos)
     return () => {
       window.removeEventListener('resize', updatePos);
-      window.removeEventListener('scroll', debounceUpdatePos);
+      window.removeEventListener('scroll', scrollUpdatePos);
     };
   }, [targetElement, open, updatePos]);
 
