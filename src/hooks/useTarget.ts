@@ -64,16 +64,21 @@ export default function useTarget(
 
 
   let ticking = false;
-  const debounceUpdatePos = debounce(updatePos,1000/60+0.1);
+  const debounceUpdatePos = debounce(updatePos,1000/60*2);
+  let a = []
   const scrollUpdatePos = window.requestAnimationFrame ? ()=>{
     if (!ticking) {
       window.requestAnimationFrame(() => {
         debounceUpdatePos();
+        a.push(Date.now())
         ticking = false;
       });
       ticking = true;
     }
+    console.log(a)
+
   }: debounce(updatePos,1000/60*3)
+
 
 
   const getGapOffset = (index: number) =>
