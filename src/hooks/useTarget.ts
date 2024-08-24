@@ -65,7 +65,7 @@ export default function useTarget(
 
   let ticking = false;
   const debounceUpdatePos = debounce(updatePos,1000/60+0.1);
-  const scrollUpdatePos = !window.requestAnimationFrame ? ()=>{
+  const scrollUpdatePos = window.requestAnimationFrame ? ()=>{
     if (!ticking) {
       window.requestAnimationFrame(() => {
         debounceUpdatePos();
