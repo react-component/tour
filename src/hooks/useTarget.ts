@@ -2,7 +2,7 @@ import useEvent from 'rc-util/lib/hooks/useEvent';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { useMemo, useState } from 'react';
 import type { TourStepInfo } from '..';
-import { isInViewPort,debounce } from '../util';
+import { isInViewPort } from '../util';
 
 export interface Gap {
   offset?: number | [number, number];
@@ -62,37 +62,26 @@ export default function useTarget(
     }
   });
 
-
-  let ticking = false;
-  const debounceUpdatePos = debounce(updatePos,1000/60*2);
-  let a = []
-  const scrollUpdatePos = window.requestAnimationFrame ? ()=>{
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        debounceUpdatePos();
-        a.push(Date.now())
-        ticking = false;
-      });
-      ticking = true;
-    }
-    console.log(a)
-
-  }: debounce(updatePos,1000/60*3)
-
-
-
   const getGapOffset = (index: number) =>
     (Array.isArray(gap?.offset) ? gap?.offset[index] : gap?.offset) ?? 6;
+
+  const scrollEndUpdatePos = ()=>{
+    if(window.requestAnimationFrame){
+      window.requestAnimationFrame(updatePos);
+      return;
+    }
+    setTimeout(updatePos,1000/60);
+  }
 
   useLayoutEffect(() => {
     updatePos();
     // update when window resize
     window.addEventListener('resize', updatePos);
-    // update when window scroll stop
-    window.addEventListener('scroll',scrollUpdatePos)
+    // update when window scroll end
+    window.addEventListener('scrollend',scrollEndUpdatePos);
     return () => {
       window.removeEventListener('resize', updatePos);
-      window.removeEventListener('scroll', scrollUpdatePos);
+      window.removeEventListener('scrollend',scrollEndUpdatePos);
     };
   }, [targetElement, open, updatePos]);
 
