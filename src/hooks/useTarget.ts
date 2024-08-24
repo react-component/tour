@@ -62,7 +62,7 @@ export default function useTarget(
     }
   });
 
-  const debounceUpdatePos = debounce(updatePos, 16)
+  const debounceUpdatePos = debounce(updatePos, 50)
 
   const getGapOffset = (index: number) =>
     (Array.isArray(gap?.offset) ? gap?.offset[index] : gap?.offset) ?? 6;
