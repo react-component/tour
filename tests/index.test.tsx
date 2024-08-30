@@ -1115,7 +1115,8 @@ describe('Tour', () => {
       .querySelectorAll('rect')[1];
     expect(targetRect).toBeTruthy();
     expect(targetRect).toHaveAttribute('rx', '0');
-  }) 
+  });
+
   it('disabledInteraction should work', () => {
     const Demo = () => {
       const btnRef = useRef<HTMLButtonElement>(null);
