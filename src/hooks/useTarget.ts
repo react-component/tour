@@ -19,6 +19,7 @@ export interface PosInfo {
 function isValidNumber(val) {
   return typeof val === 'number' && !Number.isNaN(val);
 }
+
 export default function useTarget(
   target: TourStepInfo['target'],
   open: boolean,
