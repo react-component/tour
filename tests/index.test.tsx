@@ -1086,7 +1086,8 @@ describe('Tour', () => {
     expect(targetRect).toHaveAttribute('width', '270');
     expect(targetRect).toHaveAttribute('height', '340');
   });
-  it("render rx with 0 instead of 2 when gap.radius is 0", () => {
+
+  it('render rx with 0 instead of 2 when gap.radius is 0', () => {
     const Demo = ({radius}) => {
       const btnRef = useRef<HTMLButtonElement>(null);
       return (
