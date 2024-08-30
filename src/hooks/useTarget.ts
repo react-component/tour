@@ -16,6 +16,9 @@ export interface PosInfo {
   width: number;
   radius: number;
 }
+function isValidNumber(val) {
+  return typeof val === 'number' && !Number.isNaN(val);
+}
 
 export default function useTarget(
   target: TourStepInfo['target'],
@@ -82,7 +85,7 @@ export default function useTarget(
 
     const gapOffsetX = getGapOffset(0);
     const gapOffsetY = getGapOffset(1);
-    const gapRadius = gap?.radius || 2;
+    const gapRadius = isValidNumber(gap?.radius) ? gap?.radius : 2;
 
     return {
       left: posInfo.left - gapOffsetX,
