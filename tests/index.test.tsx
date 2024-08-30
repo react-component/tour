@@ -1086,7 +1086,36 @@ describe('Tour', () => {
     expect(targetRect).toHaveAttribute('width', '270');
     expect(targetRect).toHaveAttribute('height', '340');
   });
-
+  it("render rx with 0 instead of 2 when gap.radius is 0", () => {
+    const Demo = ({radius}) => {
+      const btnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ margin: 20 }}>
+          <button ref={btnRef}>按钮</button>
+          <Tour
+            placement={'bottom'}
+            gap={{
+              radius,
+            }}
+            open={true}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+    render(<Demo radius={0} />);
+    const targetRect = document
+      .getElementById('rc-tour-mask-test-id')
+      .querySelectorAll('rect')[1];
+    expect(targetRect).toBeTruthy();
+    expect(targetRect).toHaveAttribute('rx', '0');
+  }) 
   it('disabledInteraction should work', () => {
     const Demo = () => {
       const btnRef = useRef<HTMLButtonElement>(null);
