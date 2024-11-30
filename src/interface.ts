@@ -28,11 +28,13 @@ export interface TourStepProps extends TourStepInfo {
   prefixCls?: string;
   total?: number;
   current?: number;
+  prompt?: boolean;
   onClose?: () => void;
   onFinish?: () => void;
   renderPanel?: (step: TourStepProps, current: number) => ReactNode;
   onPrev?: () => void;
   onNext?: () => void;
+  onNoPrompt?: () => void;
 }
 
 export interface TourProps extends Pick<TriggerProps, 'onPopupAlign'> {

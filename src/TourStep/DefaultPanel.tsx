@@ -20,6 +20,8 @@ export default function DefaultPanel(props: DefaultPanelProps) {
     onFinish,
     className,
     closable,
+    prompt = true,
+    onNoPrompt
   } = props;
   const ariaProps = pickAttrs(closable || {}, true);
   const closeIcon = closable?.closeIcon ?? <span className={`${prefixCls}-close-x`}>&times;</span>;
@@ -47,16 +49,24 @@ export default function DefaultPanel(props: DefaultPanelProps) {
           <div className={`${prefixCls}-sliders`}>
             {total > 1
               ? [...Array.from({ length: total }).keys()].map((item, index) => {
-                return (
-                  <span
-                    key={item}
-                    className={index === current ? 'active' : ''}
-                  />
-                );
-              })
+                  return (
+                    <span
+                      key={item}
+                      className={index === current ? 'active' : ''}
+                    />
+                  );
+                })
               : null}
           </div>
           <div className={`${prefixCls}-buttons`}>
+            {prompt && (
+              <button
+                className={`${prefixCls}-prompt-btn`}
+                onClick={onNoPrompt}
+              >
+                No Prompt
+              </button>
+            )}
             {current !== 0 ? (
               <button className={`${prefixCls}-prev-btn`} onClick={onPrev}>
                 Prev
