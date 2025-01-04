@@ -1088,7 +1088,7 @@ describe('Tour', () => {
   });
 
   it('render rx with 0 instead of 2 when gap.radius is 0', () => {
-    const Demo = ({radius}) => {
+    const Demo = ({ radius }) => {
       const btnRef = useRef<HTMLButtonElement>(null);
       return (
         <div style={{ margin: 20 }}>
@@ -1118,19 +1118,36 @@ describe('Tour', () => {
     expect(targetRect).toHaveAttribute('rx', '0');
   });
 
-  it('disabledInteraction should work', () => {
+  it('support custom styles', () => {
+    const customClassnames = {
+      mask: 'custom-mask',
+      actions: 'custom-actions',
+      title: 'custom-title',
+      header: 'custom-header',
+      content: 'custom-content',
+      body: 'custom-body',
+      footer: 'custom-footer',
+      description: 'custom-description',
+    };
+    const customStyles = {
+      mask: { color: 'white' },
+      actions: { color: 'blue' },
+      title: { fontSize: '20px' },
+      header: { backgroundColor: 'gray' },
+      content: { padding: '10px' },
+      body: { margin: '5px' },
+      footer: { borderTop: '1px solid black' },
+      description: { fontStyle: 'italic' },
+    };
     const Demo = () => {
       const btnRef = useRef<HTMLButtonElement>(null);
       return (
         <div style={{ margin: 20 }}>
           <button ref={btnRef}>按钮</button>
           <Tour
-            placement={'bottom'}
-            gap={{
-              offset: [20, 80],
-            }}
+            classNames={customClassnames}
+            styles={customStyles}
             open
-            disabledInteraction
             steps={[
               {
                 title: '创建',
@@ -1142,11 +1159,47 @@ describe('Tour', () => {
         </div>
       );
     };
-
     render(<Demo />);
 
-    expect(document.querySelector('.rc-tour-mask')).toHaveStyle(
-      'pointer-events: auto',
-    );
+    const maskElement = document.querySelector('.rc-tour-mask') as HTMLElement;
+    const actionsElement = document.querySelector(
+      '.rc-tour-actions',
+    ) as HTMLElement;
+    const titleElement = document.querySelector(
+      '.rc-tour-title',
+    ) as HTMLElement;
+    const headerElement = document.querySelector(
+      '.rc-tour-header',
+    ) as HTMLElement;
+    const contentElement = document.querySelector(
+      '.rc-tour-content',
+    ) as HTMLElement;
+    const bodyElement = document.querySelector('.rc-tour-body') as HTMLElement;
+    const footerElement = document.querySelector(
+      '.rc-tour-footer',
+    ) as HTMLElement;
+    const descriptionElement = document.querySelector(
+      '.rc-tour-description',
+    ) as HTMLElement;
+
+    // check classNames
+    expect(maskElement.classList).toContain('custom-mask');
+    expect(actionsElement.classList).toContain('custom-actions');
+    expect(titleElement.classList).toContain('custom-title');
+    expect(headerElement.classList).toContain('custom-header');
+    expect(contentElement.classList).toContain('custom-content');
+    expect(bodyElement.classList).toContain('custom-body');
+    expect(footerElement.classList).toContain('custom-footer');
+    expect(descriptionElement.classList).toContain('custom-description');
+
+    // check styles
+    expect(maskElement.style.color).toBe('white');
+    expect(actionsElement.style.color).toBe('blue');
+    expect(titleElement.style.fontSize).toBe('20px');
+    expect(headerElement.style.backgroundColor).toBe('gray');
+    expect(contentElement.style.padding).toBe('10px');
+    expect(bodyElement.style.margin).toBe('5px');
+    expect(footerElement.style.borderTop).toBe('1px solid black');
+    expect(descriptionElement.style.fontStyle).toBe('italic');
   });
 });

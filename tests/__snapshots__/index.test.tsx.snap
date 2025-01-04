@@ -103,7 +103,7 @@ exports[`Tour animated placeholder true 1`] = `
         class="rc-tour-content"
       >
         <div
-          class="rc-tour-inner"
+          class="rc-tour-body"
         >
           <button
             aria-label="Close"
@@ -137,7 +137,7 @@ exports[`Tour animated placeholder true 1`] = `
               class="rc-tour-sliders"
             />
             <div
-              class="rc-tour-buttons"
+              class="rc-tour-actions"
             >
               <button
                 class="rc-tour-finish-btn"
@@ -256,7 +256,7 @@ exports[`Tour animated true 1`] = `
         class="rc-tour-content"
       >
         <div
-          class="rc-tour-inner"
+          class="rc-tour-body"
         >
           <button
             aria-label="Close"
@@ -290,7 +290,7 @@ exports[`Tour animated true 1`] = `
               class="rc-tour-sliders"
             />
             <div
-              class="rc-tour-buttons"
+              class="rc-tour-actions"
             >
               <button
                 class="rc-tour-finish-btn"
@@ -548,7 +548,7 @@ exports[`Tour rootClassName 1`] = `
         class="rc-tour-content"
       >
         <div
-          class="rc-tour-inner"
+          class="rc-tour-body"
         >
           <button
             aria-label="Close"
@@ -582,7 +582,7 @@ exports[`Tour rootClassName 1`] = `
               class="rc-tour-sliders"
             />
             <div
-              class="rc-tour-buttons"
+              class="rc-tour-actions"
             >
               <button
                 class="rc-tour-finish-btn"
@@ -664,7 +664,7 @@ exports[`Tour run in strict mode 1`] = `
         class="rc-tour-content"
       >
         <div
-          class="rc-tour-inner"
+          class="rc-tour-body"
         >
           <button
             aria-label="Close"
@@ -705,7 +705,7 @@ exports[`Tour run in strict mode 1`] = `
               />
             </div>
             <div
-              class="rc-tour-buttons"
+              class="rc-tour-actions"
             >
               <button
                 class="rc-tour-next-btn"
@@ -832,7 +832,7 @@ exports[`Tour run in strict mode 2`] = `
         class="rc-tour-content"
       >
         <div
-          class="rc-tour-inner"
+          class="rc-tour-body"
         >
           <button
             aria-label="Close"
@@ -873,7 +873,7 @@ exports[`Tour run in strict mode 2`] = `
               />
             </div>
             <div
-              class="rc-tour-buttons"
+              class="rc-tour-actions"
             >
               <button
                 class="rc-tour-prev-btn"
@@ -950,7 +950,7 @@ exports[`Tour should keep current when controlled 1`] = `
         class="rc-tour-content"
       >
         <div
-          class="rc-tour-inner"
+          class="rc-tour-body"
         >
           <button
             aria-label="Close"
@@ -991,7 +991,7 @@ exports[`Tour should keep current when controlled 1`] = `
               />
             </div>
             <div
-              class="rc-tour-buttons"
+              class="rc-tour-actions"
             >
               <button
                 class="rc-tour-prev-btn"
@@ -1068,7 +1068,7 @@ exports[`Tour should return step 1 when reopen 1`] = `
         class="rc-tour-content"
       >
         <div
-          class="rc-tour-inner"
+          class="rc-tour-body"
         >
           <button
             aria-label="Close"
@@ -1109,7 +1109,7 @@ exports[`Tour should return step 1 when reopen 1`] = `
               />
             </div>
             <div
-              class="rc-tour-buttons"
+              class="rc-tour-actions"
             >
               <button
                 class="rc-tour-next-btn"
@@ -1230,7 +1230,7 @@ exports[`Tour should update position when window resize 1`] = `
         class="rc-tour-content"
       >
         <div
-          class="rc-tour-inner"
+          class="rc-tour-body"
         >
           <button
             aria-label="Close"
@@ -1264,7 +1264,7 @@ exports[`Tour should update position when window resize 1`] = `
               class="rc-tour-sliders"
             />
             <div
-              class="rc-tour-buttons"
+              class="rc-tour-actions"
             >
               <button
                 class="rc-tour-finish-btn"
@@ -1379,7 +1379,7 @@ exports[`Tour showArrow should show tooltip arrow default 1`] = `
         class="rc-tour-content"
       >
         <div
-          class="rc-tour-inner"
+          class="rc-tour-body"
         >
           <button
             aria-label="Close"
@@ -1413,7 +1413,7 @@ exports[`Tour showArrow should show tooltip arrow default 1`] = `
               class="rc-tour-sliders"
             />
             <div
-              class="rc-tour-buttons"
+              class="rc-tour-actions"
             >
               <button
                 class="rc-tour-finish-btn"
@@ -1532,7 +1532,7 @@ exports[`Tour single 1`] = `
         class="rc-tour-content"
       >
         <div
-          class="rc-tour-inner"
+          class="rc-tour-body"
         >
           <button
             aria-label="Close"
@@ -1566,7 +1566,7 @@ exports[`Tour single 1`] = `
               class="rc-tour-sliders"
             />
             <div
-              class="rc-tour-buttons"
+              class="rc-tour-actions"
             >
               <button
                 class="rc-tour-finish-btn"
@@ -1687,7 +1687,7 @@ exports[`Tour use custom builtinPlacements 1`] = `
         class="rc-tour-content"
       >
         <div
-          class="rc-tour-inner"
+          class="rc-tour-body"
         >
           <button
             aria-label="Close"
@@ -1721,7 +1721,7 @@ exports[`Tour use custom builtinPlacements 1`] = `
               class="rc-tour-sliders"
             />
             <div
-              class="rc-tour-buttons"
+              class="rc-tour-actions"
             >
               <button
                 class="rc-tour-finish-btn"
@@ -1842,7 +1842,7 @@ exports[`Tour use custom builtinPlacements 2`] = `
         class="rc-tour-content"
       >
         <div
-          class="rc-tour-inner"
+          class="rc-tour-body"
         >
           <button
             aria-label="Close"
@@ -1876,7 +1876,7 @@ exports[`Tour use custom builtinPlacements 2`] = `
               class="rc-tour-sliders"
             />
             <div
-              class="rc-tour-buttons"
+              class="rc-tour-actions"
             >
               <button
                 class="rc-tour-finish-btn"
@@ -2008,7 +2008,7 @@ exports[`Tour use custom builtinPlacements 3`] = `
         class="rc-tour-content"
       >
         <div
-          class="rc-tour-inner"
+          class="rc-tour-body"
         >
           <button
             aria-label="Close"
@@ -2042,7 +2042,7 @@ exports[`Tour use custom builtinPlacements 3`] = `
               class="rc-tour-sliders"
             />
             <div
-              class="rc-tour-buttons"
+              class="rc-tour-actions"
             >
               <button
                 class="rc-tour-finish-btn"
