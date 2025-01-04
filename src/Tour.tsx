@@ -53,6 +53,8 @@ const Tour: React.FC<TourProps> = props => {
     disabledInteraction,
     styles,
     classNames: tourClassNames,
+    className,
+    style,
     ...restProps
   } = props;
 
@@ -228,6 +230,7 @@ const Tour: React.FC<TourProps> = props => {
         <Portal open={mergedOpen} autoLock>
           <div
             className={classNames(
+              className,
               rootClassName,
               `${prefixCls}-target-placeholder`,
             )}
@@ -235,6 +238,7 @@ const Tour: React.FC<TourProps> = props => {
               ...(posInfo || CENTER_PLACEHOLDER),
               position: 'fixed',
               pointerEvents: 'none',
+              ...style,
             }}
           />
         </Portal>

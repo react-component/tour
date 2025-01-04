@@ -50,6 +50,8 @@ export interface TourStepProps extends TourStepInfo {
 export interface TourProps extends Pick<TriggerProps, 'onPopupAlign'> {
   classNames?: Partial<Record<SemanticName, string>>;
   styles?: Partial<Record<SemanticName, React.CSSProperties>>;
+  className?: string;
+  style?: React.CSSProperties;
   steps?: TourStepInfo[];
   open?: boolean;
   defaultCurrent?: number;
