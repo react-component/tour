@@ -100,7 +100,7 @@ exports[`Tour animated placeholder true 1`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-content"
+        class="rc-tour-section"
       >
         <div
           class="rc-tour-body"
@@ -253,7 +253,7 @@ exports[`Tour animated true 1`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-content"
+        class="rc-tour-section"
       >
         <div
           class="rc-tour-body"
@@ -545,7 +545,7 @@ exports[`Tour rootClassName 1`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-content"
+        class="rc-tour-section"
       >
         <div
           class="rc-tour-body"
@@ -661,7 +661,7 @@ exports[`Tour run in strict mode 1`] = `
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
       <div
-        class="rc-tour-content"
+        class="rc-tour-section"
       >
         <div
           class="rc-tour-body"
@@ -829,7 +829,7 @@ exports[`Tour run in strict mode 2`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-content"
+        class="rc-tour-section"
       >
         <div
           class="rc-tour-body"
@@ -947,7 +947,7 @@ exports[`Tour should keep current when controlled 1`] = `
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
       <div
-        class="rc-tour-content"
+        class="rc-tour-section"
       >
         <div
           class="rc-tour-body"
@@ -1065,7 +1065,7 @@ exports[`Tour should return step 1 when reopen 1`] = `
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
       <div
-        class="rc-tour-content"
+        class="rc-tour-section"
       >
         <div
           class="rc-tour-body"
@@ -1227,7 +1227,7 @@ exports[`Tour should update position when window resize 1`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-content"
+        class="rc-tour-section"
       >
         <div
           class="rc-tour-body"
@@ -1376,7 +1376,7 @@ exports[`Tour showArrow should show tooltip arrow default 1`] = `
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
       <div
-        class="rc-tour-content"
+        class="rc-tour-section"
       >
         <div
           class="rc-tour-body"
@@ -1529,7 +1529,7 @@ exports[`Tour single 1`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-content"
+        class="rc-tour-section"
       >
         <div
           class="rc-tour-body"
@@ -1684,7 +1684,7 @@ exports[`Tour use custom builtinPlacements 1`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-content"
+        class="rc-tour-section"
       >
         <div
           class="rc-tour-body"
@@ -1839,7 +1839,7 @@ exports[`Tour use custom builtinPlacements 2`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-content"
+        class="rc-tour-section"
       >
         <div
           class="rc-tour-body"
@@ -2005,7 +2005,7 @@ exports[`Tour use custom builtinPlacements 3`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-content"
+        class="rc-tour-section"
       >
         <div
           class="rc-tour-body"

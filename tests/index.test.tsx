@@ -1124,7 +1124,7 @@ describe('Tour', () => {
       actions: 'custom-actions',
       title: 'custom-title',
       header: 'custom-header',
-      content: 'custom-content',
+      section: 'custom-section',
       body: 'custom-body',
       footer: 'custom-footer',
       description: 'custom-description',
@@ -1134,7 +1134,7 @@ describe('Tour', () => {
       actions: { color: 'blue' },
       title: { fontSize: '20px' },
       header: { backgroundColor: 'gray' },
-      content: { padding: '10px' },
+      section: { padding: '10px' },
       body: { margin: '5px' },
       footer: { borderTop: '1px solid black' },
       description: { fontStyle: 'italic' },
@@ -1171,8 +1171,8 @@ describe('Tour', () => {
     const headerElement = document.querySelector(
       '.rc-tour-header',
     ) as HTMLElement;
-    const contentElement = document.querySelector(
-      '.rc-tour-content',
+    const sectionElement = document.querySelector(
+      '.rc-tour-section',
     ) as HTMLElement;
     const bodyElement = document.querySelector('.rc-tour-body') as HTMLElement;
     const footerElement = document.querySelector(
@@ -1187,7 +1187,7 @@ describe('Tour', () => {
     expect(actionsElement.classList).toContain('custom-actions');
     expect(titleElement.classList).toContain('custom-title');
     expect(headerElement.classList).toContain('custom-header');
-    expect(contentElement.classList).toContain('custom-content');
+    expect(sectionElement.classList).toContain('custom-section');
     expect(bodyElement.classList).toContain('custom-body');
     expect(footerElement.classList).toContain('custom-footer');
     expect(descriptionElement.classList).toContain('custom-description');
@@ -1197,7 +1197,7 @@ describe('Tour', () => {
     expect(actionsElement.style.color).toBe('blue');
     expect(titleElement.style.fontSize).toBe('20px');
     expect(headerElement.style.backgroundColor).toBe('gray');
-    expect(contentElement.style.padding).toBe('10px');
+    expect(sectionElement.style.padding).toBe('10px');
     expect(bodyElement.style.margin).toBe('5px');
     expect(footerElement.style.borderTop).toBe('1px solid black');
     expect(descriptionElement.style.fontStyle).toBe('italic');

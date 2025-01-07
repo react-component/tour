@@ -6,7 +6,7 @@ import { type DefaultPanelProps } from './TourStep/DefaultPanel';
 
 export type SemanticName =
   | 'body'
-  | 'content'
+  | 'section'
   | 'footer'
   | 'actions'
   | 'header'

@@ -32,11 +32,11 @@ export default function DefaultPanel(props: DefaultPanelProps) {
   return (
     <div
       className={classNames(
-        `${prefixCls}-content`,
-        tourClassNames?.content,
+        `${prefixCls}-section`,
+        tourClassNames?.section,
         className,
       )}
-      style={styles?.content}
+      style={styles?.section}
     >
       <div
         className={classNames(`${prefixCls}-body`, tourClassNames?.body)}
