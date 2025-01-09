@@ -1125,7 +1125,6 @@ describe('Tour', () => {
       title: 'custom-title',
       header: 'custom-header',
       section: 'custom-section',
-      body: 'custom-body',
       footer: 'custom-footer',
       description: 'custom-description',
     };
@@ -1135,7 +1134,6 @@ describe('Tour', () => {
       title: { fontSize: '20px' },
       header: { backgroundColor: 'gray' },
       section: { padding: '10px' },
-      body: { margin: '5px' },
       footer: { borderTop: '1px solid black' },
       description: { fontStyle: 'italic' },
     };
@@ -1174,7 +1172,6 @@ describe('Tour', () => {
     const sectionElement = document.querySelector(
       '.rc-tour-section',
     ) as HTMLElement;
-    const bodyElement = document.querySelector('.rc-tour-body') as HTMLElement;
     const footerElement = document.querySelector(
       '.rc-tour-footer',
     ) as HTMLElement;
@@ -1188,7 +1185,6 @@ describe('Tour', () => {
     expect(titleElement.classList).toContain('custom-title');
     expect(headerElement.classList).toContain('custom-header');
     expect(sectionElement.classList).toContain('custom-section');
-    expect(bodyElement.classList).toContain('custom-body');
     expect(footerElement.classList).toContain('custom-footer');
     expect(descriptionElement.classList).toContain('custom-description');
 
@@ -1198,7 +1194,6 @@ describe('Tour', () => {
     expect(titleElement.style.fontSize).toBe('20px');
     expect(headerElement.style.backgroundColor).toBe('gray');
     expect(sectionElement.style.padding).toBe('10px');
-    expect(bodyElement.style.margin).toBe('5px');
     expect(footerElement.style.borderTop).toBe('1px solid black');
     expect(descriptionElement.style.fontStyle).toBe('italic');
   });

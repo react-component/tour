@@ -5,7 +5,6 @@ import type { Gap } from './hooks/useTarget';
 import { type DefaultPanelProps } from './TourStep/DefaultPanel';
 
 export type SemanticName =
-  | 'body'
   | 'section'
   | 'footer'
   | 'actions'

@@ -100,10 +100,10 @@ exports[`Tour animated placeholder true 1`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-section"
+        class="rc-tour-pannel"
       >
         <div
-          class="rc-tour-body"
+          class="rc-tour-section"
         >
           <button
             aria-label="Close"
@@ -253,10 +253,10 @@ exports[`Tour animated true 1`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-section"
+        class="rc-tour-pannel"
       >
         <div
-          class="rc-tour-body"
+          class="rc-tour-section"
         >
           <button
             aria-label="Close"
@@ -545,10 +545,10 @@ exports[`Tour rootClassName 1`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-section"
+        class="rc-tour-pannel"
       >
         <div
-          class="rc-tour-body"
+          class="rc-tour-section"
         >
           <button
             aria-label="Close"
@@ -661,10 +661,10 @@ exports[`Tour run in strict mode 1`] = `
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
       <div
-        class="rc-tour-section"
+        class="rc-tour-pannel"
       >
         <div
-          class="rc-tour-body"
+          class="rc-tour-section"
         >
           <button
             aria-label="Close"
@@ -829,10 +829,10 @@ exports[`Tour run in strict mode 2`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-section"
+        class="rc-tour-pannel"
       >
         <div
-          class="rc-tour-body"
+          class="rc-tour-section"
         >
           <button
             aria-label="Close"
@@ -947,10 +947,10 @@ exports[`Tour should keep current when controlled 1`] = `
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
       <div
-        class="rc-tour-section"
+        class="rc-tour-pannel"
       >
         <div
-          class="rc-tour-body"
+          class="rc-tour-section"
         >
           <button
             aria-label="Close"
@@ -1065,10 +1065,10 @@ exports[`Tour should return step 1 when reopen 1`] = `
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
       <div
-        class="rc-tour-section"
+        class="rc-tour-pannel"
       >
         <div
-          class="rc-tour-body"
+          class="rc-tour-section"
         >
           <button
             aria-label="Close"
@@ -1227,10 +1227,10 @@ exports[`Tour should update position when window resize 1`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-section"
+        class="rc-tour-pannel"
       >
         <div
-          class="rc-tour-body"
+          class="rc-tour-section"
         >
           <button
             aria-label="Close"
@@ -1376,10 +1376,10 @@ exports[`Tour showArrow should show tooltip arrow default 1`] = `
       style="left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
       <div
-        class="rc-tour-section"
+        class="rc-tour-pannel"
       >
         <div
-          class="rc-tour-body"
+          class="rc-tour-section"
         >
           <button
             aria-label="Close"
@@ -1529,10 +1529,10 @@ exports[`Tour single 1`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-section"
+        class="rc-tour-pannel"
       >
         <div
-          class="rc-tour-body"
+          class="rc-tour-section"
         >
           <button
             aria-label="Close"
@@ -1684,10 +1684,10 @@ exports[`Tour use custom builtinPlacements 1`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-section"
+        class="rc-tour-pannel"
       >
         <div
-          class="rc-tour-body"
+          class="rc-tour-section"
         >
           <button
             aria-label="Close"
@@ -1839,10 +1839,10 @@ exports[`Tour use custom builtinPlacements 2`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-section"
+        class="rc-tour-pannel"
       >
         <div
-          class="rc-tour-body"
+          class="rc-tour-section"
         >
           <button
             aria-label="Close"
@@ -2005,10 +2005,10 @@ exports[`Tour use custom builtinPlacements 3`] = `
         style="position: absolute;"
       />
       <div
-        class="rc-tour-section"
+        class="rc-tour-pannel"
       >
         <div
-          class="rc-tour-body"
+          class="rc-tour-section"
         >
           <button
             aria-label="Close"
