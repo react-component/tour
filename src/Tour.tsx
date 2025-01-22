@@ -77,7 +77,7 @@ const Tour: React.FC<TourProps> = props => {
   useLayoutEffect(() => {
     if (mergedOpen) {
       if (!openRef.current) {
-        setMergedCurrent(0);
+        setMergedCurrent(defaultCurrent ?? 0);
       }
 
       setHasOpened(true);
