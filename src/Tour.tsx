@@ -51,6 +51,10 @@ const Tour: React.FC<TourProps> = props => {
     closable,
     builtinPlacements,
     disabledInteraction,
+    styles,
+    classNames: tourClassNames,
+    className,
+    style,
     ...restProps
   } = props;
 
@@ -66,7 +70,7 @@ const Tour: React.FC<TourProps> = props => {
     postState: origin =>
       mergedCurrent < 0 || mergedCurrent >= steps.length
         ? false
-        : origin ?? true,
+        : (origin ?? true),
   });
 
   // Record if already rended in the DOM to avoid `findDOMNode` issue
@@ -157,6 +161,8 @@ const Tour: React.FC<TourProps> = props => {
 
   const getPopupElement = () => (
     <TourStep
+      styles={styles}
+      classNames={tourClassNames}
       arrow={mergedArrow}
       key="content"
       prefixCls={prefixCls}
@@ -192,6 +198,8 @@ const Tour: React.FC<TourProps> = props => {
   return (
     <>
       <Mask
+        styles={styles}
+        classNames={tourClassNames}
         zIndex={zIndex}
         prefixCls={prefixCls}
         pos={posInfo}
@@ -222,6 +230,7 @@ const Tour: React.FC<TourProps> = props => {
         <Portal open={mergedOpen} autoLock>
           <div
             className={classNames(
+              className,
               rootClassName,
               `${prefixCls}-target-placeholder`,
             )}
@@ -229,6 +238,7 @@ const Tour: React.FC<TourProps> = props => {
               ...(posInfo || CENTER_PLACEHOLDER),
               position: 'fixed',
               pointerEvents: 'none',
+              ...style,
             }}
           />
         </Portal>

@@ -4,6 +4,15 @@ import type { CSSProperties, ReactNode } from 'react';
 import type { Gap } from './hooks/useTarget';
 import { type DefaultPanelProps } from './TourStep/DefaultPanel';
 
+export type SemanticName =
+  | 'section'
+  | 'footer'
+  | 'actions'
+  | 'header'
+  | 'title'
+  | 'description'
+  | 'mask';
+
 export interface TourStepInfo {
   arrow?: boolean | { pointAtCenter: boolean };
   target?: HTMLElement | (() => HTMLElement) | null | (() => null);
@@ -33,9 +42,15 @@ export interface TourStepProps extends TourStepInfo {
   renderPanel?: (step: TourStepProps, current: number) => ReactNode;
   onPrev?: () => void;
   onNext?: () => void;
+  classNames?: Partial<Record<SemanticName, string>>;
+  styles?: Partial<Record<SemanticName, React.CSSProperties>>;
 }
 
 export interface TourProps extends Pick<TriggerProps, 'onPopupAlign'> {
+  classNames?: Partial<Record<SemanticName, string>>;
+  styles?: Partial<Record<SemanticName, React.CSSProperties>>;
+  className?: string;
+  style?: React.CSSProperties;
   steps?: TourStepInfo[];
   open?: boolean;
   defaultCurrent?: number;

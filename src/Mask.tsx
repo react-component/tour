@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import Portal from '@rc-component/portal';
 import type { PosInfo } from './hooks/useTarget';
 import useId from 'rc-util/lib/hooks/useId';
+import { SemanticName } from './interface';
 
 const COVER_PROPS = {
   fill: 'transparent',
@@ -21,6 +22,8 @@ export interface MaskProps {
   animated?: boolean | { placeholder: boolean };
   zIndex?: number;
   disabledInteraction?: boolean;
+  classNames?: Partial<Record<SemanticName, string>>;
+  styles?: Partial<Record<SemanticName, React.CSSProperties>>;
 }
 
 const Mask = (props: MaskProps) => {
@@ -34,7 +37,9 @@ const Mask = (props: MaskProps) => {
     open,
     animated,
     zIndex,
-    disabledInteraction
+    disabledInteraction,
+    styles,
+    classNames: tourClassNames,
   } = props;
 
   const id = useId();
@@ -48,7 +53,7 @@ const Mask = (props: MaskProps) => {
   return (
     <Portal open={open} autoLock>
       <div
-        className={classNames(`${prefixCls}-mask`, rootClassName)}
+        className={classNames(`${prefixCls}-mask`, rootClassName, tourClassNames?.mask)}
         style={{
           position: 'fixed',
           left: 0,
@@ -57,7 +62,8 @@ const Mask = (props: MaskProps) => {
           bottom: 0,
           zIndex,
           pointerEvents: pos && !disabledInteraction ? 'none' : 'auto',
-          ...style
+          ...style,
+          ...styles?.mask,
         }}
       >
         {showMask ? (
