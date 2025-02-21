@@ -25,6 +25,8 @@ export default function useTarget(
   open: boolean,
   gap?: Gap,
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions,
+  inlineMode?: boolean,
+  placeholderRef?: React.RefObject<HTMLDivElement>,
 ): [PosInfo, HTMLElement] {
   // ========================= Target =========================
   // We trade `undefined` as not get target by function yet.
@@ -52,6 +54,17 @@ export default function useTarget(
       const { left, top, width, height } =
         targetElement.getBoundingClientRect();
       const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 };
+
+      // If `inlineMode` we need cut off parent offset
+      if (inlineMode) {
+        const parentRect =
+          placeholderRef.current?.parentElement?.getBoundingClientRect();
+
+        if (parentRect) {
+          nextPosInfo.left -= parentRect.left;
+          nextPosInfo.top -= parentRect.top;
+        }
+      }
 
       setPosInfo(origin => {
         if (JSON.stringify(origin) !== JSON.stringify(nextPosInfo)) {

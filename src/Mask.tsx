@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Portal from '@rc-component/portal';
 import type { PosInfo } from './hooks/useTarget';
 import useId from 'rc-util/lib/hooks/useId';
-import { SemanticName } from './interface';
+import type { SemanticName, TourProps } from './interface';
 
 const COVER_PROPS = {
   fill: 'transparent',
@@ -24,6 +24,7 @@ export interface MaskProps {
   disabledInteraction?: boolean;
   classNames?: Partial<Record<SemanticName, string>>;
   styles?: Partial<Record<SemanticName, React.CSSProperties>>;
+  getPopupContainer?: TourProps['getPopupContainer'];
 }
 
 const Mask = (props: MaskProps) => {
@@ -33,13 +34,14 @@ const Mask = (props: MaskProps) => {
     pos,
     showMask,
     style = {},
-    fill = "rgba(0,0,0,0.5)",
+    fill = 'rgba(0,0,0,0.5)',
     open,
     animated,
     zIndex,
     disabledInteraction,
     styles,
     classNames: tourClassNames,
+    getPopupContainer,
   } = props;
 
   const id = useId();
@@ -47,15 +49,29 @@ const Mask = (props: MaskProps) => {
   const mergedAnimated =
     typeof animated === 'object' ? animated?.placeholder : animated;
 
-  const isSafari = typeof navigator !== 'undefined' && /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-  const maskRectSize = isSafari ? { width: '100%', height: '100%' } : { width: '100vw', height: '100vh'};
+  const isSafari =
+    typeof navigator !== 'undefined' &&
+    /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const maskRectSize = isSafari
+    ? { width: '100%', height: '100%' }
+    : { width: '100vw', height: '100vh' };
+
+  const inlineMode = getPopupContainer === false;
 
   return (
-    <Portal open={open} autoLock>
+    <Portal
+      open={open}
+      autoLock={!inlineMode}
+      getContainer={getPopupContainer as any}
+    >
       <div
-        className={classNames(`${prefixCls}-mask`, rootClassName, tourClassNames?.mask)}
+        className={classNames(
+          `${prefixCls}-mask`,
+          rootClassName,
+          tourClassNames?.mask,
+        )}
         style={{
-          position: 'fixed',
+          position: inlineMode ? 'absolute' : 'fixed',
           left: 0,
           right: 0,
           top: 0,
@@ -103,32 +119,37 @@ const Mask = (props: MaskProps) => {
             {/* Block click region */}
             {pos && (
               <>
+                {/* Top */}
+
                 <rect
                   {...COVER_PROPS}
                   x="0"
                   y="0"
                   width="100%"
-                  height={pos.top}
+                  height={Math.max(pos.top, 0)}
                 />
+                {/* Left */}
                 <rect
                   {...COVER_PROPS}
                   x="0"
                   y="0"
-                  width={pos.left}
+                  width={Math.max(pos.left, 0)}
                   height="100%"
                 />
+                {/* Bottom */}
                 <rect
                   {...COVER_PROPS}
                   x="0"
                   y={pos.top + pos.height}
                   width="100%"
-                  height={`calc(100vh - ${pos.top + pos.height}px)`}
+                  height={`calc(100% - ${pos.top + pos.height}px)`}
                 />
+                {/* Right */}
                 <rect
                   {...COVER_PROPS}
                   x={pos.left + pos.width}
                   y="0"
-                  width={`calc(100vw - ${pos.left + pos.width}px)`}
+                  width={`calc(100% - ${pos.left + pos.width}px)`}
                   height="100%"
                 />
               </>

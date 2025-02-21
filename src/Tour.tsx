@@ -38,6 +38,7 @@ const Tour: React.FC<TourProps> = props => {
     onClose,
     onFinish,
     open,
+    defaultOpen,
     mask = true,
     arrow = true,
     rootClassName,
@@ -55,6 +56,7 @@ const Tour: React.FC<TourProps> = props => {
     classNames: tourClassNames,
     className,
     style,
+    getPopupContainer,
     ...restProps
   } = props;
 
@@ -65,7 +67,7 @@ const Tour: React.FC<TourProps> = props => {
     defaultValue: defaultCurrent,
   });
 
-  const [mergedOpen, setMergedOpen] = useMergedState(undefined, {
+  const [mergedOpen, setMergedOpen] = useMergedState(defaultOpen, {
     value: open,
     postState: origin =>
       mergedCurrent < 0 || mergedCurrent >= steps.length
@@ -112,11 +114,19 @@ const Tour: React.FC<TourProps> = props => {
   const mergedMask = mergedOpen && (stepMask ?? mask);
   const mergedScrollIntoViewOptions =
     stepScrollIntoViewOptions ?? scrollIntoViewOptions;
+
+  // ====================== Align Target ======================
+  const placeholderRef = React.useRef<HTMLDivElement>(null);
+
+  const inlineMode = getPopupContainer === false;
+
   const [posInfo, targetElement] = useTarget(
     target,
     open,
     gap,
     mergedScrollIntoViewOptions,
+    inlineMode,
+    placeholderRef,
   );
   const mergedPlacement = getPlacement(targetElement, placement, stepPlacement);
 
@@ -198,6 +208,7 @@ const Tour: React.FC<TourProps> = props => {
   return (
     <>
       <Mask
+        getPopupContainer={getPopupContainer}
         styles={styles}
         classNames={tourClassNames}
         zIndex={zIndex}
@@ -213,6 +224,8 @@ const Tour: React.FC<TourProps> = props => {
       />
       <Trigger
         {...restProps}
+        // `rc-portal` def bug not support `false` but does support and in used.
+        getPopupContainer={getPopupContainer as any}
         builtinPlacements={mergedBuiltinPlacements}
         ref={triggerRef}
         popupStyle={stepStyle}
@@ -227,8 +240,13 @@ const Tour: React.FC<TourProps> = props => {
         getTriggerDOMNode={getTriggerDOMNode}
         arrow={!!mergedArrow}
       >
-        <Portal open={mergedOpen} autoLock>
+        <Portal
+          open={mergedOpen}
+          autoLock={!inlineMode}
+          getContainer={getPopupContainer as any}
+        >
           <div
+            ref={placeholderRef}
             className={classNames(
               className,
               rootClassName,
@@ -236,7 +254,7 @@ const Tour: React.FC<TourProps> = props => {
             )}
             style={{
               ...(posInfo || CENTER_PLACEHOLDER),
-              position: 'fixed',
+              position: inlineMode ? 'absolute' : 'fixed',
               pointerEvents: 'none',
               ...style,
             }}
