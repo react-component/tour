@@ -56,10 +56,14 @@ const Mask = (props: MaskProps) => {
     ? { width: '100%', height: '100%' }
     : { width: '100vw', height: '100vh' };
 
+  const inlineMode = getPopupContainer === false;
+
+  console.log('<<>>>>', pos);
+
   return (
     <Portal
       open={open}
-      autoLock={getPopupContainer !== false}
+      autoLock={!inlineMode}
       getContainer={getPopupContainer as any}
     >
       <div
@@ -69,7 +73,7 @@ const Mask = (props: MaskProps) => {
           tourClassNames?.mask,
         )}
         style={{
-          position: 'fixed',
+          position: inlineMode ? 'absolute' : 'fixed',
           left: 0,
           right: 0,
           top: 0,
@@ -117,32 +121,40 @@ const Mask = (props: MaskProps) => {
             {/* Block click region */}
             {pos && (
               <>
-                <rect
-                  {...COVER_PROPS}
-                  x="0"
-                  y="0"
-                  width="100%"
-                  height={pos.top}
-                />
-                <rect
-                  {...COVER_PROPS}
-                  x="0"
-                  y="0"
-                  width={pos.left}
-                  height="100%"
-                />
+                {/* Top */}
+                {pos.top > 0 && (
+                  <rect
+                    {...COVER_PROPS}
+                    x="0"
+                    y="0"
+                    width="100%"
+                    height={pos.top}
+                  />
+                )}
+                {/* Left */}
+                {pos.left > 0 && (
+                  <rect
+                    {...COVER_PROPS}
+                    x="0"
+                    y="0"
+                    width={pos.left}
+                    height="100%"
+                  />
+                )}
+                {/* Bottom */}
                 <rect
                   {...COVER_PROPS}
                   x="0"
                   y={pos.top + pos.height}
                   width="100%"
-                  height={`calc(100vh - ${pos.top + pos.height}px)`}
+                  height={`calc(100% - ${pos.top + pos.height}px)`}
                 />
+                {/* Right */}
                 <rect
                   {...COVER_PROPS}
                   x={pos.left + pos.width}
                   y="0"
-                  width={`calc(100vw - ${pos.left + pos.width}px)`}
+                  width={`calc(100% - ${pos.left + pos.width}px)`}
                   height="100%"
                 />
               </>

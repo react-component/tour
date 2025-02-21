@@ -55,6 +55,16 @@ export default function useTarget(
         targetElement.getBoundingClientRect();
       const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 };
 
+      // If `inlineMode` we need cut off parent offset
+      if (inlineMode && placeholderRef.current) {
+        const parentRect =
+          placeholderRef.current.parentElement?.getBoundingClientRect();
+        console.log(parentRect);
+
+        nextPosInfo.left -= parentRect?.left ?? 0;
+        nextPosInfo.top -= parentRect?.top ?? 0;
+      }
+
       setPosInfo(origin => {
         if (JSON.stringify(origin) !== JSON.stringify(nextPosInfo)) {
           return nextPosInfo;

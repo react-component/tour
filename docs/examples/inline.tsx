@@ -3,7 +3,9 @@ import Tour from '../../src/index';
 import './basic.less';
 
 const App = () => {
+  const [open, setOpen] = React.useState(true);
   const createBtnRef = useRef<HTMLButtonElement>(null);
+
   return (
     <div style={{ margin: 20 }}>
       <div
@@ -14,19 +16,30 @@ const App = () => {
           display: 'flex',
           alignItems: 'flex-start',
           justifyContent: 'center',
+          // justifyContent: 'right',
           position: 'relative',
+          overflow: 'hidden',
         }}
         id="inlineHolder"
       >
-        <button className="ant-target" ref={createBtnRef}>
-          Create
+        <button
+          className="ant-target"
+          ref={createBtnRef}
+          onClick={() => {
+            setOpen(true);
+          }}
+        >
+          Show
         </button>
 
         <Tour
-          defaultOpen
+          open={open}
           defaultCurrent={0}
           getPopupContainer={false}
-          style={{ background: 'red' }}
+          onClose={() => {
+            setOpen(false);
+          }}
+          // style={{ background: 'red' }}
           steps={[
             {
               title: '创建',
