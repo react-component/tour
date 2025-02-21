@@ -77,7 +77,7 @@ export interface TourProps extends Pick<TriggerProps, 'onPopupAlign'> {
   animated?: boolean | { placeholder: boolean };
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
   zIndex?: number;
-  getPopupContainer?: TriggerProps['getPopupContainer'];
+  getPopupContainer?: TriggerProps['getPopupContainer'] | false;
   builtinPlacements?:
     | TriggerProps['builtinPlacements']
     | ((config?: {

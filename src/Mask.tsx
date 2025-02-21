@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Portal from '@rc-component/portal';
 import type { PosInfo } from './hooks/useTarget';
 import useId from 'rc-util/lib/hooks/useId';
-import { SemanticName } from './interface';
+import type { SemanticName, TourProps } from './interface';
 
 const COVER_PROPS = {
   fill: 'transparent',
@@ -24,6 +24,7 @@ export interface MaskProps {
   disabledInteraction?: boolean;
   classNames?: Partial<Record<SemanticName, string>>;
   styles?: Partial<Record<SemanticName, React.CSSProperties>>;
+  getPopupContainer?: TourProps['getPopupContainer'];
 }
 
 const Mask = (props: MaskProps) => {
@@ -33,13 +34,14 @@ const Mask = (props: MaskProps) => {
     pos,
     showMask,
     style = {},
-    fill = "rgba(0,0,0,0.5)",
+    fill = 'rgba(0,0,0,0.5)',
     open,
     animated,
     zIndex,
     disabledInteraction,
     styles,
     classNames: tourClassNames,
+    getPopupContainer,
   } = props;
 
   const id = useId();
@@ -47,13 +49,25 @@ const Mask = (props: MaskProps) => {
   const mergedAnimated =
     typeof animated === 'object' ? animated?.placeholder : animated;
 
-  const isSafari = typeof navigator !== 'undefined' && /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-  const maskRectSize = isSafari ? { width: '100%', height: '100%' } : { width: '100vw', height: '100vh'};
+  const isSafari =
+    typeof navigator !== 'undefined' &&
+    /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const maskRectSize = isSafari
+    ? { width: '100%', height: '100%' }
+    : { width: '100vw', height: '100vh' };
 
   return (
-    <Portal open={open} autoLock>
+    <Portal
+      open={open}
+      autoLock={getPopupContainer !== false}
+      getContainer={getPopupContainer as any}
+    >
       <div
-        className={classNames(`${prefixCls}-mask`, rootClassName, tourClassNames?.mask)}
+        className={classNames(
+          `${prefixCls}-mask`,
+          rootClassName,
+          tourClassNames?.mask,
+        )}
         style={{
           position: 'fixed',
           left: 0,

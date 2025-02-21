@@ -25,6 +25,8 @@ export default function useTarget(
   open: boolean,
   gap?: Gap,
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions,
+  inlineMode?: boolean,
+  placeholderRef?: React.RefObject<HTMLDivElement>,
 ): [PosInfo, HTMLElement] {
   // ========================= Target =========================
   // We trade `undefined` as not get target by function yet.

@@ -14,7 +14,9 @@ const App = () => {
           display: 'flex',
           alignItems: 'flex-start',
           justifyContent: 'center',
+          position: 'relative',
         }}
+        id="inlineHolder"
       >
         <button className="ant-target" ref={createBtnRef}>
           Create
@@ -24,6 +26,7 @@ const App = () => {
           defaultOpen
           defaultCurrent={0}
           getPopupContainer={false}
+          style={{ background: 'red' }}
           steps={[
             {
               title: '创建',
@@ -34,6 +37,8 @@ const App = () => {
           ]}
         />
       </div>
+
+      <div style={{ height: '200vh' }} />
     </div>
   );
 };
