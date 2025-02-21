@@ -59,7 +59,6 @@ export default function useTarget(
       if (inlineMode && placeholderRef.current) {
         const parentRect =
           placeholderRef.current.parentElement?.getBoundingClientRect();
-        console.log(parentRect);
 
         nextPosInfo.left -= parentRect?.left ?? 0;
         nextPosInfo.top -= parentRect?.top ?? 0;

@@ -1197,4 +1197,32 @@ describe('Tour', () => {
     expect(footerElement.style.borderTop).toBe('1px solid black');
     expect(descriptionElement.style.fontStyle).toBe('italic');
   });
+
+  it('inline', async () => {
+    const Demo = () => {
+      const btnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div className="bamboo">
+          <button ref={btnRef}>按钮</button>
+          <Tour
+            open
+            getPopupContainer={false}
+            steps={[
+              {
+                title: '创建',
+                description: <div className="little" />,
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+    render(<Demo />);
+    const container = document.querySelector('.bamboo');
+    const children = container.querySelector('.little');
+
+    // Check container has children
+    expect(children).toBeTruthy();
+  });
 });
