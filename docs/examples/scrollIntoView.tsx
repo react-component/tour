@@ -32,7 +32,7 @@ const App = () => {
         >
           Create
         </button>
-        <div style={{ height: 1000 }} />
+        <div style={{ height: 1500 }} />
         <button className="ant-target" ref={updateBtnRef}>
           Update
         </button>
@@ -65,7 +65,7 @@ const App = () => {
             ),
             target: () => updateBtnRef.current,
             scrollIntoViewOptions: {
-              block: 'start'
+              block: 'start', behavior:'smooth'
             }
           },
           {
