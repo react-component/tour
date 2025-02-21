@@ -56,12 +56,14 @@ export default function useTarget(
       const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 };
 
       // If `inlineMode` we need cut off parent offset
-      if (inlineMode && placeholderRef.current) {
+      if (inlineMode) {
         const parentRect =
-          placeholderRef.current.parentElement?.getBoundingClientRect();
+          placeholderRef.current?.parentElement?.getBoundingClientRect();
 
-        nextPosInfo.left -= parentRect?.left ?? 0;
-        nextPosInfo.top -= parentRect?.top ?? 0;
+        if (parentRect) {
+          nextPosInfo.left -= parentRect.left;
+          nextPosInfo.top -= parentRect.top;
+        }
       }
 
       setPosInfo(origin => {
