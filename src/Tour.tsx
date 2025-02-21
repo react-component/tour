@@ -38,6 +38,7 @@ const Tour: React.FC<TourProps> = props => {
     onClose,
     onFinish,
     open,
+    defaultOpen,
     mask = true,
     arrow = true,
     rootClassName,
@@ -65,7 +66,7 @@ const Tour: React.FC<TourProps> = props => {
     defaultValue: defaultCurrent,
   });
 
-  const [mergedOpen, setMergedOpen] = useMergedState(undefined, {
+  const [mergedOpen, setMergedOpen] = useMergedState(defaultOpen, {
     value: open,
     postState: origin =>
       mergedCurrent < 0 || mergedCurrent >= steps.length
