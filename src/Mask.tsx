@@ -58,8 +58,6 @@ const Mask = (props: MaskProps) => {
 
   const inlineMode = getPopupContainer === false;
 
-  console.log('<<>>>>', pos);
-
   return (
     <Portal
       open={open}
@@ -122,25 +120,22 @@ const Mask = (props: MaskProps) => {
             {pos && (
               <>
                 {/* Top */}
-                {pos.top > 0 && (
-                  <rect
-                    {...COVER_PROPS}
-                    x="0"
-                    y="0"
-                    width="100%"
-                    height={pos.top}
-                  />
-                )}
+
+                <rect
+                  {...COVER_PROPS}
+                  x="0"
+                  y="0"
+                  width="100%"
+                  height={Math.max(pos.top, 0)}
+                />
                 {/* Left */}
-                {pos.left > 0 && (
-                  <rect
-                    {...COVER_PROPS}
-                    x="0"
-                    y="0"
-                    width={pos.left}
-                    height="100%"
-                  />
-                )}
+                <rect
+                  {...COVER_PROPS}
+                  x="0"
+                  y="0"
+                  width={Math.max(pos.left, 0)}
+                  height="100%"
+                />
                 {/* Bottom */}
                 <rect
                   {...COVER_PROPS}
