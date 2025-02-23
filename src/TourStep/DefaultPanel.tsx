@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { TourStepProps } from '../interface';
 import classNames from 'classnames';
-import pickAttrs from 'rc-util/lib/pickAttrs';
+import pickAttrs from '@rc-component/util/lib/pickAttrs';
 
 export type DefaultPanelProps = Exclude<TourStepProps, 'closable'> & {
   closable: Exclude<TourStepProps['closable'], boolean>;
