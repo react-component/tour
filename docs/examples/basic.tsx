@@ -2,33 +2,22 @@ import React, { useRef } from 'react';
 import Tour from '../../src/index';
 import './basic.less';
 
-const App = () => {
+const Demo = () => {
   const createBtnRef = useRef<HTMLButtonElement>(null);
   const updateBtnRef = useRef<HTMLButtonElement>(null);
   const deleteBtnRef = useRef<HTMLButtonElement>(null);
   return (
     <div style={{ margin: 20 }}>
       <div>
-        <button
-          className="ant-target"
-          ref={createBtnRef}
-          style={{ marginLeft: 100 }}
-        >
-          Create
-        </button>
+        <button ref={createBtnRef}>Create</button>
         <div style={{ height: 200 }} />
-        <button className="ant-target" ref={updateBtnRef}>
-          Update
-        </button>
-        <button className="ant-target" ref={deleteBtnRef}>
-          Delete
-        </button>
+        <button ref={updateBtnRef}>Update</button>
+        <button ref={deleteBtnRef}>Delete</button>
       </div>
-
       <div style={{ height: 200 }} />
 
       <Tour
-        defaultCurrent={2}
+        defaultCurrent={1}
         steps={[
           {
             title: '创建',
@@ -47,21 +36,10 @@ const App = () => {
             target: () => updateBtnRef.current,
           },
           {
-            title: '更新（无阴影）',
-            description: (
-              <div>
-                <span>更新一条数据</span>
-                <button>帮助文档</button>
-              </div>
-            ),
-            mask: false,
-            target: () => updateBtnRef.current,
-          },
-          {
             title: '删除',
             description: (
               <div>
-                <span>危险操作：删除一条数据</span>
+                <span>危险操作:删除一条数据</span>
                 <button>帮助文档</button>
               </div>
             ),
@@ -75,4 +53,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Demo;

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
+import { spyElementPrototypes } from '@rc-component/util/lib/test/domHook';
 import type { ReactNode } from 'react';
 import React, { StrictMode, useRef, useState } from 'react';
 import { act } from 'react-dom/test-utils';
@@ -208,7 +208,7 @@ describe('Tour', () => {
     expect(getByText('危险操作:删除一条数据')).toBeTruthy();
     expect(document.querySelector('.rc-tour')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
-    expect(document.querySelector('.rc-tour')).toBeFalsy();
+    expect(document.querySelector('.rc-tour-hidden')).toBeTruthy();
     expect(baseElement).toMatchSnapshot();
   });
 

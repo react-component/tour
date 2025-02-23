@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import Portal from '@rc-component/portal';
 import type { PosInfo } from './hooks/useTarget';
-import useId from 'rc-util/lib/hooks/useId';
+import useId from '@rc-component/util/lib/hooks/useId';
 import type { SemanticName, TourProps } from './interface';
 
 const COVER_PROPS = {
