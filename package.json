@@ -1,6 +1,6 @@
 {
   "name": "@rc-component/tour",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "React tour Component",
   "keywords": [
     "react",
@@ -40,7 +40,7 @@
     "watch": "father dev"
   },
   "dependencies": {
-    "@rc-component/portal": "^1.0.0-9",
+    "@rc-component/portal": "^2.0.0",
     "@rc-component/trigger": "^3.0.0",
     "@rc-component/util": "^1.2.1",
     "classnames": "^2.3.2"
