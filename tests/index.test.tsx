@@ -147,7 +147,7 @@ describe('Tour', () => {
     });
   });
 
-  it('basic1', () => {
+  it('basic', () => {
     const Demo = () => {
       const createBtnRef = useRef<HTMLButtonElement>(null);
       const updateBtnRef = useRef<HTMLButtonElement>(null);
