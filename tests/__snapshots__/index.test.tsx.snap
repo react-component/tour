@@ -306,7 +306,7 @@ exports[`Tour animated true 1`] = `
 </body>
 `;
 
-exports[`Tour basic 1`] = `
+exports[`Tour basic1 1`] = `
 <body>
   <div>
     <div
