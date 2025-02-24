@@ -987,6 +987,44 @@ exports[`Tour should keep current when controlled 1`] = `
   </div>
   <div>
     <div
+      class="rc-tour-mask"
+      style="position: fixed; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 1001; pointer-events: auto;"
+    >
+      <svg
+        style="width: 100%; height: 100%;"
+      >
+        <defs>
+          <mask
+            id="rc-tour-mask-test-id"
+          >
+            <rect
+              fill="white"
+              height="100vh"
+              width="100vw"
+              x="0"
+              y="0"
+            />
+          </mask>
+        </defs>
+        <rect
+          fill="rgba(0,0,0,0.5)"
+          height="100%"
+          mask="url(#rc-tour-mask-test-id)"
+          width="100%"
+          x="0"
+          y="0"
+        />
+      </svg>
+    </div>
+  </div>
+  <div>
+    <div
+      class="rc-tour-target-placeholder"
+      style="left: 50%; top: 50%; width: 1px; height: 1px; position: fixed; pointer-events: none;"
+    />
+  </div>
+  <div>
+    <div
       class="rc-tour"
       style="--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: -1000vh; box-sizing: border-box; z-index: 1001;"
     >
@@ -1053,6 +1091,18 @@ exports[`Tour should keep current when controlled 1`] = `
       </div>
     </div>
   </div>
+</body>
+`;
+
+exports[`Tour should return step 1 when reopen 1`] = `
+<body>
+  <div>
+    <button
+      class="open-tour"
+    >
+      open
+    </button>
+  </div>
   <div>
     <div
       class="rc-tour-mask"
@@ -1090,18 +1140,6 @@ exports[`Tour should keep current when controlled 1`] = `
       class="rc-tour-target-placeholder"
       style="left: 50%; top: 50%; width: 1px; height: 1px; position: fixed; pointer-events: none;"
     />
-  </div>
-</body>
-`;
-
-exports[`Tour should return step 1 when reopen 1`] = `
-<body>
-  <div>
-    <button
-      class="open-tour"
-    >
-      open
-    </button>
   </div>
   <div>
     <div
@@ -1165,44 +1203,6 @@ exports[`Tour should return step 1 when reopen 1`] = `
         </div>
       </div>
     </div>
-  </div>
-  <div>
-    <div
-      class="rc-tour-mask"
-      style="position: fixed; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 1001; pointer-events: auto;"
-    >
-      <svg
-        style="width: 100%; height: 100%;"
-      >
-        <defs>
-          <mask
-            id="rc-tour-mask-test-id"
-          >
-            <rect
-              fill="white"
-              height="100vh"
-              width="100vw"
-              x="0"
-              y="0"
-            />
-          </mask>
-        </defs>
-        <rect
-          fill="rgba(0,0,0,0.5)"
-          height="100%"
-          mask="url(#rc-tour-mask-test-id)"
-          width="100%"
-          x="0"
-          y="0"
-        />
-      </svg>
-    </div>
-  </div>
-  <div>
-    <div
-      class="rc-tour-target-placeholder"
-      style="left: 50%; top: 50%; width: 1px; height: 1px; position: fixed; pointer-events: none;"
-    />
   </div>
 </body>
 `;
