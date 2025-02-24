@@ -208,7 +208,7 @@ describe('Tour', () => {
     expect(getByText('危险操作:删除一条数据')).toBeTruthy();
     expect(document.querySelector('.rc-tour')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
-    expect(document.querySelector('.rc-tour-hidden')).toBeTruthy();
+    expect(document.querySelector('.rc-tour')).toBeFalsy();
     expect(baseElement).toMatchSnapshot();
   });
 
