@@ -49,8 +49,8 @@ export default function useTarget(
       // Exist target element. We should scroll and get target position
       if (!isInViewPort(targetElement) && open) {
         targetElement.scrollIntoView(scrollIntoViewOptions);
+        return;
       }
-
       const { left, top, width, height } =
         targetElement.getBoundingClientRect();
       const nextPosInfo: PosInfo = { left, top, width, height, radius: 0 };
@@ -81,12 +81,23 @@ export default function useTarget(
   const getGapOffset = (index: number) =>
     (Array.isArray(gap?.offset) ? gap?.offset[index] : gap?.offset) ?? 6;
 
+  const scrollEndUpdatePos = ()=>{
+    if(window.requestAnimationFrame){
+      window.requestAnimationFrame(updatePos);
+      return;
+    }
+    setTimeout(updatePos,1000/60);
+  }
+
   useLayoutEffect(() => {
     updatePos();
     // update when window resize
     window.addEventListener('resize', updatePos);
+    // update when window scroll end
+    window.addEventListener('scrollend',scrollEndUpdatePos);
     return () => {
       window.removeEventListener('resize', updatePos);
+      window.removeEventListener('scrollend',scrollEndUpdatePos);
     };
   }, [targetElement, open, updatePos]);
 
