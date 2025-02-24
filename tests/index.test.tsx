@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
+import { spyElementPrototypes } from '@rc-component/lib/test/domHook';
 import type { ReactNode } from 'react';
 import React, { StrictMode, useRef, useState } from 'react';
 import { act } from 'react-dom/test-utils';

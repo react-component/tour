@@ -40,11 +40,10 @@
     "watch": "father dev"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0",
-    "@rc-component/portal": "^1.0.0-9",
+    "@rc-component/portal": "^2.0.0",
     "@rc-component/trigger": "^2.0.0",
-    "classnames": "^2.3.2",
-    "rc-util": "^5.24.4"
+    "@rc-component/util": "^1.2.1",
+    "classnames": "^2.3.2"
   },
   "devDependencies": {
     "@rc-component/father-plugin": "^2.0.3",
