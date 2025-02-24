@@ -235,7 +235,7 @@ const Tour: React.FC<TourProps> = props => {
         prefixCls={prefixCls}
         popup={getPopupElement}
         forceRender={false}
-        destroyPopupOnHide
+        autoDestroy
         zIndex={zIndex}
         getTriggerDOMNode={getTriggerDOMNode}
         arrow={!!mergedArrow}

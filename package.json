@@ -36,12 +36,12 @@
     "prepublishOnly": "npm run compile && rc-np",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "start": "dumi dev",
-    "test": "umi-test",
+    "test": "rc-test",
     "watch": "father dev"
   },
   "dependencies": {
     "@rc-component/portal": "^2.0.0",
-    "@rc-component/trigger": "^2.0.0",
+    "@rc-component/trigger": "^3.0.0",
     "@rc-component/util": "^1.2.1",
     "classnames": "^2.3.2"
   },
@@ -60,10 +60,10 @@
     "father": "^4.0.0",
     "gh-pages": "^3.1.0",
     "prettier": "^3.0.0",
+    "rc-test": "^7.1.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "typescript": "^5.0.0",
-    "umi-test": "^1.9.7"
+    "typescript": "^5.0.0"
   },
   "peerDependencies": {
     "react": ">=16.9.0",
