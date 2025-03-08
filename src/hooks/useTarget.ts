@@ -85,8 +85,12 @@ export default function useTarget(
     updatePos();
     // update when window resize
     window.addEventListener('resize', updatePos);
+    // update when `document.body.style.overflow` is set to visible
+    // by default, it will be set to hidden
+    window.addEventListener('scroll', updatePos);
     return () => {
       window.removeEventListener('resize', updatePos);
+      window.removeEventListener('scroll', updatePos);
     };
   }, [targetElement, open, updatePos]);
 
