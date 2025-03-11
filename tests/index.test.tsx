@@ -7,7 +7,7 @@ import type { TourProps } from '../src/index';
 import Tour from '../src/index';
 import { getPlacements, placements } from '../src/placements';
 import { getPlacement } from '../src/util';
-import { resizeWindow } from './utils';
+import { resizeWindow, scrollWindow } from './utils';
 
 const mockBtnRect = (
   rect: {
@@ -1224,5 +1224,69 @@ describe('Tour', () => {
 
     // Check container has children
     expect(children).toBeTruthy();
+  });
+
+  it('should update position when window scroll', async () => {
+    mockBtnRect({
+      x: 80,
+      y: 333,
+      width: 230,
+      height: 180,
+    });
+    const Demo = () => {
+      const btnRef = useRef<HTMLButtonElement>(null);
+
+      return (
+        <div style={{ width: '100%' }}>
+          <button
+            className="btn2"
+            ref={btnRef}
+            onClick={() => {
+              mockBtnRect({
+                x: 80,
+                y: 800,
+                width: 230,
+                height: 180,
+              });
+              scrollWindow(0, 800);
+            }}
+          >
+            按钮
+          </button>
+          <Tour
+            open
+            placement={'bottom'}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+    const { baseElement, unmount } = render(<Demo />);
+    expect(
+      baseElement.querySelector('.rc-tour-target-placeholder'),
+    ).toHaveStyle('left: 74px; top: 327px; width: 242px; height: 192px;');
+    fireEvent.click(baseElement.querySelector('.btn2'));
+    await act(() => {
+      jest.runAllTimers();
+    });
+    expect(
+      baseElement.querySelector('.rc-tour-target-placeholder'),
+    ).toHaveStyle('left: 74px; top: 794px; width: 242px; height: 192px;');
+
+    expect(baseElement).toMatchSnapshot();
+
+    unmount();
+    mockBtnRect({
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    });
   });
 });
