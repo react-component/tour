@@ -13,6 +13,11 @@ export type SemanticName =
   | 'description'
   | 'mask';
 
+
+export type HTMLAriaDataAttributes = React.AriaAttributes & {
+  [key: `data-${string}`]: unknown;
+} & Pick<React.HTMLAttributes<HTMLDivElement>, 'role'>;
+
 export interface TourStepInfo {
   arrow?: boolean | { pointAtCenter: boolean };
   target?: HTMLElement | (() => HTMLElement) | null | (() => null);
@@ -30,7 +35,7 @@ export interface TourStepInfo {
   style?: CSSProperties;
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
   closeIcon?: ReactNode;
-  closable?: boolean | ({ closeIcon?: ReactNode } & React.AriaAttributes);
+  closable?: boolean | ({ closeIcon?: ReactNode } & HTMLAriaDataAttributes);
 }
 
 export interface TourStepProps extends TourStepInfo {
