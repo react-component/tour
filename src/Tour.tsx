@@ -202,7 +202,7 @@ const Tour: React.FC<TourProps> = props => {
     typeof mergedMask === 'boolean' ? undefined : mergedMask;
 
   // when targetElement is not exist, use body as triggerDOMNode
-  const proxyDom = () => {
+  const fallbackDOM = () => {
     return targetElement || document.body;
   };
 
@@ -245,7 +245,7 @@ const Tour: React.FC<TourProps> = props => {
           autoLock={!inlineMode}
           getContainer={getPopupContainer as any}
           domRef={placeholderRef}
-          proxyDom={proxyDom}
+          fallbackDOM={fallbackDOM}
           className={classNames(
             className,
             rootClassName,

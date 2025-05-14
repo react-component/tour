@@ -6,15 +6,22 @@ export interface PlaceholderProps
   domRef: React.RefObject<HTMLDivElement>;
   className: string;
   style: React.CSSProperties;
-  proxyDom: () => HTMLElement | null;
+  fallbackDOM: () => HTMLElement | null;
 }
 
 const Placeholder = React.forwardRef<HTMLElement, PlaceholderProps>(
   (props, ref) => {
-    const { open, autoLock, getContainer, domRef, className, style, proxyDom } =
-      props;
+    const {
+      open,
+      autoLock,
+      getContainer,
+      domRef,
+      className,
+      style,
+      fallbackDOM,
+    } = props;
 
-    React.useImperativeHandle(ref, () => domRef.current || proxyDom());
+    React.useImperativeHandle(ref, () => domRef.current || fallbackDOM());
 
     return (
       <Portal open={open} autoLock={autoLock} getContainer={getContainer}>
