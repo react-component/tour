@@ -14,6 +14,7 @@ import Mask from './Mask';
 import { getPlacements } from './placements';
 import TourStep from './TourStep';
 import { getPlacement } from './util';
+import Placeholder from './Placeholder';
 
 const CENTER_PLACEHOLDER: React.CSSProperties = {
   left: '50%',
@@ -201,8 +202,8 @@ const Tour: React.FC<TourProps> = props => {
     typeof mergedMask === 'boolean' ? undefined : mergedMask;
 
   // when targetElement is not exist, use body as triggerDOMNode
-  const getTriggerDOMNode = node => {
-    return node || targetElement || document.body;
+  const fallbackDOM = () => {
+    return targetElement || document.body;
   };
 
   return (
@@ -237,29 +238,26 @@ const Tour: React.FC<TourProps> = props => {
         forceRender={false}
         autoDestroy
         zIndex={zIndex}
-        getTriggerDOMNode={getTriggerDOMNode}
         arrow={!!mergedArrow}
       >
-        <Portal
+        <Placeholder
           open={mergedOpen}
           autoLock={!inlineMode}
           getContainer={getPopupContainer as any}
-        >
-          <div
-            ref={placeholderRef}
-            className={classNames(
-              className,
-              rootClassName,
-              `${prefixCls}-target-placeholder`,
-            )}
-            style={{
-              ...(posInfo || CENTER_PLACEHOLDER),
-              position: inlineMode ? 'absolute' : 'fixed',
-              pointerEvents: 'none',
-              ...style,
-            }}
-          />
-        </Portal>
+          domRef={placeholderRef}
+          fallbackDOM={fallbackDOM}
+          className={classNames(
+            className,
+            rootClassName,
+            `${prefixCls}-target-placeholder`,
+          )}
+          style={{
+            ...(posInfo || CENTER_PLACEHOLDER),
+            position: inlineMode ? 'absolute' : 'fixed',
+            pointerEvents: 'none',
+            ...style,
+          }}
+        />
       </Trigger>
     </>
   );
