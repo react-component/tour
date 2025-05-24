@@ -140,3 +140,9 @@ We use typescript to create the Type definition. You can view directly in IDE. B
 | className | `string` | - | - |
 | style | `React.CSSProperties` | - | - |
 | scrollIntoViewOptions | `boolean \| ScrollIntoViewOptions` | `true` | 是否支持当前元素滚动到视窗内，也可传入配置指定滚动视窗的相关参数，默认跟随 Tour 的 `scrollIntoViewOptions` 属性 |
+
+## 🤝 Contributing 
+
+<a href="https://openomy.app/github/react-component/tour" target="_blank" style="display: block; width: 100%;" align="center">
+  <img src="https://openomy.app/svg?repo=react-component/tour&chart=bubble&latestMonth=24" target="_blank" alt="Contribution Leaderboard" style="display: block; width: 100%;" />
+</a>
