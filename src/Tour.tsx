@@ -9,7 +9,7 @@ import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 import { useMemo } from 'react';
 import { useClosable } from './hooks/useClosable';
 import useTarget from './hooks/useTarget';
-import type { TourProps } from './interface';
+import type { TourProps, TourRef } from './interface';
 import Mask from './Mask';
 import { getPlacements } from './placements';
 import TourStep from './TourStep';
@@ -29,7 +29,8 @@ const defaultScrollIntoViewOptions: ScrollIntoViewOptions = {
 
 export type { TourProps };
 
-const Tour: React.FC<TourProps> = props => {
+const Tour = React.forwardRef<TourRef, TourProps>((props: TourProps, ref) => {
+  
   const {
     prefixCls = 'rc-tour',
     steps = [],
@@ -75,6 +76,35 @@ const Tour: React.FC<TourProps> = props => {
         ? false
         : (origin ?? true),
   });
+
+  // ========================= Change =========================
+  const onInternalChange = (nextCurrent: number) => {
+    setMergedCurrent(nextCurrent);
+    onChange?.(nextCurrent);
+  };
+
+  const handleClose = () => {
+    setMergedOpen(false);
+    onClose?.(mergedCurrent);
+  };
+
+  const handlePrev = () => {
+    onInternalChange(mergedCurrent - 1);
+  };
+  const handleNext = () => {
+    onInternalChange(mergedCurrent + 1);
+  };
+  const handleFinish = () => {
+    handleClose();
+    onFinish?.();
+  };
+
+  React.useImperativeHandle(ref, () => ({
+    next: handleNext,
+    prev: handlePrev,
+    close: handleClose,
+    finish: handleFinish,
+  }));
 
   // Record if already rended in the DOM to avoid `findDOMNode` issue
   const [hasOpened, setHasOpened] = React.useState(mergedOpen);
@@ -144,11 +174,6 @@ const Tour: React.FC<TourProps> = props => {
     triggerRef.current?.forceAlign();
   }, [arrowPointAtCenter, mergedCurrent]);
 
-  // ========================= Change =========================
-  const onInternalChange = (nextCurrent: number) => {
-    setMergedCurrent(nextCurrent);
-    onChange?.(nextCurrent);
-  };
 
   const mergedBuiltinPlacements = useMemo(() => {
     if (builtinPlacements) {
@@ -165,10 +190,6 @@ const Tour: React.FC<TourProps> = props => {
     return null;
   }
 
-  const handleClose = () => {
-    setMergedOpen(false);
-    onClose?.(mergedCurrent);
-  };
 
   const getPopupElement = () => (
     <TourStep
@@ -179,18 +200,11 @@ const Tour: React.FC<TourProps> = props => {
       prefixCls={prefixCls}
       total={steps.length}
       renderPanel={renderPanel}
-      onPrev={() => {
-        onInternalChange(mergedCurrent - 1);
-      }}
-      onNext={() => {
-        onInternalChange(mergedCurrent + 1);
-      }}
+      onPrev={handlePrev}
+      onNext={handleNext}
       onClose={handleClose}
       current={mergedCurrent}
-      onFinish={() => {
-        handleClose();
-        onFinish?.();
-      }}
+      onFinish={handleFinish}
       {...steps[mergedCurrent]}
       closable={mergedClosable}
     />
@@ -261,6 +275,6 @@ const Tour: React.FC<TourProps> = props => {
       </Trigger>
     </>
   );
-};
+});
 
 export default Tour;

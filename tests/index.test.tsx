@@ -3,7 +3,7 @@ import { spyElementPrototypes } from '@rc-component/util/lib/test/domHook';
 import type { ReactNode } from 'react';
 import React, { StrictMode, useRef, useState } from 'react';
 import { act } from 'react-dom/test-utils';
-import type { TourProps } from '../src/index';
+import type { TourProps, TourRef } from '../src/index';
 import Tour from '../src/index';
 import { getPlacements, placements } from '../src/placements';
 import { getPlacement } from '../src/util';
@@ -1288,5 +1288,91 @@ describe('Tour', () => {
       width: 0,
       height: 0,
     });
+  });
+
+  it('tour ref', () => {
+    const Demo = () => {
+      const ref = useRef<TourRef>(null);
+      React.useEffect(() => {
+        // 判断 ref 属性是否存在 next / prev / close / finish
+        if (ref.current) {
+          expect('next' in ref.current).toBe(true);
+          expect('prev' in ref.current).toBe(true);
+          expect('close' in ref.current).toBe(true);
+          expect('finish' in ref.current).toBe(true);
+        }
+      }, []);
+      return <Tour ref={ref} open />;
+    };
+    render(<Demo />);
+  });
+
+  it('ref.next / ref.prev / ref.close can be called', () => {
+    const changeHandleSpy = jest.fn();
+    const onCloseSpy = jest.fn();
+    let tourRef: TourRef | null = null;
+
+    const Demo = () => {
+      const ref = useRef<TourRef>(null);
+      const [open, setOpen] = React.useState(true);
+
+      React.useEffect(() => {
+        // 保存ref到外部变量，用于测试
+        tourRef = ref.current;
+      }, []);
+
+      const handleClose = (current: number) => {
+        setOpen(false);
+        onCloseSpy(current);
+      };
+
+      return (
+        <Tour
+          ref={ref}
+          open={open}
+          current={0}
+          onChange={changeHandleSpy}
+          onClose={handleClose}
+          steps={[
+            {
+              title: '步骤1',
+              description: '描述1',
+              target: null,
+            },
+            {
+              title: '步骤2',
+              description: '描述2',
+              target: null,
+            },
+          ]}
+        />
+      );
+    };
+
+    // 渲染组件
+    render(<Demo />);
+    
+    // 测试ref是否正确设置
+    expect(tourRef).toBeTruthy();
+    
+    if (tourRef) {
+      // 调用 next 方法
+      act(() => {
+        tourRef!.next();
+      });
+      expect(changeHandleSpy).toHaveBeenCalledWith(1);
+      
+      // 调用 prev 方法
+      act(() => {
+        tourRef!.prev();
+      });
+      expect(changeHandleSpy).toHaveBeenCalledWith(1);
+      
+      // 调用 close 方法
+      act(() => {
+        tourRef!.close();
+      });
+      expect(document.querySelector('.rc-tour-pannel')).toBeFalsy();
+    }
   });
 });

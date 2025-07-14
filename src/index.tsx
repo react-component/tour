@@ -1,4 +1,4 @@
 import Tour from './Tour';
-export type { TourProps, TourStepInfo, TourStepProps } from './interface';
+export type { TourProps, TourStepInfo, TourStepProps, TourRef } from './interface';
 
 export default Tour;
