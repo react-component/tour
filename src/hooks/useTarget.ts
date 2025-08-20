@@ -5,7 +5,7 @@ import type { TourStepInfo } from '..';
 import { isInViewPort } from '../util';
 
 export interface Gap {
-  offset?: number | [number, number];
+  offset?: number | [number, number] | [number, number][];
   radius?: number;
 }
 
@@ -16,6 +16,8 @@ export interface PosInfo {
   width: number;
   radius: number;
 }
+const DEFAULT_GAP_OFFSET = 6;
+
 function isValidNumber(val) {
   return typeof val === 'number' && !Number.isNaN(val);
 }
@@ -27,6 +29,7 @@ export default function useTarget(
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions,
   inlineMode?: boolean,
   placeholderRef?: React.RefObject<HTMLDivElement>,
+  current?: number,
 ): [PosInfo, HTMLElement] {
   // ========================= Target =========================
   // We trade `undefined` as not get target by function yet.
@@ -78,8 +81,29 @@ export default function useTarget(
     }
   });
 
-  const getGapOffset = (index: number) =>
-    (Array.isArray(gap?.offset) ? gap?.offset[index] : gap?.offset) ?? 6;
+  const getGapOffset = (index: number): number => {
+    if (gap?.offset === undefined) return DEFAULT_GAP_OFFSET;
+    
+    if (typeof gap.offset === 'number') {
+      return gap.offset;
+    }
+    
+    if (Array.isArray(gap.offset)) {
+      // 如果是 [number, number] 格式
+      if (typeof gap.offset[0] === 'number') {
+        const tuple = gap.offset as [number, number];
+        return tuple[index] ?? DEFAULT_GAP_OFFSET;
+      }
+      // 如果是 Array<[number, number]> 格式，根据当前 tour step 索引取对应元素
+      if (Array.isArray(gap.offset[0])) {
+        const arrayOfTuples = gap.offset as [number, number][];
+        const stepIndex = current ?? 0;
+        return arrayOfTuples[stepIndex]?.[index] ?? DEFAULT_GAP_OFFSET;
+      }
+    }
+    
+    return DEFAULT_GAP_OFFSET;
+  };
 
   useLayoutEffect(() => {
     updatePos();
@@ -111,7 +135,7 @@ export default function useTarget(
       height: posInfo.height + gapOffsetY * 2,
       radius: gapRadius,
     };
-  }, [posInfo, gap]);
+  }, [posInfo, gap, current]);
 
   return [mergedPosInfo, targetElement];
 }

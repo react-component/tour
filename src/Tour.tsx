@@ -158,6 +158,7 @@ const Tour = React.forwardRef<TourRef, TourProps>((props: TourProps, ref) => {
     mergedScrollIntoViewOptions,
     inlineMode,
     placeholderRef,
+    mergedCurrent,
   );
   const mergedPlacement = getPlacement(targetElement, placement, stepPlacement);
 
