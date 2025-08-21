@@ -29,7 +29,7 @@ export default function useTarget(
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions,
   inlineMode?: boolean,
   placeholderRef?: React.RefObject<HTMLDivElement>,
-  current?: number,
+  current: number = 0,
 ): [PosInfo, HTMLElement] {
   // ========================= Target =========================
   // We trade `undefined` as not get target by function yet.
