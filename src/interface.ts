@@ -13,7 +13,9 @@ export type SemanticName =
   | 'description'
   | 'mask';
 
-export type HTMLAriaDataAttributes = React.AriaAttributes & Record<`data-${string}`, unknown> & Pick<React.HTMLAttributes<HTMLDivElement>, 'role'>;
+export type HTMLAriaDataAttributes = React.AriaAttributes & {
+  [key: `data-${string}`]: unknown;
+} & Pick<React.HTMLAttributes<HTMLDivElement>, 'role'>;
 
 export interface TourStepInfo {
   arrow?: boolean | { pointAtCenter: boolean };

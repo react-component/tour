@@ -3,7 +3,7 @@ import { spyElementPrototypes } from '@rc-component/util/lib/test/domHook';
 import type { ReactNode } from 'react';
 import React, { StrictMode, useRef, useState } from 'react';
 import { act } from 'react-dom/test-utils';
-import type { TourProps, TourRef } from '../src/index';
+import type { TourProps } from '../src/index';
 import Tour from '../src/index';
 import { getPlacements, placements } from '../src/placements';
 import { getPlacement } from '../src/util';
