@@ -76,28 +76,6 @@ const Tour: React.FC<TourProps> = props => {
         : (origin ?? true),
   });
 
-  // ========================= Change =========================
-  const onInternalChange = (nextCurrent: number) => {
-    setMergedCurrent(nextCurrent);
-    onChange?.(nextCurrent);
-  };
-
-  const handleClose = () => {
-    setMergedOpen(false);
-    onClose?.(mergedCurrent);
-  };
-
-  const handlePrev = () => {
-    onInternalChange(mergedCurrent - 1);
-  };
-  const handleNext = () => {
-    onInternalChange(mergedCurrent + 1);
-  };
-  const handleFinish = () => {
-    handleClose();
-    onFinish?.();
-  };
-
   // Record if already rended in the DOM to avoid `findDOMNode` issue
   const [hasOpened, setHasOpened] = React.useState(mergedOpen);
 
@@ -150,7 +128,7 @@ const Tour: React.FC<TourProps> = props => {
     mergedScrollIntoViewOptions,
     inlineMode,
     placeholderRef,
-    mergedCurrent,
+    mergedCurrent
   );
   const mergedPlacement = getPlacement(targetElement, placement, stepPlacement);
 
@@ -167,6 +145,11 @@ const Tour: React.FC<TourProps> = props => {
     triggerRef.current?.forceAlign();
   }, [arrowPointAtCenter, mergedCurrent]);
 
+  // ========================= Change =========================
+  const onInternalChange = (nextCurrent: number) => {
+    setMergedCurrent(nextCurrent);
+    onChange?.(nextCurrent);
+  };
 
   const mergedBuiltinPlacements = useMemo(() => {
     if (builtinPlacements) {
@@ -183,6 +166,10 @@ const Tour: React.FC<TourProps> = props => {
     return null;
   }
 
+  const handleClose = () => {
+    setMergedOpen(false);
+    onClose?.(mergedCurrent);
+  };
 
   const getPopupElement = () => (
     <TourStep
@@ -193,11 +180,18 @@ const Tour: React.FC<TourProps> = props => {
       prefixCls={prefixCls}
       total={steps.length}
       renderPanel={renderPanel}
-      onPrev={handlePrev}
-      onNext={handleNext}
+      onPrev={() => {
+        onInternalChange(mergedCurrent - 1);
+      }}
+      onNext={() => {
+        onInternalChange(mergedCurrent + 1);
+      }}
       onClose={handleClose}
       current={mergedCurrent}
-      onFinish={handleFinish}
+      onFinish={() => {
+        handleClose();
+        onFinish?.();
+      }}
       {...steps[mergedCurrent]}
       closable={mergedClosable}
     />
