@@ -9,7 +9,7 @@ import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 import { useMemo } from 'react';
 import { useClosable } from './hooks/useClosable';
 import useTarget from './hooks/useTarget';
-import type { TourProps, TourRef } from './interface';
+import type { TourProps } from './interface';
 import Mask from './Mask';
 import { getPlacements } from './placements';
 import TourStep from './TourStep';
@@ -29,8 +29,7 @@ const defaultScrollIntoViewOptions: ScrollIntoViewOptions = {
 
 export type { TourProps };
 
-const Tour = React.forwardRef<TourRef, TourProps>((props: TourProps, ref) => {
-  
+const Tour: React.FC<TourProps> = props => {
   const {
     prefixCls = 'rc-tour',
     steps = [],
@@ -98,13 +97,6 @@ const Tour = React.forwardRef<TourRef, TourProps>((props: TourProps, ref) => {
     handleClose();
     onFinish?.();
   };
-
-  React.useImperativeHandle(ref, () => ({
-    next: handleNext,
-    prev: handlePrev,
-    close: handleClose,
-    finish: handleFinish,
-  }));
 
   // Record if already rended in the DOM to avoid `findDOMNode` issue
   const [hasOpened, setHasOpened] = React.useState(mergedOpen);
@@ -276,6 +268,6 @@ const Tour = React.forwardRef<TourRef, TourProps>((props: TourProps, ref) => {
       </Trigger>
     </>
   );
-});
+};
 
 export default Tour;

@@ -141,16 +141,6 @@ We use typescript to create the Type definition. You can view directly in IDE. B
 | style | `React.CSSProperties` | - | - |
 | scrollIntoViewOptions | `boolean \| ScrollIntoViewOptions` | `true` | 是否支持当前元素滚动到视窗内，也可传入配置指定滚动视窗的相关参数，默认跟随 Tour 的 `scrollIntoViewOptions` 属性 |
 
-### TourInstance
-<!-- prettier-ignore -->
-| 属性 | 类型 | 说明 | 版本 |
-| --- | --- | --- | --- |
-| next |  `() => void` | 跳转到下一步 | 2.2.0 |
-| prev |  `() => void` | 跳转到上一步 | 2.2.0 |
-| close |  `() => void` | 关闭步骤 | 2.2.0 |
-| finish |  `() => void` | 结束步骤 | 2.2.0 |
-
-
 ## 🤝 Contributing 
 
 <a href="https://openomy.app/github/react-component/tour" target="_blank" style="display: block; width: 100%;" align="center">

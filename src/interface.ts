@@ -13,20 +13,12 @@ export type SemanticName =
   | 'description'
   | 'mask';
 
-
 export type HTMLAriaDataAttributes = React.AriaAttributes & Record<`data-${string}`, unknown> & Pick<React.HTMLAttributes<HTMLDivElement>, 'role'>;
-
-export interface TourRef {
-  next: () => void;
-  prev: () => void;
-  close: () => void;
-  finish: () => void;
-}
 
 export interface TourStepInfo {
   arrow?: boolean | { pointAtCenter: boolean };
   target?: HTMLElement | (() => HTMLElement) | null | (() => null);
-  title?: ReactNode;
+  title: ReactNode;
   description?: ReactNode;
   placement?: PlacementType;
   mask?:
@@ -41,7 +33,6 @@ export interface TourStepInfo {
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
   closeIcon?: ReactNode;
   closable?: boolean | ({ closeIcon?: ReactNode } & HTMLAriaDataAttributes);
-  contentRender?: (next: () => void, prev: () => void, close: () => void, finish: () => void) => ReactNode;
 }
 
 export interface TourStepProps extends TourStepInfo {
@@ -55,7 +46,6 @@ export interface TourStepProps extends TourStepInfo {
   onNext?: () => void;
   classNames?: Partial<Record<SemanticName, string>>;
   styles?: Partial<Record<SemanticName, React.CSSProperties>>;
-  contentRender?: (next: () => void, prev: () => void, close: () => void, finish: () => void) => ReactNode;
 }
 
 export interface TourProps extends Pick<TriggerProps, 'onPopupAlign'> {

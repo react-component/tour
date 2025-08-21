@@ -89,12 +89,10 @@ export default function useTarget(
     }
     
     if (Array.isArray(gap.offset)) {
-      // 如果是 [number, number] 格式
       if (typeof gap.offset[0] === 'number') {
         const tuple = gap.offset as [number, number];
         return tuple[index] ?? DEFAULT_GAP_OFFSET;
       }
-      // 如果是 Array<[number, number]> 格式，根据当前 tour step 索引取对应元素
       if (Array.isArray(gap.offset[0])) {
         const arrayOfTuples = gap.offset as [number, number][];
         const stepIndex = current ?? 0;

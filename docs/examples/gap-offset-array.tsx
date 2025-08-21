@@ -11,6 +11,7 @@ const App = () => {
   const offset: [number, number][] = [
     [10, 10],
     [20, 20],
+    [30, 30],
   ]
   return (
     <div style={{ margin: 20 }}>
