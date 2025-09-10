@@ -64,13 +64,16 @@ const Tour: React.FC<TourProps> = props => {
 
   const triggerRef = React.useRef<TriggerRef>();
 
-  const [mergedCurrent, setMergedCurrent] = useControlledState(defaultCurrent||0,current);
+  const [mergedCurrent, setMergedCurrent] = useControlledState(
+    defaultCurrent || 0,
+    current,
+  );
 
-
-  const [internalOpen, setMergedOpen] = useControlledState(defaultOpen,open);
-  const mergedOpen=  mergedCurrent < 0 || mergedCurrent >= steps.length
-        ? false
-        : ( internalOpen?? true)
+  const [internalOpen, setMergedOpen] = useControlledState(defaultOpen, open);
+  const mergedOpen =
+    mergedCurrent < 0 || mergedCurrent >= steps.length
+      ? false
+      : (internalOpen ?? true);
 
   // Record if already rended in the DOM to avoid `findDOMNode` issue
   const [hasOpened, setHasOpened] = React.useState(mergedOpen);
