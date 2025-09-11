@@ -6,6 +6,7 @@ import Trigger from '@rc-component/trigger';
 import classNames from 'classnames';
 import useLayoutEffect from '@rc-component/util/lib/hooks/useLayoutEffect';
 import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
+import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
 import { useMemo } from 'react';
 import { useClosable } from './hooks/useClosable';
 import useTarget from './hooks/useTarget';
@@ -63,18 +64,16 @@ const Tour: React.FC<TourProps> = props => {
 
   const triggerRef = React.useRef<TriggerRef>();
 
-  const [mergedCurrent, setMergedCurrent] = useMergedState(0, {
-    value: current,
-    defaultValue: defaultCurrent,
-  });
+  const [mergedCurrent, setMergedCurrent] = useControlledState(
+    defaultCurrent || 0,
+    current,
+  );
 
-  const [mergedOpen, setMergedOpen] = useMergedState(defaultOpen, {
-    value: open,
-    postState: origin =>
-      mergedCurrent < 0 || mergedCurrent >= steps.length
-        ? false
-        : (origin ?? true),
-  });
+  const [internalOpen, setMergedOpen] = useControlledState(defaultOpen, open);
+  const mergedOpen =
+    mergedCurrent < 0 || mergedCurrent >= steps.length
+      ? false
+      : (internalOpen ?? true);
 
   // Record if already rended in the DOM to avoid `findDOMNode` issue
   const [hasOpened, setHasOpened] = React.useState(mergedOpen);
