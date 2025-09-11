@@ -11,8 +11,7 @@
       "@/*": ["src/*"],
       "@@/*": [".dumi/tmp/*"],
       "@rc-component/tour": ["src/Tour.tsx"]
-    },
-    "types": ["minimatch"]
+    }
   },
   "include": [".dumirc.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
