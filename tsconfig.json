@@ -8,23 +8,12 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@@/*": [
-        ".dumi/tmp/*"
-      ],
-      "@rc-component/tour": [
-        "src/Tour.tsx"
-      ]
-    }
+      "@/*": ["src/*"],
+      "@@/*": [".dumi/tmp/*"],
+      "@rc-component/tour": ["src/Tour.tsx"]
+    },
+    "types": ["minimatch"]
   },
-  "include": [
-    ".dumirc.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": [".dumirc.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
