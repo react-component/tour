@@ -33,6 +33,7 @@ open http://localhost:8000
 
 <!-- prettier-ignore -->
 ```js | pure
+import { useRef } from 'react';
 import Tour from '@rc-component/tour';
 
 const Demo = () => {
