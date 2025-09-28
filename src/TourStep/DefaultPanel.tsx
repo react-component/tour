@@ -28,9 +28,8 @@ export default function DefaultPanel(props: DefaultPanelProps) {
     <span className={`${prefixCls}-close-x`}>&times;</span>
   );
   const mergedClosable = !!closable;
-
   return (
-    <div className={clsx(`${prefixCls}-pannel`, className)}>
+    <div className={clsx(`${prefixCls}-panel`, className)}>
       <div
         className={clsx(`${prefixCls}-section`, tourClassNames?.section)}
         style={styles?.section}
