@@ -30,7 +30,7 @@ export default function DefaultPanel(props: DefaultPanelProps) {
   const mergedClosable = !!closable;
 
   return (
-    <div className={classNames(`${prefixCls}-pannel`, className)}>
+    <div className={classNames(`${prefixCls}-panel`, className)}>
       <div
         className={classNames(`${prefixCls}-section`, tourClassNames?.section)}
         style={styles?.section}
