@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { TourStepProps } from '../interface';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import pickAttrs from '@rc-component/util/lib/pickAttrs';
 
 export type DefaultPanelProps = Exclude<TourStepProps, 'closable'> & {
@@ -28,11 +28,10 @@ export default function DefaultPanel(props: DefaultPanelProps) {
     <span className={`${prefixCls}-close-x`}>&times;</span>
   );
   const mergedClosable = !!closable;
-
   return (
-    <div className={classNames(`${prefixCls}-panel`, className)}>
+    <div className={clsx(`${prefixCls}-panel`, className)}>
       <div
-        className={classNames(`${prefixCls}-section`, tourClassNames?.section)}
+        className={clsx(`${prefixCls}-section`, tourClassNames?.section)}
         style={styles?.section}
       >
         {mergedClosable && (
@@ -47,18 +46,18 @@ export default function DefaultPanel(props: DefaultPanelProps) {
           </button>
         )}
         <div
-          className={classNames(`${prefixCls}-header`, tourClassNames?.header)}
+          className={clsx(`${prefixCls}-header`, tourClassNames?.header)}
           style={styles?.header}
         >
           <div
-            className={classNames(`${prefixCls}-title`, tourClassNames?.title)}
+            className={clsx(`${prefixCls}-title`, tourClassNames?.title)}
             style={styles?.title}
           >
             {title}
           </div>
         </div>
         <div
-          className={classNames(
+          className={clsx(
             `${prefixCls}-description`,
             tourClassNames?.description,
           )}
@@ -67,7 +66,7 @@ export default function DefaultPanel(props: DefaultPanelProps) {
           {description}
         </div>
         <div
-          className={classNames(`${prefixCls}-footer`, tourClassNames?.footer)}
+          className={clsx(`${prefixCls}-footer`, tourClassNames?.footer)}
           style={styles?.footer}
         >
           <div className={`${prefixCls}-sliders`}>
@@ -83,10 +82,7 @@ export default function DefaultPanel(props: DefaultPanelProps) {
               : null}
           </div>
           <div
-            className={classNames(
-              `${prefixCls}-actions`,
-              tourClassNames?.actions,
-            )}
+            className={clsx(`${prefixCls}-actions`, tourClassNames?.actions)}
             style={styles?.actions}
           >
             {current !== 0 ? (

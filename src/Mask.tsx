@@ -1,11 +1,11 @@
 import React from 'react';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import Portal from '@rc-component/portal';
 import type { PosInfo } from './hooks/useTarget';
 import useId from '@rc-component/util/lib/hooks/useId';
 import type { SemanticName, TourProps } from './interface';
 
-const COVER_PROPS = {
+const COVER_PROPS: React.SVGAttributes<SVGRectElement> = {
   fill: 'transparent',
   pointerEvents: 'auto',
 };
@@ -27,7 +27,7 @@ export interface MaskProps {
   getPopupContainer?: TourProps['getPopupContainer'];
 }
 
-const Mask = (props: MaskProps) => {
+const Mask: React.FC<MaskProps> = props => {
   const {
     prefixCls,
     rootClassName,
@@ -65,7 +65,7 @@ const Mask = (props: MaskProps) => {
       getContainer={getPopupContainer as any}
     >
       <div
-        className={classNames(
+        className={clsx(
           `${prefixCls}-mask`,
           rootClassName,
           tourClassNames?.mask,
@@ -83,12 +83,7 @@ const Mask = (props: MaskProps) => {
         }}
       >
         {showMask ? (
-          <svg
-            style={{
-              width: '100%',
-              height: '100%',
-            }}
-          >
+          <svg style={{ width: '100%', height: '100%' }}>
             <defs>
               <mask id={maskId}>
                 <rect x="0" y="0" {...maskRectSize} fill="white" />
