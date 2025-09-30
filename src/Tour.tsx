@@ -166,6 +166,17 @@ const Tour: React.FC<TourProps> = props => {
   // ========================= Keyboard =========================
   // Support Esc to close (if closable) and ArrowLeft/ArrowRight to navigate steps.
   const keyboardHandler = useEvent((e: KeyboardEvent) => {
+    // Ignore keyboard events from input-like elements to avoid interfering when typing
+    const el = e.target as HTMLElement | null;
+    if (
+        el?.tagName === 'INPUT' ||
+        el?.tagName === 'TEXTAREA' ||
+        el?.tagName === 'SELECT' ||
+        el?.isContentEditable
+      ) {
+        return;
+      }
+
     if (keyboard && e.keyCode === KeyCode.ESC) {
       if (mergedClosable !== null) {
         e.stopPropagation();
@@ -184,8 +195,8 @@ const Tour: React.FC<TourProps> = props => {
     }
 
     if (keyboard && e.keyCode === KeyCode.RIGHT) {
-      e.preventDefault();
       if (mergedCurrent < steps.length - 1) {
+        e.preventDefault();
         onInternalChange(mergedCurrent + 1);
       }
       return;
