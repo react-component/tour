@@ -4,7 +4,8 @@ import type { TriggerRef } from '@rc-component/trigger';
 import Trigger from '@rc-component/trigger';
 import { clsx } from 'clsx';
 import useLayoutEffect from '@rc-component/util/lib/hooks/useLayoutEffect';
-import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
+import useEvent from '@rc-component/util/lib/hooks/useEvent';
+import KeyCode from '@rc-component/util/lib/KeyCode';
 import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
 import { useMemo } from 'react';
 import { useClosable } from './hooks/useClosable';
@@ -35,6 +36,7 @@ const Tour: React.FC<TourProps> = props => {
     steps = [],
     defaultCurrent,
     current,
+    keyboard = true,
     onChange,
     onClose,
     onFinish,
@@ -88,7 +90,7 @@ const Tour: React.FC<TourProps> = props => {
       setHasOpened(true);
     }
     openRef.current = mergedOpen;
-  }, [mergedOpen]);
+  }, [mergedOpen, setMergedCurrent]);
 
   const {
     target,
@@ -156,17 +158,64 @@ const Tour: React.FC<TourProps> = props => {
     }
     return getPlacements(arrowPointAtCenter);
   }, [builtinPlacements, arrowPointAtCenter]);
+  const handleClose = () => {
+    setMergedOpen(false);
+    onClose?.(mergedCurrent);
+  };
+
+  // ========================= Keyboard =========================
+  // Support Esc to close (if closable) and ArrowLeft/ArrowRight to navigate steps.
+  const keyboardHandler = useEvent((e: KeyboardEvent) => {
+    // Ignore keyboard events from input-like elements to avoid interfering when typing
+    const el = e.target as HTMLElement | null;
+    if (
+        el?.tagName === 'INPUT' ||
+        el?.tagName === 'TEXTAREA' ||
+        el?.tagName === 'SELECT' ||
+        el?.isContentEditable
+      ) {
+        return;
+      }
+
+    if (keyboard && e.keyCode === KeyCode.ESC) {
+      if (mergedClosable !== null) {
+        e.stopPropagation();
+        e.preventDefault();
+        handleClose();
+      }
+      return;
+    }
+
+    if (keyboard && e.keyCode === KeyCode.LEFT) {
+      if (mergedCurrent > 0) {
+        e.preventDefault();
+        onInternalChange(mergedCurrent - 1);
+      }
+      return;
+    }
+
+    if (keyboard && e.keyCode === KeyCode.RIGHT) {
+      if (mergedCurrent < steps.length - 1) {
+        e.preventDefault();
+        onInternalChange(mergedCurrent + 1);
+      }
+      return;
+    }
+  });
+
+  useLayoutEffect(() => {
+    if (!mergedOpen) return;
+    window.addEventListener('keydown', keyboardHandler);
+    return () => {
+      window.removeEventListener('keydown', keyboardHandler);
+    };
+  }, [mergedOpen, keyboardHandler]);
 
   // ========================= Render =========================
   // Skip if not init yet
   if (targetElement === undefined || !hasOpened) {
     return null;
   }
-
-  const handleClose = () => {
-    setMergedOpen(false);
-    onClose?.(mergedCurrent);
-  };
 
   const getPopupElement = () => (
     <TourStep
