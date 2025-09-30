@@ -126,6 +126,7 @@ const Tour: React.FC<TourProps> = props => {
     mergedScrollIntoViewOptions,
     inlineMode,
     placeholderRef,
+    mergedCurrent
   );
   const mergedPlacement = getPlacement(targetElement, placement, stepPlacement);
 

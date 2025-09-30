@@ -1289,4 +1289,86 @@ describe('Tour', () => {
       height: 0,
     });
   });
+
+  it('should support gap.offset with array<[number, number]> and change on next step', async () => {
+    mockBtnRect({
+      x: 100,
+      y: 100,
+      width: 230,
+      height: 180,
+    });
+    
+    const Demo = () => {
+      const button1Ref = useRef<HTMLButtonElement>(null);
+      const button2Ref = useRef<HTMLButtonElement>(null);
+      const button3Ref = useRef<HTMLButtonElement>(null);
+      
+      return (
+        <div style={{ margin: 20 }}>
+          <button ref={button1Ref}>button 1</button>
+          <button ref={button2Ref}>button 2</button>
+          <button ref={button3Ref}>button 3</button>
+          <Tour
+            open
+            gap={{
+              offset: [[10, 15], [20, 25], [30, 35]] as [number, number][],
+            }}
+            steps={[
+              {
+                title: 'step 1',
+                description: 'description 1',
+                target: () => button1Ref.current,
+              },
+              {
+                title: 'step 2', 
+                description: 'description 2',
+                target: () => button2Ref.current,
+              },
+              {
+                title: 'step 3',
+                description: 'description 3', 
+                target: () => button3Ref.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+    
+    render(<Demo />);
+    await act(() => {
+      jest.runAllTimers();
+    });
+    
+    // gap [10, 15] -> width: 230 + 20 = 250, height: 180 + 30 = 210
+    let targetRect = document
+      .getElementById('rc-tour-mask-test-id')
+      .querySelectorAll('rect')[1];
+    expect(targetRect).toHaveAttribute('width', '250');
+    expect(targetRect).toHaveAttribute('height', '210');
+    
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    await act(() => {
+      jest.runAllTimers();
+    });
+    
+    // gap [20, 25] -> width: 230 + 40 = 270, height: 180 + 50 = 230
+    targetRect = document
+      .getElementById('rc-tour-mask-test-id')
+      .querySelectorAll('rect')[1];
+    expect(targetRect).toHaveAttribute('width', '270');
+    expect(targetRect).toHaveAttribute('height', '230');
+    
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    await act(() => {
+      jest.runAllTimers();
+    });
+    
+    // gap [30, 35] -> width: 230 + 60 = 290, height: 180 + 70 = 250
+    targetRect = document
+      .getElementById('rc-tour-mask-test-id')
+      .querySelectorAll('rect')[1];
+    expect(targetRect).toHaveAttribute('width', '290');
+    expect(targetRect).toHaveAttribute('height', '250');
+  });
 });

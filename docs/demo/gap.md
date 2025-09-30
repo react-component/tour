@@ -16,3 +16,7 @@ nav:
 ## Radius
 
 <code src="../examples/gap-radius.tsx"></code>
+
+## Offset
+
+<code src="../examples/gap-offset-array.tsx"></code>
