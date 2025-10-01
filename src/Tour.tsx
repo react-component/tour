@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-import Portal from '@rc-component/portal';
 import type { TriggerRef } from '@rc-component/trigger';
 import Trigger from '@rc-component/trigger';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import useLayoutEffect from '@rc-component/util/lib/hooks/useLayoutEffect';
 import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
@@ -231,7 +230,7 @@ const Tour: React.FC<TourProps> = props => {
         popupStyle={stepStyle}
         popupPlacement={mergedPlacement}
         popupVisible={mergedOpen}
-        popupClassName={classNames(rootClassName, stepClassName)}
+        popupClassName={clsx(rootClassName, stepClassName)}
         prefixCls={prefixCls}
         popup={getPopupElement}
         forceRender={false}
@@ -245,7 +244,7 @@ const Tour: React.FC<TourProps> = props => {
           getContainer={getPopupContainer as any}
           domRef={placeholderRef}
           fallbackDOM={fallbackDOM}
-          className={classNames(
+          className={clsx(
             className,
             rootClassName,
             `${prefixCls}-target-placeholder`,
