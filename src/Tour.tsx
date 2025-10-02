@@ -58,6 +58,7 @@ const Tour: React.FC<TourProps> = props => {
     className,
     style,
     getPopupContainer,
+    keyboard = false,
     ...restProps
   } = props;
 
@@ -157,16 +158,57 @@ const Tour: React.FC<TourProps> = props => {
     return getPlacements(arrowPointAtCenter);
   }, [builtinPlacements, arrowPointAtCenter]);
 
+  // ================= close ========================
+  const handleClose = () => {
+    setMergedOpen(false);
+    onClose?.(mergedCurrent);
+  };
+
+  // ================= Keyboard Navigation ==============
+  const handleKeyDown = React.useCallback((e: KeyboardEvent) => {
+    if (!mergedOpen) {
+      return;
+    }
+    if (e.key === 'ArrowLeft') {
+      if (mergedCurrent <= 0) {
+        return;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      onInternalChange(mergedCurrent - 1);
+      return;
+    }
+    if (e.key === 'ArrowRight') {
+      if (mergedCurrent >= steps.length - 1) {
+        return;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      onInternalChange(mergedCurrent + 1);
+      return;
+    }
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      e.stopPropagation();
+      handleClose();
+      return;
+    }
+  }, [mergedCurrent, mergedOpen, steps.length]);
+  
+  React.useEffect(() => {
+    if (keyboard) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown, keyboard]);
+
   // ========================= Render =========================
   // Skip if not init yet
   if (targetElement === undefined || !hasOpened) {
     return null;
   }
-
-  const handleClose = () => {
-    setMergedOpen(false);
-    onClose?.(mergedCurrent);
-  };
 
   const getPopupElement = () => (
     <TourStep
