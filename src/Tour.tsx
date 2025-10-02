@@ -165,6 +165,7 @@ const Tour: React.FC<TourProps> = props => {
   };
 
   // ================= Keyboard Navigation ==============
+  const keyboardController = React.useRef(new AbortController());
   const handleKeyDown = React.useCallback((e: KeyboardEvent) => {
     if (!mergedOpen) {
       return;
@@ -193,14 +194,18 @@ const Tour: React.FC<TourProps> = props => {
       handleClose();
       return;
     }
-  }, [mergedCurrent, mergedOpen, steps.length]);
+  }, [mergedCurrent, mergedOpen, steps.length, handleClose, onInternalChange]);
   
   React.useEffect(() => {
+    keyboardController.current.abort();
+    keyboardController.current = new AbortController();
     if (keyboard) {
-      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener('keydown', handleKeyDown, {
+        signal: keyboardController.current.signal,
+      });
     }
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      keyboardController.current.abort();
     };
   }, [handleKeyDown, keyboard]);
 
