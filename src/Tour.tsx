@@ -189,6 +189,9 @@ const Tour: React.FC<TourProps> = props => {
       return;
     }
     if (e.key === 'Escape') {
+      if (!mergedClosable) {
+        return;
+      }
       e.preventDefault();
       e.stopPropagation();
       handleClose();
