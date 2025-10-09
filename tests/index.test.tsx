@@ -1127,6 +1127,7 @@ describe('Tour', () => {
       section: 'custom-section',
       footer: 'custom-footer',
       description: 'custom-description',
+      close: 'custom-close',
     };
     const customStyles = {
       mask: { color: 'white' },
@@ -1136,6 +1137,7 @@ describe('Tour', () => {
       section: { padding: '10px' },
       footer: { borderTop: '1px solid black' },
       description: { fontStyle: 'italic' },
+      close: { color: 'red' },
     };
     const Demo = () => {
       const btnRef = useRef<HTMLButtonElement>(null);
@@ -1178,6 +1180,9 @@ describe('Tour', () => {
     const descriptionElement = document.querySelector(
       '.rc-tour-description',
     ) as HTMLElement;
+    const closeElement = document.querySelector(
+      '.rc-tour-close',
+    ) as HTMLElement;
 
     // check classNames
     expect(maskElement.classList).toContain('custom-mask');
@@ -1187,6 +1192,7 @@ describe('Tour', () => {
     expect(sectionElement.classList).toContain('custom-section');
     expect(footerElement.classList).toContain('custom-footer');
     expect(descriptionElement.classList).toContain('custom-description');
+    expect(closeElement.classList).toContain('custom-close');
 
     // check styles
     expect(maskElement.style.color).toBe('white');
@@ -1196,6 +1202,7 @@ describe('Tour', () => {
     expect(sectionElement.style.padding).toBe('10px');
     expect(footerElement.style.borderTop).toBe('1px solid black');
     expect(descriptionElement.style.fontStyle).toBe('italic');
+    expect(closeElement.style.color).toBe('red');
   });
 
   it('inline', async () => {
