@@ -25,6 +25,7 @@ export interface MaskProps {
   classNames?: Partial<Record<SemanticName, string>>;
   styles?: Partial<Record<SemanticName, React.CSSProperties>>;
   getPopupContainer?: TourProps['getPopupContainer'];
+  onEsc?: (info: { top: boolean; event: KeyboardEvent }) => void;
 }
 
 const Mask: React.FC<MaskProps> = props => {
@@ -42,6 +43,7 @@ const Mask: React.FC<MaskProps> = props => {
     styles,
     classNames: tourClassNames,
     getPopupContainer,
+    onEsc,
   } = props;
 
   const id = useId();
@@ -63,6 +65,7 @@ const Mask: React.FC<MaskProps> = props => {
       open={open}
       autoLock={!inlineMode}
       getContainer={getPopupContainer as any}
+      onEsc={onEsc}
     >
       <div
         className={clsx(

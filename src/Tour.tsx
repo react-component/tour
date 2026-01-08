@@ -163,8 +163,17 @@ const Tour: React.FC<TourProps> = props => {
     onClose?.(mergedCurrent);
   };
 
+  // ========================= Esc Close =========================
+  // Use Portal's onEsc to handle Escape key with proper stacking logic
+  const handleEscClose = useEvent(({ event }: { top: boolean; event: KeyboardEvent }) => {
+    if (keyboard && mergedClosable !== null) {
+      event.preventDefault();
+      handleClose();
+    }
+  });
+
   // ========================= Keyboard =========================
-  // Support Esc to close (if closable) and ArrowLeft/ArrowRight to navigate steps.
+  // Support ArrowLeft/ArrowRight to navigate steps.
   const keyboardHandler = useEvent((e: KeyboardEvent) => {
     // Ignore keyboard events from input-like elements to avoid interfering when typing
     if (KeyCode.isEditableTarget(e)) {
@@ -254,6 +263,7 @@ const Tour: React.FC<TourProps> = props => {
         animated={animated}
         rootClassName={rootClassName}
         disabledInteraction={disabledInteraction}
+        onEsc={handleEscClose}
       />
       <Trigger
         {...restProps}

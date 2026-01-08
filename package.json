@@ -40,7 +40,7 @@
     "watch": "father dev"
   },
   "dependencies": {
-    "@rc-component/portal": "^2.0.0",
+    "@rc-component/portal": "^2.2.0",
     "@rc-component/trigger": "^3.0.0",
     "@rc-component/util": "^1.7.0",
     "clsx": "^2.1.1"
