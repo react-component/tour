@@ -171,15 +171,6 @@ const Tour: React.FC<TourProps> = props => {
       return;
     }
 
-    if (keyboard && e.key === 'Escape') {
-      if (mergedClosable !== null) {
-        e.stopPropagation();
-        e.preventDefault();
-        handleClose();
-      }
-      return;
-    }
-
     if (keyboard && e.key === 'ArrowLeft') {
       if (mergedCurrent > 0) {
         e.preventDefault();
