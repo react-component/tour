@@ -1289,4 +1289,38 @@ describe('Tour', () => {
       height: 0,
     });
   });
+
+  describe('keyboard ESC to close', () => {
+    it('should close tour when press ESC', () => {
+      const onClose = jest.fn();
+      const Demo = () => {
+        const [open, setOpen] = useState(true);
+        return (
+          <Tour
+            open={open}
+            onClose={(current) => {
+              setOpen(false);
+              onClose(current);
+            }}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+              },
+            ]}
+          />
+        );
+      };
+      
+      render(<Demo />);
+
+      expect(document.querySelector('.rc-tour')).toBeTruthy();
+      
+      // Press ESC key
+      fireEvent.keyDown(window, { key: 'Escape' });
+      
+      expect(onClose).toHaveBeenCalledWith(0);
+      expect(document.querySelector('.rc-tour')).toBeFalsy();
+    });
+  });
 });
