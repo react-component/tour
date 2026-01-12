@@ -1289,4 +1289,206 @@ describe('Tour', () => {
       height: 0,
     });
   });
+
+  describe('keyboard ESC to close', () => {
+    it('should close tour when press ESC', () => {
+      const onClose = jest.fn();
+      const Demo = () => {
+        const [open, setOpen] = useState(true);
+        return (
+          <Tour
+            open={open}
+            onClose={(current) => {
+              setOpen(false);
+              onClose(current);
+            }}
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+              },
+            ]}
+          />
+        );
+      };
+      
+      render(<Demo />);
+
+      expect(document.querySelector('.rc-tour')).toBeTruthy();
+      
+      // Press ESC key
+      fireEvent.keyDown(window, { key: 'Escape' });
+      
+      expect(onClose).toHaveBeenCalledWith(0);
+      expect(document.querySelector('.rc-tour')).toBeFalsy();
+    });
+  });
+
+  describe('keyboard navigation', () => {
+    it('should navigate steps with arrow keys', () => {
+      const onChange = jest.fn();
+      render(
+        <Tour
+          open
+          defaultCurrent={1}
+          onChange={onChange}
+          steps={[
+            {
+              title: 'step 1',
+              description: '第一步',
+            },
+            {
+              title: 'step 2',
+              description: '第二步',
+            },
+            {
+              title: 'step 3',
+              description: '第三步',
+            },
+          ]}
+        />,
+      );
+
+      expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 2');
+
+      // Press ArrowLeft to go to previous step
+      fireEvent.keyDown(window, { key: 'ArrowLeft' });
+      expect(onChange).toHaveBeenCalledWith(0);
+      expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 1');
+
+      // Press ArrowRight to go to next step
+      fireEvent.keyDown(window, { key: 'ArrowRight' });
+      expect(onChange).toHaveBeenCalledWith(1);
+      expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 2');
+
+      // Press ArrowRight again
+      fireEvent.keyDown(window, { key: 'ArrowRight' });
+      expect(onChange).toHaveBeenCalledWith(2);
+      expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 3');
+    });
+
+    it('should not navigate beyond boundaries', () => {
+      const onChange = jest.fn();
+      render(
+        <Tour
+          open
+          defaultCurrent={0}
+          onChange={onChange}
+          steps={[
+            {
+              title: 'step 1',
+              description: '第一步',
+            },
+            {
+              title: 'step 2',
+              description: '第二步',
+            },
+          ]}
+        />,
+      );
+
+      expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 1');
+
+      // Press ArrowLeft at first step - should not change
+      fireEvent.keyDown(window, { key: 'ArrowLeft' });
+      expect(onChange).not.toHaveBeenCalled();
+      expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 1');
+
+      // Navigate to last step
+      fireEvent.keyDown(window, { key: 'ArrowRight' });
+      expect(onChange).toHaveBeenCalledWith(1);
+      expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 2');
+
+      // Press ArrowRight at last step - should not change
+      onChange.mockClear();
+      fireEvent.keyDown(window, { key: 'ArrowRight' });
+      expect(onChange).not.toHaveBeenCalled();
+      expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 2');
+    });
+
+    it('should not navigate when keyboard is disabled', () => {
+      const onChange = jest.fn();
+      render(
+        <Tour
+          open
+          keyboard={false}
+          defaultCurrent={1}
+          onChange={onChange}
+          steps={[
+            {
+              title: 'step 1',
+              description: '第一步',
+            },
+            {
+              title: 'step 2',
+              description: '第二步',
+            },
+            {
+              title: 'step 3',
+              description: '第三步',
+            },
+          ]}
+        />,
+      );
+
+      expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 2');
+
+      // Press arrow keys - should not navigate
+      fireEvent.keyDown(window, { key: 'ArrowLeft' });
+      expect(onChange).not.toHaveBeenCalled();
+
+      fireEvent.keyDown(window, { key: 'ArrowRight' });
+      expect(onChange).not.toHaveBeenCalled();
+
+      expect(document.querySelector('.rc-tour-title').innerHTML).toBe('step 2');
+    });
+
+    it('should not navigate when keydown in editable elements', () => {
+      const onChange = jest.fn();
+      const Demo = () => {
+        return (
+          <div>
+            <input id="test-input" type="text" />
+            <textarea id="test-textarea" />
+            <Tour
+              open
+              defaultCurrent={1}
+              onChange={onChange}
+              steps={[
+                {
+                  title: 'step 1',
+                  description: '第一步',
+                },
+                {
+                  title: 'step 2',
+                  description: '第二步',
+                },
+                {
+                  title: 'step 3',
+                  description: '第三步',
+                },
+              ]}
+            />
+          </div>
+        );
+      };
+
+      render(<Demo />);
+
+      const input = document.getElementById('test-input');
+      const textarea = document.getElementById('test-textarea');
+
+      // Focus on input and press arrow keys
+      input.focus();
+      fireEvent.keyDown(input, { key: 'ArrowLeft' });
+      fireEvent.keyDown(input, { key: 'ArrowRight' });
+      expect(onChange).not.toHaveBeenCalled();
+
+      // Focus on textarea and press arrow keys
+      textarea.focus();
+      fireEvent.keyDown(textarea, { key: 'ArrowLeft' });
+      fireEvent.keyDown(textarea, { key: 'ArrowRight' });
+      expect(onChange).not.toHaveBeenCalled();
+    });
+  });
 });

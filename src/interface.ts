@@ -58,6 +58,7 @@ export interface TourProps extends Pick<TriggerProps, 'onPopupAlign'> {
   style?: React.CSSProperties;
   steps?: TourStepInfo[];
   open?: boolean;
+  keyboard?: boolean;
   defaultOpen?: boolean;
   defaultCurrent?: number;
   current?: number;
