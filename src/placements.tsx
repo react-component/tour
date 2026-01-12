@@ -1,10 +1,5 @@
 import type { BuildInPlacements } from '@rc-component/trigger';
 
-const autoAdjustOverflow = {
-  adjustX: 1,
-  adjustY: 1,
-};
-
 export type PlacementType =
   | 'left'
   | 'leftTop'
@@ -76,7 +71,11 @@ const basePlacements: BuildInPlacements = {
 export function getPlacements(arrowPointAtCenter = false) {
   const placements: BuildInPlacements = {};
   Object.keys(basePlacements).forEach(key => {
-    placements[key] = {...basePlacements[key], autoArrow: arrowPointAtCenter, targetOffset};
+    placements[key] = {
+      ...basePlacements[key],
+      autoArrow: arrowPointAtCenter,
+      targetOffset,
+    };
   });
   return placements;
 }
