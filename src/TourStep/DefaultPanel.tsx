@@ -40,7 +40,8 @@ export default function DefaultPanel(props: DefaultPanelProps) {
             onClick={onClose}
             aria-label="Close"
             {...ariaProps}
-            className={`${prefixCls}-close`}
+            className={clsx(`${prefixCls}-close`, tourClassNames?.close)}
+            style={styles?.close}
           >
             {closeIcon}
           </button>
