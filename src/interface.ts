@@ -11,7 +11,8 @@ export type SemanticName =
   | 'header'
   | 'title'
   | 'description'
-  | 'mask';
+  | 'mask'
+  | 'close';
 
 
 export type HTMLAriaDataAttributes = React.AriaAttributes & {
