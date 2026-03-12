@@ -60,6 +60,7 @@ const Tour: React.FC<TourProps> = props => {
     className,
     style,
     getPopupContainer,
+    keyboard = false,
     ...restProps
   } = props;
 
@@ -204,6 +205,60 @@ const Tour: React.FC<TourProps> = props => {
       window.removeEventListener('keydown', keyboardHandler);
     };
   }, [mergedOpen, keyboardHandler]);
+
+  // ================= close ========================
+  const handleClose = () => {
+    setMergedOpen(false);
+    onClose?.(mergedCurrent);
+  };
+
+  // ================= Keyboard Navigation ==============
+  const keyboardController = React.useRef(new AbortController());
+  const handleKeyDown = React.useCallback((e: KeyboardEvent) => {
+    if (!mergedOpen) {
+      return;
+    }
+    if (e.key === 'ArrowLeft') {
+      if (mergedCurrent <= 0) {
+        return;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      onInternalChange(mergedCurrent - 1);
+      return;
+    }
+    if (e.key === 'ArrowRight') {
+      if (mergedCurrent >= steps.length - 1) {
+        return;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      onInternalChange(mergedCurrent + 1);
+      return;
+    }
+    if (e.key === 'Escape') {
+      if (!mergedClosable) {
+        return;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      handleClose();
+      return;
+    }
+  }, [mergedCurrent, mergedOpen, steps.length, handleClose, onInternalChange]);
+  
+  React.useEffect(() => {
+    keyboardController.current.abort();
+    keyboardController.current = new AbortController();
+    if (keyboard) {
+      document.addEventListener('keydown', handleKeyDown, {
+        signal: keyboardController.current.signal,
+      });
+    }
+    return () => {
+      keyboardController.current.abort();
+    };
+  }, [handleKeyDown, keyboard]);
 
   // ========================= Render =========================
   // Skip if not init yet
