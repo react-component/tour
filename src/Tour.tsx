@@ -3,10 +3,12 @@ import * as React from 'react';
 import type { TriggerRef } from '@rc-component/trigger';
 import Trigger from '@rc-component/trigger';
 import { clsx } from 'clsx';
-import useLayoutEffect from '@rc-component/util/lib/hooks/useLayoutEffect';
-import useEvent from '@rc-component/util/lib/hooks/useEvent';
-import KeyCode from '@rc-component/util/lib/KeyCode';
-import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
+import {
+  KeyCode,
+  useControlledState,
+  useEvent,
+  useLayoutEffect,
+} from '@rc-component/util';
 import { useMemo } from 'react';
 import { useClosable } from './hooks/useClosable';
 import useTarget from './hooks/useTarget';

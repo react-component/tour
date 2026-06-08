@@ -2,7 +2,7 @@ import React from 'react';
 import { clsx } from 'clsx';
 import Portal from '@rc-component/portal';
 import type { PosInfo } from './hooks/useTarget';
-import useId from '@rc-component/util/lib/hooks/useId';
+import { useId } from '@rc-component/util';
 import type { SemanticName, TourProps } from './interface';
 
 const COVER_PROPS: React.SVGAttributes<SVGRectElement> = {
