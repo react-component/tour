@@ -1,5 +1,5 @@
 import React, { StrictMode, useRef } from 'react';
-import Tour from '../../src/index';
+import Tour from '@rc-component/tour';
 import './basic.less';
 
 const App = () => {

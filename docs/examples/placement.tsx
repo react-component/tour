@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
-import Tour from '../../src/index';
+import Tour from '@rc-component/tour';
 import './basic.less';
-import { placements } from '../../src/placements';
-import type { PlacementType } from '../../src/placements';
+import { placements } from '@rc-component/tour/es/placements';
+import type { PlacementType } from '@rc-component/tour/es/placements';
 
 const App = () => {
   const [placement, setPlacement] = useState<PlacementType>('rightBottom');

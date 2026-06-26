@@ -10,9 +10,11 @@
     "paths": {
       "@/*": ["src/*"],
       "@@/*": [".dumi/tmp/*"],
-      "@rc-component/tour": ["src/Tour.tsx"]
+      "@rc-component/tour": ["src/index.tsx"],
+      "@rc-component/tour/es": ["src"],
+      "@rc-component/tour/es/*": ["src/*"]
     }
   },
-  "include": [".dumirc.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [".dumirc.ts", "src", "tests", "docs/examples"],
+  "exclude": ["docs-dist", "lib", "es"]
 }

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import Tour from '../../src/index';
+import Tour from '@rc-component/tour';
 import './basic.less';
 
 const App = () => {
@@ -7,20 +7,39 @@ const App = () => {
   const updateBtnRef = useRef<HTMLButtonElement>(null);
   const deleteBtnRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
-  const [curScrollIntoViewOptions, setCurScrollIntoViewOptions] = useState<ScrollIntoViewOptions>({
-    block: 'start'
-  });
+  const [curScrollIntoViewOptions, setCurScrollIntoViewOptions] =
+    useState<ScrollIntoViewOptions>({
+      block: 'start',
+    });
   return (
     <div style={{ margin: 20 }}>
       <h2>{JSON.stringify(curScrollIntoViewOptions)}</h2>
-      <button onClick={() => setCurScrollIntoViewOptions({block: 'start'})}>block start</button>
-      <button onClick={() => setCurScrollIntoViewOptions({block: 'center'})}>block center</button>
-      <button onClick={() => setCurScrollIntoViewOptions({block: 'nearest'})}>block nearest</button>
-      <button onClick={() => setCurScrollIntoViewOptions({block: 'end'})}>block end</button>
-      <button onClick={() => setCurScrollIntoViewOptions({inline: 'start'})}>inline start</button>
-      <button onClick={() => setCurScrollIntoViewOptions({inline: 'center'})}>inline center</button>
-      <button onClick={() => setCurScrollIntoViewOptions({inline: 'nearest'})}>inline nearest</button>
-      <button onClick={() => setCurScrollIntoViewOptions({inline: 'end'})}>inline end</button>
+      <button onClick={() => setCurScrollIntoViewOptions({ block: 'start' })}>
+        block start
+      </button>
+      <button onClick={() => setCurScrollIntoViewOptions({ block: 'center' })}>
+        block center
+      </button>
+      <button onClick={() => setCurScrollIntoViewOptions({ block: 'nearest' })}>
+        block nearest
+      </button>
+      <button onClick={() => setCurScrollIntoViewOptions({ block: 'end' })}>
+        block end
+      </button>
+      <button onClick={() => setCurScrollIntoViewOptions({ inline: 'start' })}>
+        inline start
+      </button>
+      <button onClick={() => setCurScrollIntoViewOptions({ inline: 'center' })}>
+        inline center
+      </button>
+      <button
+        onClick={() => setCurScrollIntoViewOptions({ inline: 'nearest' })}
+      >
+        inline nearest
+      </button>
+      <button onClick={() => setCurScrollIntoViewOptions({ inline: 'end' })}>
+        inline end
+      </button>
       <div>
         <button
           className="ant-target"
@@ -65,8 +84,8 @@ const App = () => {
             ),
             target: () => updateBtnRef.current,
             scrollIntoViewOptions: {
-              block: 'start'
-            }
+              block: 'start',
+            },
           },
           {
             title: '删除',

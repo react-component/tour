@@ -1,7 +1,5 @@
 ---
-hero:
-  title: rc-tour
-  description: React tour Component
+title: '@rc-component/tour'
 ---
 
 <embed src="../README.md"></embed>

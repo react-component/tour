@@ -1,42 +1,42 @@
 {
   "name": "@rc-component/tour",
   "version": "2.4.0",
-  "description": "React tour Component",
+  "description": "Tour UI component for React",
   "keywords": [
     "react",
     "react-component",
     "react-tour"
   ],
-  "homepage": "https://github.com/react-component/tour",
+  "homepage": "https://react-component.github.io/tour",
   "bugs": {
     "url": "https://github.com/react-component/tour/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/react-component/tour.git"
+    "url": "git@github.com:react-component/tour.git"
   },
   "license": "MIT",
   "author": "wangning4567@163.com",
   "main": "./lib/index",
   "module": "./es/index",
-  "typings": "es/index.d.ts",
   "files": [
     "lib",
     "es"
   ],
   "scripts": {
+    "build": "npm run compile && npm run docs:build",
     "compile": "father build",
-    "deploy": "npm run docs:build && npm run docs:deploy",
+    "coverage": "rc-test --coverage",
     "docs:build": "dumi build",
     "docs:deploy": "gh-pages -d docs-dist",
+    "deploy": "npm run gh-pages",
+    "gh-pages": "cross-env GH_PAGES=1 npm run compile && npm run docs:build && npm run docs:deploy",
     "lint": "eslint src/ --ext .tsx,.ts",
-    "lint:tsc": "tsc -p tsconfig.json --noEmit",
-    "now-build": "npm run docs:build",
-    "prepare": "dumi setup",
     "prepublishOnly": "npm run compile && rc-np",
-    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
+    "prettier": "prettier --write --ignore-unknown .",
     "start": "dumi dev",
     "test": "rc-test",
+    "tsc": "tsc --noEmit",
     "watch": "father dev"
   },
   "dependencies": {
@@ -65,7 +65,8 @@
     "rc-test": "^7.1.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "cross-env": "^7.0.0"
   },
   "peerDependencies": {
     "react": ">=16.9.0",
@@ -73,5 +74,6 @@
   },
   "engines": {
     "node": ">=8.x"
-  }
+  },
+  "types": "./lib/index.d.ts"
 }

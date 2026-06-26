@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import Tour from '../../src/index';
+import Tour from '@rc-component/tour';
 import './basic.less';
 
 const App = () => {
@@ -31,9 +31,9 @@ const App = () => {
         defaultCurrent={2}
         mask={{
           style: {
-            boxShadow: 'inset 0 0 80px #333'
+            boxShadow: 'inset 0 0 80px #333',
           },
-          color: 'rgba(255,0,0,0.5)'
+          color: 'rgba(255,0,0,0.5)',
         }}
         animated={true}
         steps={[
@@ -64,9 +64,9 @@ const App = () => {
             target: () => deleteBtnRef.current,
             mask: {
               style: {
-                boxShadow: 'inset 0 0 80px #333'
+                boxShadow: 'inset 0 0 80px #333',
               },
-              color: 'rgba(80,0,0,0.5)'
+              color: 'rgba(80,0,0,0.5)',
             },
             style: { color: 'red' },
           },

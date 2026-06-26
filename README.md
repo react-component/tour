@@ -1,149 +1,135 @@
-# @rc-component/tour
+<div align="center">
+  <h1>@rc-component/tour</h1>
+  <p>🧭 Guided React tours with masks, target tracking, keyboard navigation, and custom panels.</p>
+  <p>
+    <img alt="Ant Design" src="https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*FBw7Rr5aC7AAAAAAAAAAAAAADrJ8AQ/original" height="24" />
+  </p>
+  <p>Part of the Ant Design ecosystem.</p>
 
-React 18 supported Tour Component.
+  <p>
+    <a href="https://www.npmjs.com/package/@rc-component/tour"><img src="https://img.shields.io/npm/v/@rc-component/tour.svg?style=flat-square" alt="npm version" /></a>
+    <a href="https://www.npmjs.com/package/@rc-component/tour"><img src="https://img.shields.io/npm/dm/@rc-component/tour.svg?style=flat-square" alt="npm downloads" /></a>
+    <a href="https://github.com/react-component/tour/actions"><img src="https://github.com/react-component/tour/actions/workflows/react-component-ci.yml/badge.svg" alt="CI" /></a>
+    <a href="https://codecov.io/gh/react-component/tour"><img src="https://img.shields.io/codecov/c/github/react-component/tour/master.svg?style=flat-square" alt="Codecov" /></a>
+    <a href="https://bundlephobia.com/package/@rc-component/tour"><img src="https://badgen.net/bundlephobia/minzip/@rc-component/tour" alt="bundle size" /></a>
+    <a href="https://github.com/umijs/dumi"><img src="https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square" alt="dumi" /></a>
+  </p>
+</div>
 
-[![NPM version][npm-image]][npm-url] [![dumi](https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square)](https://github.com/umijs/dumi) [![build status][github-actions-image]][github-actions-url] [![Codecov][codecov-image]][codecov-url] [![npm download][download-image]][download-url]
+## Highlights
 
-[npm-image]: http://img.shields.io/npm/v/@rc-component/tour.svg?style=flat-square
-[npm-url]: http://npmjs.org/package/@rc-component/tour
-[github-actions-image]: https://github.com/react-component/tour/workflows/CI/badge.svg
-[github-actions-url]: https://github.com/react-component/tour/actions
-[codecov-image]: https://img.shields.io/codecov/c/github/react-component/tour/master.svg?style=flat-square
-[codecov-url]: https://app.codecov.io/gh/react-component/tour
-[download-image]: https://img.shields.io/npm/dm/@rc-component/tour.svg?style=flat-square
-[download-url]: https://npmjs.org/package/@rc-component/tour
+- Tracks step targets and renders guided panels through a trigger-backed popup.
+- Supports masks, arrows, gaps, scrolling into view, custom builtin placements, and inline mode.
+- Provides controlled and uncontrolled `open` and `current` state.
+- Supports semantic `classNames` and `styles` slots for panels, mask, footer, and actions.
+
+## Install
+
+```bash
+npm install @rc-component/tour
+```
+
+## Usage
+
+```tsx pure
+import { useRef } from 'react';
+import Tour from '@rc-component/tour';
+
+export default () => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  return (
+    <>
+      <button ref={buttonRef} type="button">
+        Create
+      </button>
+      <Tour
+        steps={[
+          {
+            title: 'Create',
+            description: 'Create a new item.',
+            target: () => buttonRef.current,
+          },
+        ]}
+      />
+    </>
+  );
+};
+```
+
+Online preview: https://tour.react-component.vercel.app/
+
+## API
+
+### Tour
+
+| Name                    | Type                                                         | Default        | Description                                          |
+| ----------------------- | ------------------------------------------------------------ | -------------- | ---------------------------------------------------- |
+| `animated`              | boolean \| `{ placeholder: boolean }`                        | false          | Enable target placeholder animation.                 |
+| `arrow`                 | boolean \| `{ pointAtCenter: boolean }`                      | true           | Show arrow and optionally point it at target center. |
+| `builtinPlacements`     | TriggerProps['builtinPlacements'] \| function                | -              | Custom placement map.                                |
+| `className`             | string                                                       | -              | Panel class name.                                    |
+| `classNames`            | `Partial<Record<SemanticName, string>>`                      | -              | Semantic class names.                                |
+| `closable`              | boolean \| object                                            | -              | Close button config.                                 |
+| `closeIcon`             | React.ReactNode                                              | -              | Custom close icon.                                   |
+| `current`               | number                                                       | -              | Controlled current step.                             |
+| `defaultCurrent`        | number                                                       | 0              | Initial current step.                                |
+| `defaultOpen`           | boolean                                                      | -              | Initial open state.                                  |
+| `disabledInteraction`   | boolean                                                      | -              | Disable interaction with target area.                |
+| `gap`                   | Gap                                                          | -              | Gap offset and radius around target.                 |
+| `getPopupContainer`     | TriggerProps['getPopupContainer'] \| false                   | -              | Popup container resolver. Use false for inline mode. |
+| `keyboard`              | boolean                                                      | true           | Enable Escape and arrow-key navigation.              |
+| `mask`                  | boolean \| `{ style?: React.CSSProperties; color?: string }` | true           | Mask config.                                         |
+| `onChange`              | `(current: number) => void`                                  | -              | Called when current step changes.                    |
+| `onClose`               | `(current: number) => void`                                  | -              | Called when tour closes.                             |
+| `onFinish`              | `() => void`                                                 | -              | Called when tour finishes.                           |
+| `onPopupAlign`          | TriggerProps['onPopupAlign']                                 | -              | Called after popup alignment.                        |
+| `open`                  | boolean                                                      | -              | Controlled open state.                               |
+| `placement`             | PlacementType                                                | -              | Default panel placement.                             |
+| `prefixCls`             | string                                                       | `'rc-tour'`    | Prefix class name.                                   |
+| `renderPanel`           | `(props, current) => ReactNode`                              | -              | Custom panel renderer.                               |
+| `rootClassName`         | string                                                       | -              | Root class name.                                     |
+| `scrollIntoViewOptions` | boolean \| ScrollIntoViewOptions                             | center options | Target scroll behavior.                              |
+| `steps`                 | TourStepInfo[]                                               | []             | Tour steps.                                          |
+| `style`                 | React.CSSProperties                                          | -              | Panel style.                                         |
+| `styles`                | `Partial<Record<SemanticName, React.CSSProperties>>`         | -              | Semantic styles.                                     |
+| `zIndex`                | number                                                       | 1001           | Popup z-index.                                       |
+
+### TourStepInfo
+
+| Name                    | Type                                       | Default   | Description                 |
+| ----------------------- | ------------------------------------------ | --------- | --------------------------- |
+| `arrow`                 | boolean \| `{ pointAtCenter: boolean }`    | inherited | Step arrow config.          |
+| `className`             | string                                     | -         | Step panel class name.      |
+| `closable`              | boolean \| object                          | inherited | Step close button config.   |
+| `closeIcon`             | React.ReactNode                            | inherited | Step close icon.            |
+| `description`           | React.ReactNode                            | -         | Step description.           |
+| `mask`                  | boolean \| object                          | inherited | Step mask config.           |
+| `placement`             | PlacementType                              | inherited | Step placement.             |
+| `scrollIntoViewOptions` | boolean \| ScrollIntoViewOptions           | inherited | Step scroll behavior.       |
+| `style`                 | React.CSSProperties                        | -         | Step panel style.           |
+| `target`                | HTMLElement \| `() => HTMLElement \| null` | -         | Target element or resolver. |
+| `title`                 | React.ReactNode                            | -         | Step title.                 |
 
 ## Development
 
 ```bash
 npm install
 npm start
-open http://localhost:8000
+npm test
+npm run tsc
+npm run compile
+npm run build
 ```
 
-## Feature
+## Release
 
-- React life cycle support tour component
-
-## Install
-
-[![@rc-component/tour](https://nodei.co/npm/@rc-component/tour.png)](https://www.npmjs.com/package/@rc-component/tour)
-
-## Usage
-
-<!-- prettier-ignore -->
-```js | pure
-import { useRef } from 'react';
-import Tour from '@rc-component/tour';
-
-const Demo = () => {
-    const createBtnRef = useRef<HTMLButtonElement>(null);
-    const updateBtnRef = useRef<HTMLButtonElement>(null);
-    const deleteBtnRef = useRef<HTMLButtonElement>(null);
-    return (
-        <div style={{ margin: 20 }}>
-            <div>
-                <button
-                    className="ant-target"
-                    ref={createBtnRef}
-                    style={{ marginLeft: 100 }}
-                >
-                    Create
-                </button>
-                <div style={{ height: 200 }} />
-                <button className="ant-target" ref={updateBtnRef}>
-                    Update
-                </button>
-                <button className="ant-target" ref={deleteBtnRef}>
-                    Delete
-                </button>
-            </div>
-
-            <div style={{ height: 200 }} />
-
-            <Tour
-                defaultCurrent={0}
-                steps={[
-                    {
-                        title: '创建',
-                        description: '创建一条数据',
-                        target: () => createBtnRef.current,
-                        mask: true,
-                    },
-                    {
-                        title: '更新',
-                        description: (
-                            <div>
-                                <span>更新一条数据</span>
-                                <button>帮助文档</button>
-                            </div>
-                        ),
-                        target: () => updateBtnRef.current,
-                    },
-                    {
-                        title: '删除',
-                        description: (
-                            <div>
-                                <span>危险操作：删除一条数据</span>
-                                <button>帮助文档</button>
-                            </div>
-                        ),
-                        target: () => deleteBtnRef.current,
-                        mask: true,
-                        style: { color: 'red' },
-                    },
-                ]}
-            />
-        </div>
-    );
-};
-
-export default Demo;
+```bash
+npm run prepublishOnly
 ```
 
-## 🔥 API
+`prepublishOnly` builds the package with Father and publishes through `rc-np`. Run `npm run gh-pages` to deploy the dumi site.
 
-We use typescript to create the Type definition. You can view directly in IDE. But you can still check the type definition [here](https://github.com/react-component/tour/blob/master/src/interface.ts).
+## License
 
-### Tour
-
-<!-- prettier-ignore -->
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| closeIcon | `React.ReactNode` | - | 自定义关闭按钮 |
-| steps | `TourStepProps[]` | - | 引导步骤 |
-| open | `boolean` | `true` | 受控打开引导（与 `current` 受控分开） |
-| current | `number` | 0 | 受控当前处于哪一步 |
-| defaultCurrent | `number` | 0 | 默认处于哪一步 |
-| gap | `{ offset?: number \| [number, number]; radius?: number }` | - | 控制引导显示间距 |
-| onChange | `(current: number) => void` | - | 步骤改变时的回调，`current`为改变前的步骤，`next`为改变后的步骤 |
-| onClose | `(current: number) => void` | - | 关闭引导时的回调 |
-| onFinish | `() => void` | - | 完成引导时的回调 |
-| mask | `boolean \| { style?: React.CSSProperties; color?: string; }` | `true` | 整体是否启用蒙层，也可以传入自定义样式修改蒙层样式 |
-| animated | `boolean \| { placeholder: boolean }` | `false` | 是否启用目标遮罩动画 |
-| arrow | `boolean \| { pointAtCenter: boolean}` | `true` | 整体是否显示箭头，包含是否指向元素中心的配置 |
-| scrollIntoViewOptions | `boolean \| ScrollIntoViewOptions` | `true` | 是否支持当前元素滚动到视窗内，也可传入配置指定滚动视窗的相关参数 |
-| onPopupAlign | `function(popupDomNode, align)` | - | 当弹出框对齐后回调 |
-| zIndex | `number` | 1001 | 弹层的层级 |
-
-### TourStep
-
-<!-- prettier-ignore -->
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| closeIcon | `React.ReactNode` | - | 自定义关闭按钮 |
-| target | `() => HTMLElement` \|  `HTMLElement` | - | 获取引导卡片指向的元素 |
-| arrow | `boolean` \| `{ pointAtCenter: boolean}` | `true` | 是否显示箭头，包含是否指向元素中心的配置 |
-| placement | `left` \| `leftTop` \| `leftBottom` \| `right` \| `rightTop` \| `rightBottom` \| `top` \| `topLeft` \| `topRight` \| `bottom`  \| `bottomLeft` \| `bottomRight` | `bottom` | 引导卡片相对于目标元素的位置 |
-| onClose | `() => void` | - | 关闭引导时的回调函数 |
-| mask | `boolean \| { style?: React.CSSProperties; color?: string; }` | `true` | 是否启用蒙层，也可以传入自定义样式修改蒙层样式，默认跟随 Tour 的 `mask` 属性 |
-| renderPanel | `(props: TourStepProps, current: number) => ReactNode;` |  | 渲染 popoup 弹窗方法 |
-| className | `string` | - | - |
-| style | `React.CSSProperties` | - | - |
-| scrollIntoViewOptions | `boolean \| ScrollIntoViewOptions` | `true` | 是否支持当前元素滚动到视窗内，也可传入配置指定滚动视窗的相关参数，默认跟随 Tour 的 `scrollIntoViewOptions` 属性 |
-
-## 🤝 Contributing 
-
-<a href="https://openomy.app/github/react-component/tour" target="_blank" style="display: block; width: 100%;" align="center">
-  <img src="https://openomy.app/svg?repo=react-component/tour&chart=bubble&latestMonth=24" target="_blank" alt="Contribution Leaderboard" style="display: block; width: 100%;" />
-</a>
+@rc-component/tour is released under the MIT license.
