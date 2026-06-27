@@ -1,6 +1,7 @@
 <div align="center">
   <h1>@rc-component/tour</h1>
   <p><sub>Ant Design 生态的一部分。</sub></p>
+  <img alt="Ant Design" height="32" src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" />
   <p>🧭 React 引导组件，用于创建分步产品导览。</p>
 
   <p>
