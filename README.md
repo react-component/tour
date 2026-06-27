@@ -1,10 +1,7 @@
 <div align="center">
   <h1>@rc-component/tour</h1>
+  <p><sub>Part of the Ant Design ecosystem.</sub></p>
   <p>🧭 Guided React tours with masks, target tracking, keyboard navigation, and custom panels.</p>
-  <p>
-    <img alt="Ant Design" src="https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*FBw7Rr5aC7AAAAAAAAAAAAAADrJ8AQ/original" height="24" />
-  </p>
-  <p>Part of the Ant Design ecosystem.</p>
 
   <p>
     <a href="https://www.npmjs.com/package/@rc-component/tour"><img src="https://img.shields.io/npm/v/@rc-component/tour.svg?style=flat-square" alt="npm version" /></a>
@@ -15,6 +12,7 @@
     <a href="https://github.com/umijs/dumi"><img src="https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square" alt="dumi" /></a>
   </p>
 </div>
+
 
 ## Highlights
 
@@ -32,29 +30,24 @@ npm install @rc-component/tour
 ## Usage
 
 ```tsx pure
-import { useRef } from 'react';
 import Tour from '@rc-component/tour';
 
-export default () => {
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
-  return (
-    <>
-      <button ref={buttonRef} type="button">
-        Create
-      </button>
-      <Tour
-        steps={[
-          {
-            title: 'Create',
-            description: 'Create a new item.',
-            target: () => buttonRef.current,
-          },
-        ]}
-      />
-    </>
-  );
-};
+export default () => (
+  <>
+    <button id="create-button" type="button">
+      Create
+    </button>
+    <Tour
+      steps={[
+        {
+          title: 'Create',
+          description: 'Create a new item.',
+          target: () => document.getElementById('create-button'),
+        },
+      ]}
+    />
+  </>
+);
 ```
 
 Online preview: https://tour.react-component.vercel.app/
