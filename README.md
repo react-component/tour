@@ -17,7 +17,7 @@
 ## Highlights
 
 - Tracks step targets and renders guided panels through a trigger-backed popup.
-- Supports masks, arrows, gaps, scrolling into view, custom builtin placements, and inline mode.
+- Supports masks, arrows, gaps, scrolling into view, custom built-in placements, and inline mode.
 - Provides controlled and uncontrolled `open` and `current` state.
 - Supports semantic `classNames` and `styles` slots for panels, mask, footer, and actions.
 
