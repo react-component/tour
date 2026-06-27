@@ -1,7 +1,7 @@
 <div align="center">
   <h1>@rc-component/tour</h1>
-  <p><sub>Part of the Ant Design ecosystem.</sub></p>
-  <p>🧭 Guided React tours with masks, target tracking, keyboard navigation, and custom panels.</p>
+  <p><sub>Ant Design 生态的一部分。</sub></p>
+  <p>🧭 React 引导组件，用于创建分步产品导览。</p>
 
   <p>
     <a href="https://www.npmjs.com/package/@rc-component/tour"><img src="https://img.shields.io/npm/v/@rc-component/tour.svg?style=flat-square" alt="npm version" /></a>
@@ -13,23 +13,23 @@
   </p>
 </div>
 
-<p align="center">English | <a href="./README.zh-CN.md">简体中文</a></p>
+<p align="center"><a href="./README.md">English</a> | 简体中文</p>
 
 
-## Highlights
+## 特性
 
 - Tracks step targets and renders guided panels through a trigger-backed popup.
-- Supports masks, arrows, gaps, scrolling into view, custom built-in placements, and inline mode.
-- Provides controlled and uncontrolled `open` and `current` state.
-- Supports semantic `classNames` and `styles` slots for panels, mask, footer, and actions.
+- 支持 masks, arrows, gaps, scrolling into view, custom built-in placements, and inline mode.
+- 提供 controlled and uncontrolled `open` and `current` state.
+- 支持 semantic `classNames` and `styles` slots for panels, mask, footer, and actions.
 
-## Install
+## 安装
 
 ```bash
 npm install @rc-component/tour
 ```
 
-## Usage
+## 使用
 
 ```tsx pure
 import Tour from '@rc-component/tour';
@@ -58,7 +58,7 @@ Online preview: https://tour.react-component.vercel.app/
 
 ### Tour
 
-| Name                    | Type                                                         | Default        | Description                                          |
+| 名称                    | 类型                                                         | 默认值        | 说明                                          |
 | ----------------------- | ------------------------------------------------------------ | -------------- | ---------------------------------------------------- |
 | `animated`              | boolean \| `{ placeholder: boolean }`                        | false          | Enable target placeholder animation.                 |
 | `arrow`                 | boolean \| `{ pointAtCenter: boolean }`                      | true           | Show arrow and optionally point it at target center. |
@@ -92,7 +92,7 @@ Online preview: https://tour.react-component.vercel.app/
 
 ### TourStepInfo
 
-| Name                    | Type                                       | Default   | Description                 |
+| 名称                    | 类型                                       | 默认值   | 说明                 |
 | ----------------------- | ------------------------------------------ | --------- | --------------------------- |
 | `arrow`                 | boolean \| `{ pointAtCenter: boolean }`    | inherited | Step arrow config.          |
 | `className`             | string                                     | -         | Step panel class name.      |
@@ -106,7 +106,7 @@ Online preview: https://tour.react-component.vercel.app/
 | `target`                | HTMLElement \| `() => HTMLElement \| null` | -         | Target element or resolver. |
 | `title`                 | React.ReactNode                            | -         | Step title.                 |
 
-## Development
+## 本地开发
 
 ```bash
 npm install
@@ -117,7 +117,7 @@ npm run compile
 npm run build
 ```
 
-## Release
+## 发布
 
 ```bash
 npm run prepublishOnly
@@ -125,6 +125,6 @@ npm run prepublishOnly
 
 The release flow is handled by `@rc-component/np` through the `rc-np` command after the package build.
 
-## License
+## 许可证
 
 @rc-component/tour is released under the [MIT](./LICENSE) license.
