@@ -1,7 +1,6 @@
 <div align="center">
   <h1>@rc-component/tour</h1>
-  <p><sub>Ant Design 生态的一部分。</sub></p>
-  <img alt="Ant Design" height="32" src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" />
+  <p><sub><img alt="Ant Design" height="14" src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" style="vertical-align: -0.125em;" /> Ant Design 生态的一部分。</sub></p>
   <p>🧭 React 引导组件，用于创建分步产品导览。</p>
 
   <p>
@@ -19,10 +18,10 @@
 
 ## 特性
 
-- Tracks step targets and renders guided panels through a trigger-backed popup.
-- 支持 masks, arrows, gaps, scrolling into view, custom built-in placements, and inline mode.
-- 提供 controlled and uncontrolled `open` and `current` state.
-- 支持 semantic `classNames` and `styles` slots for panels, mask, footer, and actions.
+- 跟踪步骤目标并通过触发器支持的弹层窗口渲染引导面板。
+- 支持遮罩、箭头、间隙、滚动到视图、自定义内置布局和内联模式。
+- 提供受控和非受控 `open` 和 `current` 状态。
+- 支持面板、遮罩、页脚和操作的语义 `classNames` 和 `styles` 插槽。
 
 ## 安装
 
@@ -53,7 +52,7 @@ export default () => (
 );
 ```
 
-Online preview: https://tour.react-component.vercel.app/
+在线预览：https://tour.react-component.vercel.app/
 
 ## API
 
@@ -61,50 +60,50 @@ Online preview: https://tour.react-component.vercel.app/
 
 | 名称                    | 类型                                                         | 默认值        | 说明                                          |
 | ----------------------- | ------------------------------------------------------------ | -------------- | ---------------------------------------------------- |
-| `animated`              | boolean \| `{ placeholder: boolean }`                        | false          | Enable target placeholder animation.                 |
-| `arrow`                 | boolean \| `{ pointAtCenter: boolean }`                      | true           | Show arrow and optionally point it at target center. |
-| `builtinPlacements`     | TriggerProps['builtinPlacements'] \| function                | -              | Custom placement map.                                |
-| `className`             | string                                                       | -              | Panel class name.                                    |
-| `classNames`            | `Partial<Record<SemanticName, string>>`                      | -              | Semantic class names.                                |
-| `closable`              | boolean \| object                                            | -              | Close button config.                                 |
-| `closeIcon`             | React.ReactNode                                              | -              | Custom close icon.                                   |
-| `current`               | number                                                       | -              | Controlled current step.                             |
-| `defaultCurrent`        | number                                                       | 0              | Initial current step.                                |
-| `defaultOpen`           | boolean                                                      | -              | Initial open state.                                  |
-| `disabledInteraction`   | boolean                                                      | -              | Disable interaction with target area.                |
-| `gap`                   | Gap                                                          | -              | Gap offset and radius around target.                 |
-| `getPopupContainer`     | TriggerProps['getPopupContainer'] \| false                   | -              | Popup container resolver. Use false for inline mode. |
-| `keyboard`              | boolean                                                      | true           | Enable Escape and arrow-key navigation.              |
-| `mask`                  | boolean \| `{ style?: React.CSSProperties; color?: string }` | true           | Mask config.                                         |
-| `onChange`              | `(current: number) => void`                                  | -              | Called when current step changes.                    |
-| `onClose`               | `(current: number) => void`                                  | -              | Called when tour closes.                             |
-| `onFinish`              | `() => void`                                                 | -              | Called when tour finishes.                           |
-| `onPopupAlign`          | TriggerProps['onPopupAlign']                                 | -              | Called after popup alignment.                        |
-| `open`                  | boolean                                                      | -              | Controlled open state.                               |
-| `placement`             | PlacementType                                                | -              | Default panel placement.                             |
-| `prefixCls`             | string                                                       | `'rc-tour'`    | Prefix class name.                                   |
-| `renderPanel`           | `(props, current) => ReactNode`                              | -              | Custom panel renderer.                               |
-| `rootClassName`         | string                                                       | -              | Root class name.                                     |
-| `scrollIntoViewOptions` | boolean \| ScrollIntoViewOptions                             | center options | Target scroll behavior.                              |
+| `animated`              | boolean \| `{ placeholder: boolean }`                        | false          | 启用目标占位动画。                 |
+| `arrow`                 | boolean \| `{ pointAtCenter: boolean }`                      | true           | 显示箭头，并可选择指向目标中心。 |
+| `builtinPlacements`     | TriggerProps['builtinPlacements'] \| function                | -              | 自定义位置映射。                                |
+| `className`             | string                                                       | -              | 面板className称。                                    |
+| `classNames`            | `Partial<Record<SemanticName, string>>`                      | -              | 语义className。                                |
+| `closable`              | boolean \| object                                            | -              | 关闭按钮配置。                                 |
+| `closeIcon`             | React.ReactNode                                              | -              | 自定义关闭图标。                                   |
+| `current`               | number                                                       | -              | 受控当前步骤。                             |
+| `defaultCurrent`        | number                                                       | 0              | 初始当前步骤。                                |
+| `defaultOpen`           | boolean                                                      | -              | 初始打开状态。                                  |
+| `disabledInteraction`   | boolean                                                      | -              | 禁用与目标区域的交互。                |
+| `gap`                   | Gap                                                          | -              | 目标周围的间隙偏移和半径。                 |
+| `getPopupContainer`     | TriggerProps['getPopupContainer'] \| false                   | -              | 弹层容器解析函数。使用 false 表示内联模式。 |
+| `keyboard`              | boolean                                                      | true           | 启用 Escape 和箭头键导航。              |
+| `mask`                  | boolean \| `{ style?: React.CSSProperties; color?: string }` | true           | 遮罩配置。                                         |
+| `onChange`              | `(current: number) => void`                                  | -              | 当前步骤更改时调用。                    |
+| `onClose`               | `(current: number) => void`                                  | -              | 旅行结束时致电。                             |
+| `onFinish`              | `() => void`                                                 | -              | 旅行结束后打电话。                           |
+| `onPopupAlign`          | TriggerProps['onPopupAlign']                                 | -              | 弹层对齐后调用。                        |
+| `open`                  | boolean                                                      | -              | 受控打开状态。                               |
+| `placement`             | PlacementType                                                | -              | 默认面板位置。                             |
+| `prefixCls`             | string                                                       | `'rc-tour'`    | 前缀className。                                   |
+| `renderPanel`           | `(props, current) => ReactNode`                              | -              | 自定义面板渲染器。                               |
+| `rootClassName`         | string                                                       | -              | 根className。                                     |
+| `scrollIntoViewOptions` | boolean \| ScrollIntoViewOptions                             | 中心选项 | 目标滚动行为。                              |
 | `steps`                 | TourStepInfo[]                                               | []             | Tour steps.                                          |
-| `style`                 | React.CSSProperties                                          | -              | Panel style.                                         |
-| `styles`                | `Partial<Record<SemanticName, React.CSSProperties>>`         | -              | Semantic styles.                                     |
-| `zIndex`                | number                                                       | 1001           | Popup z-index.                                       |
+| `style`                 | React.CSSProperties                                          | -              | 面板风格。                                         |
+| `styles`                | `Partial<Record<SemanticName, React.CSSProperties>>`         | -              | 语义化样式。                                     |
+| `zIndex`                | number                                                       | 1001           | 弹层 z 索引。                                       |
 
 ### TourStepInfo
 
 | 名称                    | 类型                                       | 默认值   | 说明                 |
 | ----------------------- | ------------------------------------------ | --------- | --------------------------- |
-| `arrow`                 | boolean \| `{ pointAtCenter: boolean }`    | inherited | Step arrow config.          |
-| `className`             | string                                     | -         | Step panel class name.      |
-| `closable`              | boolean \| object                          | inherited | Step close button config.   |
-| `closeIcon`             | React.ReactNode                            | inherited | Step close icon.            |
+| `arrow`                 | boolean \| `{ pointAtCenter: boolean }`    | inherited | 步骤箭头配置。          |
+| `className`             | string                                     | -         | 步骤面板className称。      |
+| `closable`              | boolean \| object                          | inherited | 步骤关闭按钮配置。   |
+| `closeIcon`             | React.ReactNode                            | inherited | 步骤关闭图标。            |
 | `description`           | React.ReactNode                            | -         | Step description.           |
-| `mask`                  | boolean \| object                          | inherited | Step mask config.           |
-| `placement`             | PlacementType                              | inherited | Step placement.             |
-| `scrollIntoViewOptions` | boolean \| ScrollIntoViewOptions           | inherited | Step scroll behavior.       |
-| `style`                 | React.CSSProperties                        | -         | Step panel style.           |
-| `target`                | HTMLElement \| `() => HTMLElement \| null` | -         | Target element or resolver. |
+| `mask`                  | boolean \| object                          | inherited | 步骤遮罩配置。           |
+| `placement`             | PlacementType                              | inherited | 步骤位置。             |
+| `scrollIntoViewOptions` | boolean \| ScrollIntoViewOptions           | inherited | 步进滚动行为。       |
+| `style`                 | React.CSSProperties                        | -         | 台阶面板样式。           |
+| `target`                | HTMLElement \| `() => HTMLElement \| null` | -         | 目标元素或解析器。 |
 | `title`                 | React.ReactNode                            | -         | Step title.                 |
 
 ## 本地开发
@@ -124,8 +123,8 @@ npm run build
 npm run prepublishOnly
 ```
 
-The release flow is handled by `@rc-component/np` through the `rc-np` command after the package build.
+包构建完成后，发布流程由 `@rc-component/np` 通过 `rc-np` 命令处理。
 
 ## 许可证
 
-@rc-component/tour is released under the [MIT](./LICENSE) license.
+@rc-component/tour 基于 [MIT](./LICENSE) 许可证发布。
