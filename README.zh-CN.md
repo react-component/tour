@@ -87,8 +87,8 @@ npm start
 | `keyboard`              | boolean                                                      | true           | 启用 Escape 和箭头键导航。              |
 | `mask`                  | boolean \| `{ style?: React.CSSProperties; color?: string }` | true           | 遮罩配置。                                         |
 | `onChange`              | `(current: number) => void`                                  | -              | 当前步骤更改时调用。                    |
-| `onClose`               | `(current: number) => void`                                  | -              | 旅行结束时致电。                             |
-| `onFinish`              | `() => void`                                                 | -              | 旅行结束后打电话。                           |
+| `onClose`               | `(current: number) => void`                                  | -              | 引导关闭时调用。                             |
+| `onFinish`              | `() => void`                                                 | -              | 引导完成后调用。                             |
 | `onPopupAlign`          | TriggerProps['onPopupAlign']                                 | -              | 弹层对齐后调用。                        |
 | `open`                  | boolean                                                      | -              | 受控打开状态。                               |
 | `placement`             | PlacementType                                                | -              | 默认面板位置。                             |
@@ -109,13 +109,13 @@ npm start
 | `className`             | string                                     | -         | 步骤面板 className。      |
 | `closable`              | boolean \| object                          | inherited | 步骤关闭按钮配置。   |
 | `closeIcon`             | React.ReactNode                            | inherited | 步骤关闭图标。            |
-| `description`           | React.ReactNode                            | -         | Step description.           |
+| `description`           | React.ReactNode                            | -         | 步骤描述。                  |
 | `mask`                  | boolean \| object                          | inherited | 步骤遮罩配置。           |
 | `placement`             | PlacementType                              | inherited | 步骤位置。             |
-| `scrollIntoViewOptions` | boolean \| ScrollIntoViewOptions           | inherited | 步进滚动行为。       |
-| `style`                 | React.CSSProperties                        | -         | 台阶面板样式。           |
+| `scrollIntoViewOptions` | boolean \| ScrollIntoViewOptions           | inherited | 步骤滚动行为。       |
+| `style`                 | React.CSSProperties                        | -         | 步骤面板样式。       |
 | `target`                | HTMLElement \| `() => HTMLElement \| null` | -         | 目标元素或解析器。 |
-| `title`                 | React.ReactNode                            | -         | Step title.                 |
+| `title`                 | React.ReactNode                            | -         | 步骤标题。                  |
 
 ## 本地开发
 
