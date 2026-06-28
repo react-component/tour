@@ -96,7 +96,7 @@ npm start
 | `renderPanel`           | `(props, current) => ReactNode`                              | -              | 自定义面板渲染器。                               |
 | `rootClassName`         | string                                                       | -              | 根className。                                     |
 | `scrollIntoViewOptions` | boolean \| ScrollIntoViewOptions                             | 中心选项 | 目标滚动行为。                              |
-| `steps`                 | TourStepInfo[]                                               | []             | Tour steps.                                          |
+| `steps`                 | TourStepInfo[]                                               | []             | 漫游步骤。                                         |
 | `style`                 | React.CSSProperties                                          | -              | 面板风格。                                         |
 | `styles`                | `Partial<Record<SemanticName, React.CSSProperties>>`         | -              | 语义化样式。                                     |
 | `zIndex`                | number                                                       | 1001           | 弹层 z 索引。                                       |
