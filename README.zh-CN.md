@@ -74,8 +74,8 @@ npm start
 | `animated`              | boolean \| `{ placeholder: boolean }`                        | false          | 启用目标占位动画。                 |
 | `arrow`                 | boolean \| `{ pointAtCenter: boolean }`                      | true           | 显示箭头，并可选择指向目标中心。 |
 | `builtinPlacements`     | TriggerProps['builtinPlacements'] \| function                | -              | 自定义位置映射。                                |
-| `className`             | string                                                       | -              | 面板className称。                                    |
-| `classNames`            | `Partial<Record<SemanticName, string>>`                      | -              | 语义className。                                |
+| `className`             | string                                                       | -              | 面板 className。                                    |
+| `classNames`            | `Partial<Record<SemanticName, string>>`                      | -              | 语义 className。                                |
 | `closable`              | boolean \| object                                            | -              | 关闭按钮配置。                                 |
 | `closeIcon`             | React.ReactNode                                              | -              | 自定义关闭图标。                                   |
 | `current`               | number                                                       | -              | 受控当前步骤。                             |
@@ -92,9 +92,9 @@ npm start
 | `onPopupAlign`          | TriggerProps['onPopupAlign']                                 | -              | 弹层对齐后调用。                        |
 | `open`                  | boolean                                                      | -              | 受控打开状态。                               |
 | `placement`             | PlacementType                                                | -              | 默认面板位置。                             |
-| `prefixCls`             | string                                                       | `'rc-tour'`    | 前缀className。                                   |
+| `prefixCls`             | string                                                       | `'rc-tour'`    | className 前缀。                                   |
 | `renderPanel`           | `(props, current) => ReactNode`                              | -              | 自定义面板渲染器。                               |
-| `rootClassName`         | string                                                       | -              | 根className。                                     |
+| `rootClassName`         | string                                                       | -              | 根 className。                                     |
 | `scrollIntoViewOptions` | boolean \| ScrollIntoViewOptions                             | 中心选项 | 目标滚动行为。                              |
 | `steps`                 | TourStepInfo[]                                               | []             | 漫游步骤。                                         |
 | `style`                 | React.CSSProperties                                          | -              | 面板风格。                                         |
@@ -106,7 +106,7 @@ npm start
 | 名称                    | 类型                                       | 默认值   | 说明                 |
 | ----------------------- | ------------------------------------------ | --------- | --------------------------- |
 | `arrow`                 | boolean \| `{ pointAtCenter: boolean }`    | inherited | 步骤箭头配置。          |
-| `className`             | string                                     | -         | 步骤面板className称。      |
+| `className`             | string                                     | -         | 步骤面板 className。      |
 | `closable`              | boolean \| object                          | inherited | 步骤关闭按钮配置。   |
 | `closeIcon`             | React.ReactNode                            | inherited | 步骤关闭图标。            |
 | `description`           | React.ReactNode                            | -         | Step description.           |
