@@ -37,7 +37,8 @@
     "start": "dumi dev",
     "test": "rc-test",
     "tsc": "tsc --noEmit",
-    "watch": "father dev"
+    "watch": "father dev",
+    "prepare": "husky"
   },
   "dependencies": {
     "@rc-component/portal": "^2.2.0",
@@ -66,7 +67,9 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "typescript": "^5.9.3",
-    "cross-env": "^10.1.0"
+    "cross-env": "^10.1.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0"
   },
   "peerDependencies": {
     "react": ">=16.9.0",
@@ -78,5 +81,8 @@
   "types": "./lib/index.d.ts",
   "publishConfig": {
     "access": "public"
+  },
+  "lint-staged": {
+    "*": "prettier --write --ignore-unknown"
   }
 }
