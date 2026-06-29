@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Tour from '../../src/index';
+import Tour from '@rc-component/tour';
 import './basic.less';
 
 const App = () => {
@@ -38,8 +38,8 @@ const App = () => {
       <Tour
         current={current}
         onChange={next => {
-          console.log('next:', next)
-          setCurrent(next)
+          console.log('next:', next);
+          setCurrent(next);
         }}
         mask={false}
         onClose={() => setOpen(false)}

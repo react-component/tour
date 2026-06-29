@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import Tour from '../../src/index';
+import Tour from '@rc-component/tour';
 import './basic.less';
 
 const App = () => {
@@ -60,7 +60,7 @@ const App = () => {
           },
           {
             title: '删除',
-            closeIcon: <span className='custom-close'>X</span>,
+            closeIcon: <span className="custom-close">X</span>,
             description: (
               <div>
                 <span>危险操作：删除一条数据</span>
@@ -86,7 +86,10 @@ const App = () => {
           },
           {
             title: '删除',
-            closable: { closeIcon: <span className='custom-close'>X</span>, 'aria-label': 'CloseBtn' },
+            closable: {
+              closeIcon: <span className="custom-close">X</span>,
+              'aria-label': 'CloseBtn',
+            },
             description: (
               <div>
                 <span>危险操作：删除一条数据</span>

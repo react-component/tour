@@ -1,8 +1,8 @@
 import type { BuildInPlacements } from '@rc-component/trigger';
 import { useMemo, useRef, useState } from 'react';
-import Tour from '../../src/index';
-import type { PlacementType } from '../../src/placements';
-import { placements } from '../../src/placements';
+import Tour from '@rc-component/tour';
+import type { PlacementType } from '@rc-component/tour/es/placements';
+import { placements } from '@rc-component/tour/es/placements';
 import './basic.less';
 
 function getCustomPlacements(delta: number): BuildInPlacements {
