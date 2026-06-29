@@ -54,7 +54,7 @@
     "@types/jest": "^29.5.14",
     "@types/minimatch": "^5.1.2",
     "@types/node": "^26.0.1",
-    "@types/react": "^18.3.31",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^18.3.7",
     "@umijs/fabric": "^4.0.1",
     "cheerio": "1.0.0-rc.12",
