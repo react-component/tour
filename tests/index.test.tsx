@@ -1,5 +1,4 @@
-import { fireEvent } from '@testing-library/dom';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { spyElementPrototypes } from '@rc-component/util';
 import type { ReactNode } from 'react';
 import React, { StrictMode, useRef, useState } from 'react';
