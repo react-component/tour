@@ -7,29 +7,13 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@@/*": [
-        "./.dumi/tmp/*"
-      ],
-      "@rc-component/tour": [
-        "./src/index.tsx"
-      ],
-      "@rc-component/tour/es": [
-        "./src"
-      ],
-      "@rc-component/tour/es/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"],
+      "@@/*": ["./.dumi/tmp/*"],
+      "@rc-component/tour": ["./src/index.tsx"],
+      "@rc-component/tour/es": ["./src"],
+      "@rc-component/tour/es/*": ["./src/*"]
     },
-    "noImplicitAny": false,
-    "strictNullChecks": false,
-    "strictPropertyInitialization": false,
-    "strictFunctionTypes": false,
     "strict": false,
-    "noImplicitThis": false,
-    "strictBindCallApply": false,
     "module": "ESNext"
   },
   "include": [
@@ -40,9 +24,5 @@
     "tests",
     "docs/examples"
   ],
-  "exclude": [
-    "docs-dist",
-    "lib",
-    "es"
-  ]
+  "exclude": ["docs-dist", "lib", "es"]
 }
