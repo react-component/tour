@@ -65,7 +65,7 @@ const Tour: React.FC<TourProps> = props => {
     ...restProps
   } = props;
 
-  const triggerRef = React.useRef<TriggerRef>();
+  const triggerRef = React.useRef<TriggerRef>(null);
 
   const [mergedCurrent, setMergedCurrent] = useControlledState(
     defaultCurrent || 0,
