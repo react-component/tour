@@ -15,7 +15,6 @@
 
 <p align="center">English | <a href="./README.zh-CN.md">简体中文</a></p>
 
-
 ## Highlights
 
 - Tracks step targets and renders guided panels through a trigger-backed popup.
@@ -59,7 +58,7 @@ Online preview: https://tour.react-component.vercel.app/
 Run the local dumi site:
 
 ```bash
-ut install
+npm install
 npm start
 ```
 
@@ -120,7 +119,7 @@ Then open `http://localhost:8000`.
 ## Development
 
 ```bash
-ut install
+npm install
 npm start
 npm test
 npm run tsc
