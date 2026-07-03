@@ -1,41 +1,28 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "moduleResolution": "node",
-    "baseUrl": "./",
+    "moduleResolution": "bundler",
     "jsx": "preserve",
     "declaration": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@@/*": [
-        ".dumi/tmp/*"
-      ],
-      "@rc-component/tour": [
-        "src/index.tsx"
-      ],
-      "@rc-component/tour/es": [
-        "src"
-      ],
-      "@rc-component/tour/es/*": [
-        "src/*"
-      ]
+      "@/*": ["./src/*"],
+      "@@/*": ["./.dumi/tmp/*"],
+      "@rc-component/tour": ["./src/index.tsx"],
+      "@rc-component/tour/es": ["./src"],
+      "@rc-component/tour/es/*": ["./src/*"]
     },
-    "ignoreDeprecations": "5.0"
+    "strict": false,
+    "module": "ESNext"
   },
   "include": [
+    "global.d.ts",
     ".dumirc.ts",
     ".fatherrc.ts",
     "src",
     "tests",
     "docs/examples"
   ],
-  "exclude": [
-    "docs-dist",
-    "lib",
-    "es"
-  ]
+  "exclude": ["docs-dist", "lib", "es"]
 }
