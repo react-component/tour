@@ -86,7 +86,7 @@ const Mask: React.FC<MaskProps> = props => {
         }}
       >
         {showMask ? (
-          <svg style={{ width: '100%', height: '100%' }}>
+          <svg style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
             <defs>
               <mask id={maskId}>
                 <rect x="0" y="0" {...maskRectSize} fill="white" />
@@ -138,16 +138,16 @@ const Mask: React.FC<MaskProps> = props => {
                 <rect
                   {...COVER_PROPS}
                   x="0"
-                  y={pos.top + pos.height}
+                  y={Math.max(pos.top + pos.height, 0)}
                   width="100%"
-                  height={`calc(100% - ${pos.top + pos.height}px)`}
+                  height="100%"
                 />
                 {/* Right */}
                 <rect
                   {...COVER_PROPS}
-                  x={pos.left + pos.width}
+                  x={Math.max(pos.left + pos.width, 0)}
                   y="0"
-                  width={`calc(100% - ${pos.left + pos.width}px)`}
+                  width="100%"
                   height="100%"
                 />
               </>
