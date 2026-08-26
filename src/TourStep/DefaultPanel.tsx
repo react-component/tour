@@ -87,16 +87,28 @@ export default function DefaultPanel(props: DefaultPanelProps) {
             style={styles?.actions}
           >
             {current !== 0 ? (
-              <button className={`${prefixCls}-prev-btn`} onClick={onPrev}>
+              <button
+                type="button"
+                className={`${prefixCls}-prev-btn`}
+                onClick={onPrev}
+              >
                 Prev
               </button>
             ) : null}
             {current === total - 1 ? (
-              <button className={`${prefixCls}-finish-btn`} onClick={onFinish}>
+              <button
+                type="button"
+                className={`${prefixCls}-finish-btn`}
+                onClick={onFinish}
+              >
                 Finish
               </button>
             ) : (
-              <button className={`${prefixCls}-next-btn`} onClick={onNext}>
+              <button
+                type="button"
+                className={`${prefixCls}-next-btn`}
+                onClick={onNext}
+              >
                 Next
               </button>
             )}
