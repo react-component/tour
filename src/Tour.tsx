@@ -167,12 +167,14 @@ const Tour: React.FC<TourProps> = props => {
 
   // ========================= Esc Close =========================
   // Use Portal's onEsc to handle Escape key with proper stacking logic
-  const handleEscClose = useEvent(({ event }: { top: boolean; event: KeyboardEvent }) => {
-    if (keyboard && mergedClosable !== null) {
-      event.preventDefault();
-      handleClose();
-    }
-  });
+  const handleEscClose = useEvent(
+    ({ event }: { top: boolean; event: KeyboardEvent }) => {
+      if (keyboard && mergedClosable !== null) {
+        event.preventDefault();
+        handleClose();
+      }
+    },
+  );
 
   // ========================= Keyboard =========================
   // Support ArrowLeft/ArrowRight to navigate steps.
@@ -213,29 +215,35 @@ const Tour: React.FC<TourProps> = props => {
     return null;
   }
 
+  const currentStep = steps[mergedCurrent];
+
   const getPopupElement = () => (
     <TourStep
+      {...currentStep}
+      key="content"
       styles={styles}
       classNames={tourClassNames}
       arrow={mergedArrow}
-      key="content"
       prefixCls={prefixCls}
       total={steps.length}
       renderPanel={renderPanel}
+      current={mergedCurrent}
+      closable={mergedClosable}
       onPrev={() => {
         onInternalChange(mergedCurrent - 1);
       }}
       onNext={() => {
         onInternalChange(mergedCurrent + 1);
       }}
-      onClose={handleClose}
-      current={mergedCurrent}
+      onClose={() => {
+        handleClose();
+        currentStep?.onClose?.();
+      }}
       onFinish={() => {
         handleClose();
         onFinish?.();
+        currentStep?.onFinish?.();
       }}
-      {...steps[mergedCurrent]}
-      closable={mergedClosable}
     />
   );
 

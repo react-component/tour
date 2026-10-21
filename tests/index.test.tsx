@@ -373,6 +373,38 @@ describe('Tour', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
+  it('should still close tour when step onClose is provided', () => {
+    const tourOnClose = jest.fn();
+    const stepOnClose = jest.fn();
+    render(
+      <Tour
+        onClose={tourOnClose}
+        steps={[{ title: 'bamboo', onClose: stepOnClose }]}
+      />,
+    );
+
+    fireEvent.click(document.querySelector('.rc-tour-close-x'));
+    expect(stepOnClose).toHaveBeenCalled();
+    expect(tourOnClose).toHaveBeenCalled();
+    expect(document.querySelector('.rc-tour')).toBeFalsy();
+  });
+
+  it('should still close tour when step onFinish is provided', () => {
+    const tourOnFinish = jest.fn();
+    const stepOnFinish = jest.fn();
+    render(
+      <Tour
+        onFinish={tourOnFinish}
+        steps={[{ title: 'bamboo', onFinish: stepOnFinish }]}
+      />,
+    );
+
+    fireEvent.click(document.querySelector('.rc-tour-finish-btn'));
+    expect(stepOnFinish).toHaveBeenCalled();
+    expect(tourOnFinish).toHaveBeenCalled();
+    expect(document.querySelector('.rc-tour')).toBeFalsy();
+  });
+
   it('should return step 1 when reopen', () => {
     const Demo = () => {
       const [open, setOpen] = useState(false);
@@ -1305,7 +1337,7 @@ describe('Tour', () => {
         return (
           <Tour
             open={open}
-            onClose={(current) => {
+            onClose={current => {
               setOpen(false);
               onClose(current);
             }}
@@ -1318,14 +1350,14 @@ describe('Tour', () => {
           />
         );
       };
-      
+
       render(<Demo />);
 
       expect(document.querySelector('.rc-tour')).toBeTruthy();
-      
+
       // Press ESC key
       fireEvent.keyDown(window, { key: 'Escape' });
-      
+
       expect(onClose).toHaveBeenCalledWith(0);
       expect(document.querySelector('.rc-tour')).toBeFalsy();
     });
