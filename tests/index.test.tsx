@@ -1305,7 +1305,7 @@ describe('Tour', () => {
         return (
           <Tour
             open={open}
-            onClose={(current) => {
+            onClose={current => {
               setOpen(false);
               onClose(current);
             }}
@@ -1318,14 +1318,14 @@ describe('Tour', () => {
           />
         );
       };
-      
+
       render(<Demo />);
 
       expect(document.querySelector('.rc-tour')).toBeTruthy();
-      
+
       // Press ESC key
       fireEvent.keyDown(window, { key: 'Escape' });
-      
+
       expect(onClose).toHaveBeenCalledWith(0);
       expect(document.querySelector('.rc-tour')).toBeFalsy();
     });
@@ -1496,6 +1496,39 @@ describe('Tour', () => {
       fireEvent.keyDown(textarea, { key: 'ArrowLeft' });
       fireEvent.keyDown(textarea, { key: 'ArrowRight' });
       expect(onChange).not.toHaveBeenCalled();
+    });
+
+    it('preserves defaultCurrent when initially opened from closed state', () => {
+      const Demo = () => {
+        const [open, setOpen] = useState(false);
+        return (
+          <div>
+            <button onClick={() => setOpen(true)}>Open Tour</button>
+            <Tour
+              open={open}
+              defaultCurrent={1}
+              steps={[
+                {
+                  title: 'step 1',
+                  description: 'step 1 description',
+                },
+                {
+                  title: 'step 2',
+                  description: 'step 2 description',
+                },
+              ]}
+            />
+          </div>
+        );
+      };
+
+      const { getByText, queryByText } = render(<Demo />);
+      expect(queryByText('step 2 description')).toBeFalsy();
+
+      fireEvent.click(getByText('Open Tour'));
+
+      expect(queryByText('step 2 description')).toBeTruthy();
+      expect(queryByText('step 1 description')).toBeFalsy();
     });
   });
 });
