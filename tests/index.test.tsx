@@ -514,6 +514,97 @@ describe('Tour', () => {
     });
   });
 
+  it('should align popup with committed target position after resize', async () => {
+    jest.useRealTimers();
+    mockBtnRect({
+      x: 800,
+      y: 333,
+      width: 230,
+      height: 180,
+    });
+
+    const rectSpy = jest
+      .spyOn(HTMLDivElement.prototype, 'getBoundingClientRect')
+      .mockImplementation(function (this: HTMLDivElement) {
+        const num = (key: string) => parseFloat(this.style[key]) || 0;
+        const left = num('left');
+        const top = num('top');
+        const width = num('width');
+        const height = num('height');
+        return {
+          x: left,
+          y: top,
+          left,
+          top,
+          width,
+          height,
+          right: left + width,
+          bottom: top + height,
+        } as DOMRect;
+      });
+
+    const Demo = () => {
+      const btnRef = useRef<HTMLButtonElement>(null);
+      return (
+        <div style={{ width: '100%' }}>
+          <button className="btn2" ref={btnRef}>
+            按钮
+          </button>
+          <Tour
+            open
+            placement="bottom"
+            steps={[
+              {
+                title: '创建',
+                description: '创建一条数据',
+                target: () => btnRef.current,
+              },
+            ]}
+          />
+        </div>
+      );
+    };
+
+    try {
+      render(<Demo />);
+      await act(async () => {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      });
+
+      const popup = document.querySelector<HTMLElement>('.rc-tour');
+      const placeholder = document.querySelector<HTMLElement>(
+        '.rc-tour-target-placeholder',
+      );
+      expect(popup.style.left).toBe('915px');
+
+      mockBtnRect({
+        x: 15,
+        y: 10,
+        width: 230,
+        height: 180,
+      });
+      resizeWindow(300, 200);
+      await Promise.resolve();
+      await Promise.resolve();
+      expect(popup.style.left).toBe('915px');
+
+      await act(async () => {
+        await new Promise(resolve => setTimeout(resolve, 0));
+        await new Promise(resolve => setTimeout(resolve, 0));
+      });
+      expect(placeholder.style.left).toBe('9px');
+      expect(popup.style.left).toBe('130px');
+    } finally {
+      rectSpy.mockRestore();
+      mockBtnRect({
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+      });
+    }
+  });
+
   it("should support customStyle to change mask's style", () => {
     const Demo = () => {
       const btn1Ref = useRef<HTMLButtonElement>(null);
@@ -1305,7 +1396,7 @@ describe('Tour', () => {
         return (
           <Tour
             open={open}
-            onClose={(current) => {
+            onClose={current => {
               setOpen(false);
               onClose(current);
             }}
@@ -1318,14 +1409,14 @@ describe('Tour', () => {
           />
         );
       };
-      
+
       render(<Demo />);
 
       expect(document.querySelector('.rc-tour')).toBeTruthy();
-      
+
       // Press ESC key
       fireEvent.keyDown(window, { key: 'Escape' });
-      
+
       expect(onClose).toHaveBeenCalledWith(0);
       expect(document.querySelector('.rc-tour')).toBeFalsy();
     });
