@@ -1042,6 +1042,86 @@ describe('Tour', () => {
     resetIndex();
   });
 
+  describe('closable attributes', () => {
+    it.each(['root', 'step'])(
+      'forwards %s attributes to the close button',
+      source => {
+        const onClose = jest.fn();
+        const onClick = jest.fn();
+        const closable = {
+          'data-testid': 'tour-close',
+          'data-count': 0,
+          'aria-label': 'Dismiss tour',
+          role: 'button',
+          closeIcon: <span>Dismiss</span>,
+          title: 'Not a close button attribute',
+          onClick,
+        };
+        const { getByTestId } = render(
+          <Tour
+            open
+            onClose={onClose}
+            closable={source === 'root' ? closable : false}
+            steps={[
+              {
+                title: 'Step',
+                closable: source === 'step' ? closable : undefined,
+              },
+            ]}
+          />,
+        );
+
+        const button = getByTestId('tour-close');
+        expect(button).toBe(document.querySelector('button.rc-tour-close'));
+        expect(button).toHaveAttribute('data-count', '0');
+        expect(button).toHaveAttribute('aria-label', 'Dismiss tour');
+        expect(button).toHaveAttribute('role', 'button');
+        expect(button).toHaveTextContent('Dismiss');
+        expect(button).not.toHaveAttribute('title');
+        expect(button).not.toHaveAttribute('closeIcon');
+
+        fireEvent.click(button);
+        expect(onClose).toHaveBeenCalledTimes(1);
+        expect(onClose).toHaveBeenCalledWith(0);
+        expect(onClick).not.toHaveBeenCalled();
+      },
+    );
+
+    it('replaces root attributes when a step provides closable', () => {
+      const { getByTestId, queryByTestId } = render(
+        <Tour
+          open
+          closable={{
+            'data-testid': 'root-close',
+            'data-root': 'root',
+            'aria-label': 'Root',
+          }}
+          steps={[
+            { title: 'Inherit' },
+            { title: 'Override', closable: { 'data-testid': 'step-close' } },
+            { title: 'Reset', closable: true },
+            { title: 'Hide', closable: false },
+          ]}
+        />,
+      );
+
+      expect(getByTestId('root-close')).toHaveAttribute('aria-label', 'Root');
+      fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+      expect(queryByTestId('root-close')).toBeNull();
+      expect(getByTestId('step-close')).toHaveAttribute('aria-label', 'Close');
+      expect(getByTestId('step-close')).not.toHaveAttribute('data-root');
+
+      fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+      const button = document.querySelector('button.rc-tour-close');
+      expect(button).toHaveAttribute('aria-label', 'Close');
+      expect(button).not.toHaveAttribute('data-testid');
+      expect(button).not.toHaveAttribute('data-root');
+
+      fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+      expect(document.querySelector('.rc-tour-close')).toBeNull();
+    });
+  });
+
   it('Should gap support horizontal offset', async () => {
     const scrollIntoView = jest.fn();
     mockBtnRect(
