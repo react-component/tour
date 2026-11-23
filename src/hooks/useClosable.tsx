@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { isReactRenderable } from '@rc-component/util';
 import type { TourProps } from '../interface';
 import type { TourStepInfo } from '../TourStep';
 
@@ -31,7 +32,8 @@ function getClosableConfig(
 ): ClosableConfig | 'empty' {
   if (
     closable === false ||
-    (closeIcon === false && (!isConfigObj(closable) || !closable.closeIcon))
+    (closeIcon === false &&
+      (!isConfigObj(closable) || !isReactRenderable(closable.closeIcon)))
   ) {
     return null;
   }
@@ -47,7 +49,7 @@ function getClosableConfig(
   }
 
   // When StepClosable no need auto fill, but RootClosable need this.
-  return preset || closable || closeIcon
+  return preset || closable || isReactRenderable(closeIcon)
     ? {
         closeIcon: mergedCloseIcon,
       }
