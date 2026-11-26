@@ -14,7 +14,6 @@ export type SemanticName =
   | 'mask'
   | 'close';
 
-
 export type HTMLAriaDataAttributes = React.AriaAttributes & {
   [key: `data-${string}`]: unknown;
 } & Pick<React.HTMLAttributes<HTMLDivElement>, 'role'>;
@@ -37,14 +36,14 @@ export interface TourStepInfo {
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
   closeIcon?: ReactNode;
   closable?: boolean | ({ closeIcon?: ReactNode } & HTMLAriaDataAttributes);
+  onClose?: () => void;
+  onFinish?: () => void;
 }
 
 export interface TourStepProps extends TourStepInfo {
   prefixCls?: string;
   total?: number;
   current?: number;
-  onClose?: () => void;
-  onFinish?: () => void;
   renderPanel?: (step: TourStepProps, current: number) => ReactNode;
   onPrev?: () => void;
   onNext?: () => void;
