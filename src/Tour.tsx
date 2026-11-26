@@ -144,7 +144,7 @@ const Tour: React.FC<TourProps> = props => {
 
   useLayoutEffect(() => {
     triggerRef.current?.forceAlign();
-  }, [arrowPointAtCenter, mergedCurrent]);
+  }, [arrowPointAtCenter, mergedCurrent, posInfo]);
 
   // ========================= Change =========================
   const onInternalChange = (nextCurrent: number) => {
@@ -167,12 +167,14 @@ const Tour: React.FC<TourProps> = props => {
 
   // ========================= Esc Close =========================
   // Use Portal's onEsc to handle Escape key with proper stacking logic
-  const handleEscClose = useEvent(({ event }: { top: boolean; event: KeyboardEvent }) => {
-    if (keyboard && mergedClosable !== null) {
-      event.preventDefault();
-      handleClose();
-    }
-  });
+  const handleEscClose = useEvent(
+    ({ event }: { top: boolean; event: KeyboardEvent }) => {
+      if (keyboard && mergedClosable !== null) {
+        event.preventDefault();
+        handleClose();
+      }
+    },
+  );
 
   // ========================= Keyboard =========================
   // Support ArrowLeft/ArrowRight to navigate steps.
