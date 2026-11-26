@@ -91,4 +91,5 @@ export interface TourProps extends Pick<TriggerProps, 'onPopupAlign'> {
         arrowPointAtCenter?: boolean;
       }) => TriggerProps['builtinPlacements']);
   disabledInteraction?: boolean;
+  keyboard?: boolean;
 }
