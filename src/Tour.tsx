@@ -86,13 +86,13 @@ const Tour: React.FC<TourProps> = props => {
   useLayoutEffect(() => {
     if (mergedOpen) {
       if (!openRef.current) {
-        setMergedCurrent(0);
+        setMergedCurrent(defaultCurrent ?? 0);
       }
 
       setHasOpened(true);
     }
     openRef.current = mergedOpen;
-  }, [mergedOpen, setMergedCurrent]);
+  }, [mergedOpen, setMergedCurrent, defaultCurrent]);
 
   const {
     target,
@@ -167,12 +167,14 @@ const Tour: React.FC<TourProps> = props => {
 
   // ========================= Esc Close =========================
   // Use Portal's onEsc to handle Escape key with proper stacking logic
-  const handleEscClose = useEvent(({ event }: { top: boolean; event: KeyboardEvent }) => {
-    if (keyboard && mergedClosable !== null) {
-      event.preventDefault();
-      handleClose();
-    }
-  });
+  const handleEscClose = useEvent(
+    ({ event }: { top: boolean; event: KeyboardEvent }) => {
+      if (keyboard && mergedClosable !== null) {
+        event.preventDefault();
+        handleClose();
+      }
+    },
+  );
 
   // ========================= Keyboard =========================
   // Support ArrowLeft/ArrowRight to navigate steps.
